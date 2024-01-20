@@ -1,0 +1,156 @@
+@import "https://raw.githubusercontent.com/jonathantneal/system-font-css/gh-pages/system-font.css";
+
+* {
+  font-family: "Poppins", Courier, monospace;
+  text-decoration: none;
+  list-style-type: none;
+  word-break: break-all;
+}
+.container {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+form {
+  margin-top: 20px;
+}
+
+input[type="text"],
+input[type="number"] {
+  padding: 10px;
+  border: 1px solid #ccc;
+  margin-right: 10px;
+  border-radius: 4px;
+}
+
+button {
+  padding: 10px;
+  background-color: #3498db;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #2980b9;
+}
+
+.loading {
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin-top: 20px;
+}
+
+.film-card {
+  margin-top: 20px;
+  border: 1px solid #ddd;
+  padding: 15px;
+  border-radius: 5px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.film-title {
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.film-image {
+  width: 100%;
+  max-height: 200px;
+  object-fit: cover;
+  border-radius: 5px;
+  margin-top: 10px;
+}
+
+.film-description {
+  margin-top: 10px;
+}
+
+.trailer-link {
+  margin-top: 10px;
+  text-decoration: none;
+  color: #3498db;
+  font-weight: bold;
+}
+
+.buttons-container {
+  margin-top: 10px;
+  display: flex;
+  align-items: center;
+}
+
+.delete-button,
+.update-input,
+.update-button {
+  padding: 10px;
+  margin-right: 10px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.delete-button {
+  background-color: #e74c3c;
+  color: #fff;
+}
+
+.delete-button:hover {
+  background-color: #c0392b;
+}
+
+.update-input {
+  border: 1px solid #ccc;
+  padding: 10px;
+  border-radius: 4px;
+}
+
+.update-button {
+  background-color: #2ecc71;
+  color: #fff;
+}
+
+.update-button:hover {
+  background-color: #27ae60;
+}
+
+.add-film-link {
+  margin-top: 20px;
+  text-decoration: none;
+  color: #3498db;
+  font-weight: bold;
+}
+
+/* Responsive styles */
+@media (max-width: 600px) {
+  .container {
+    width: 90%;
+  }
+}
+
+body {
+  background: dodgerblue linear-gradient(22deg, aqua, dodgerblue, deeppink)
+    fixed;
+  color: white;
+  font: normal 32px/1.6 system-ui, sans-serif;
+  text-shadow: 0 1px 1px hsl(0 0% 0% / 20%);
+  margin: 3rem;
+}
+
+h1 {
+  font-weight: normal;
+}
+
+a {
+  color: inherit;
+}
+
+a:focus,
+a:hover {
+  text-decoration-color: black;
+}
+
+input {
+  font: inherit;
+  padding: 0.2em 0.5em;
+}
