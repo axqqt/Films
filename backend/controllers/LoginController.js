@@ -27,15 +27,15 @@ const Login = async (req, res, next) => {
       res.cookie("user", { username, password }, { maxAge: 60000 });
 
       // Set session user
-      req.session.user = { username, password };
-
+      req.session.user = { username, passwordMatch };
+      res.redirect("/home");
       return res.status(200).json({
         Alert: `${username} logged in! ${JSON.stringify(req.session.user)}`,
       });
     }
   } catch (err) {
     console.error(err);
-    next(err); // Pass the error to the error handling middleware
+    next(err);
   }
 };
 

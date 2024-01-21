@@ -18,6 +18,7 @@ import WhatPage from "./Components/Test";
 import Footer from "./Misc/Footer";
 import FireData from "./Components/Data";
 import RingLoader from "react-spinners/RingLoader";
+import NewAdminPage from "./Components/Admin/newAdmin";
 // import TestPage from "../../Test";
 
 export const UserData = createContext();
@@ -75,6 +76,7 @@ export default function App() {
           <Route path="/chats" element={<ChatPage />} />
           <Route path="/updateshop" element={<Cart />} />
           <Route path="/viewShop" element={<ViewExisting />} />
+          <Route path="/admin" element={<NewAdminPage></NewAdminPage>}></Route>
           <Route path="*" element={<PageNotFound />} />
         </Routes>
         <Footer></Footer>

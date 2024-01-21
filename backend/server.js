@@ -77,8 +77,8 @@ app.use("/links", linked);
 app.use("/gemini", gemini);
 app.use("/cart", cart);
 app.use("/login", login);
-app.use(isAuthenticated);
 app.use("/register", register);
+// app.use(isAuthenticated);
 
 app.use("*", (req, res) => {
   res.sendFile(join(__dirname, "./views/404", "404.html"));

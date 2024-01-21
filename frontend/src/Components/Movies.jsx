@@ -4,7 +4,7 @@ import Axios from "axios";
 import { Link } from "react-router-dom";
 import DisplayFilm from "./DisplayFilm";
 import BotPage from "./Bot";
-import { Transition } from "@headlessui/react";
+// import { Transition } from "@headlessui/react";
 
 const API_URL = "http://localhost:8000";
 
