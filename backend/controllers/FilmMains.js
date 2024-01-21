@@ -45,15 +45,15 @@ async function CreateFilms(req, res) {
     //   }
     // );
 
-    let photoURL;
-    try {
-      photoURL = await uploadToCloudinary(photo);
-    } catch (uploadError) {
-      console.error(uploadError);
-      return res
-        .status(500)
-        .json({ error: "Error uploading photo to Cloudinary" });
-    }
+    // let photoURL;
+    // try {
+    //   photoURL = await uploadToCloudinary(photo);
+    // } catch (uploadError) {
+    //   console.error(uploadError);
+    //   return res
+    //     .status(500)
+    //     .json({ error: "Error uploading photo to Cloudinary" });
+    // }
 
     const filmExists = await mediaModel.findOne({ title: title });
 
@@ -62,7 +62,7 @@ async function CreateFilms(req, res) {
         title,
         description,
         trailer,
-        photo: photoURL.url,
+        // photo: photoURL.url,
         // video: video.secure_url,
         alternate,
         rating,
