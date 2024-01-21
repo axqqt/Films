@@ -18,8 +18,10 @@ const NewAdminPage = () => {
       const response = await Axios.post(`${endPoint}/main`, admin);
       if (response.data.status === 201) {
         setStatus("Admin Created!");
+      } else if (response.data.status === 409) {
+        setStatus("Username or Email already Taken!");
       } else {
-        setStatus("Error!");
+        setStatus("Server Error!");
       }
     } catch (err) {
       console.error(err);
@@ -54,6 +56,7 @@ const NewAdminPage = () => {
         <button type="submit" disabled={loading}>
           {loading ? RingLoader : "Create Admin!"}
         </button>
+        <p>{status}</p>
       </form>
     </div>
   );

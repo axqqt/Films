@@ -41,20 +41,21 @@ const AddFilm = () => {
     try {
       setLoading(true);
 
-      const list = new FormData();
-      list.append("title", data.title);
-      list.append("description", data.description);
-      list.append("trailer", data.trailer);
-      list.append("photo", data.photo);
-      list.append("alternate", data.alternate);
-      list.append("rating", data.rating);
+      // const list = new FormData();
+      // list.append("title", data.title);
+      // list.append("description", data.description);
+      // list.append("trailer", data.trailer);
+      // list.append("photo", data.photo);
+      // list.append("alternate", data.alternate);
+      // list.append("rating", data.rating);
 
       const response = await Axios.post(
         "http://localhost:8000/home",
-        { list },
-        {
-          headers: { "Content-Type": "multipart/form-data" },
-        }
+        // { list },
+        // {
+        //   headers: { "Content-Type": "multipart/form-data" },
+        // }
+        data
       );
 
       if (response.status === 201) {
