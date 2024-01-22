@@ -23,12 +23,15 @@ const Login = async (req, res, next) => {
       if (!passwordMatch)
         return res.status(404).json({ Alert: "Invalid password" });
 
-      // Set the "user" cookie to be sent in the response
-      res.cookie("user", { username, password }, { maxAge: 60000 });
+      res.cookie(
+        "user",
+        { username, password },
+        { maxAge: 60000, httpOnly: true }
+      );
 
       // Set session user
-      req.session.user = { username, passwordMatch };
-      res.redirect("/home");
+      req.session.user = { username, password };
+
       return res.status(200).json({
         Alert: `${username} logged in! ${JSON.stringify(req.session.user)}`,
       });
@@ -55,9 +58,8 @@ const status = (req, res) => {
 };
 
 const logout = (req, res) => {
-  const { loginCounter } = req?.body;
   try {
-    if (req.session.user && loginCounter === 1) {
+    if (req.session.user) {
       req.session.destroy((err) => {
         if (err) {
           console.error("Error destroying session:", err);

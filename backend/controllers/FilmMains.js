@@ -13,11 +13,18 @@ async function GetFilms(req, res) {
       res.status(500).json({ error: "Internal Server Error" });
     }
   } else {
-    const found = await mediaModel.findOne({ _id: String(id) }); //if id is given!
-    if (!found) {
-      return res.status(400).json({ Alert: "Invalid ID" });
-    } else {
-      return res.status(200).json(found);
+    try {
+      const found = await mediaModel.aggregate([
+        { $match: { _id: String(id) } },
+      ]);
+      if (found.length === 0) {
+        return res.status(404).json({ Alert: "ID not found" });
+      } else {
+        return res.status(200).json(found);
+      }
+    } catch (error) {
+      console.error(error);
+      return res.status(400).json({ error: "Invalid ID format" });
     }
   }
 }

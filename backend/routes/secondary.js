@@ -5,7 +5,7 @@ const db = require("../config/sqlConfig");
 router
   .route("/")
   .get((req, res) => {
-    const query = `SELECT * FROM users`;
+    const query = `SELECT * FROM departments`;
     db.query(query, (err, data) => {
       if (err) {
         return res.status(500).json({ error: err.message });

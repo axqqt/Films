@@ -16,13 +16,7 @@ const NewAdminPage = () => {
     try {
       setLoading(true);
       const response = await Axios.post(`${endPoint}/main`, admin);
-      if (response.data.status === 201) {
-        setStatus("Admin Created!");
-      } else if (response.data.status === 409) {
-        setStatus("Username or Email already Taken!");
-      } else {
-        setStatus("Server Error!");
-      }
+      setStatus(response.data.status.Alert);
     } catch (err) {
       console.error(err);
     } finally {

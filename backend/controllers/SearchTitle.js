@@ -15,11 +15,9 @@ async function IDWise(req, res) {
 }
 
 async function SearchByTitle(req, res) {
-  // const { limit } = req?.body;
-  // const limiter = { $limit: limit };
-
   const { title, id } = req?.params;
-  if (!title || !id) return res.status(400).json({ Alert: "Title not found" });
+  if (!title || !id)
+    return res.status(400).json({ Alert: "Title or ID not found" });
 
   try {
     const matches = await mediaModel.aggregate([
@@ -30,10 +28,10 @@ async function SearchByTitle(req, res) {
       },
     ]);
 
-    if (matches.length || !id === 0) {
+    if (!matches.length && id !== "0") {
       return res
         .status(404)
-        .json({ Alert: "No matching films found or ID matches" });
+        .json({ Alert: "No matching films found or ID does not match" });
     } else {
       res.status(200).json(matches);
     }

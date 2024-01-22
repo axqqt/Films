@@ -1,6 +1,6 @@
 import { useState } from "react";
 import Axios from "axios";
-
+import RingLoader from "react-spinners/RingLoader";
 const BotPage = () => {
   const [data, setData] = useState("");
   const [loading, setLoading] = useState(false);
@@ -32,7 +32,7 @@ const BotPage = () => {
       />
       <p>
         {loading ? (
-          "loading"
+          <RingLoader></RingLoader>
         ) : response.length ? (
           response.map((item, index) => (
             <div key={index}>

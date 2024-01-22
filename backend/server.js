@@ -22,12 +22,15 @@ const adminMain = require("./routes/admin/adminMain");
 // const limiter = require("./limiter");
 const session = require("express-session");
 const discordHandler = require("./security/discordAuth.js");
+const sqlPath = require("./routes/secondary.js");
 const passport = require("passport");
-
 const errorHandler = require("./errors/errorHandler.js");
 
 function isAuthenticated(req, res, next) {
   if (req.session.user) {
+    res
+      .status(200)
+      .send(`${JSON.stringify(req.session.user.username)} has Logged in!`);
     next();
   } else {
     res.status(401).send("Unauthorized");
@@ -47,7 +50,7 @@ app.use(
     secret: "password123",
     resave: false,
     saveUninitialized: true,
-    cookie: { secure: true },
+    cookie: { secure: true, maxAge: 60000 },
   })
 );
 
@@ -55,7 +58,12 @@ app.use(passport.initialize());
 app.use(passport.session(discordHandler));
 
 app.use(errorHandler);
-app.use(cors({ origin: "*" }));
+app.use(
+  cors({
+    origin: ["http://localhost:5173"],
+  })
+);
+
 if (!fs.existsSync(join(__dirname, "public"))) {
   fs.mkdirSync(join(__dirname, "public"));
 }
@@ -72,13 +80,14 @@ app.use("*", (req, res, next) => {
 });
 
 app.use(midLog);
+app.use("/register", register);
+app.use("/login", login);
+// app.use(isAuthenticated);
+app.use("/sql", sqlPath);
 app.use("/home", homepage);
 app.use("/links", linked);
 app.use("/gemini", gemini);
 app.use("/cart", cart);
-app.use("/login", login);
-app.use("/register", register);
-// app.use(isAuthenticated);
 
 app.use("*", (req, res) => {
   res.sendFile(join(__dirname, "./views/404", "404.html"));

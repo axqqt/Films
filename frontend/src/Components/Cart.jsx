@@ -18,6 +18,15 @@ const Cart = () => {
 
   const [item, setItem] = useState([]);
 
+  // type Actions = {
+  //   type: "add",
+  //   payload: String,
+  // };
+
+  // function CountReducer(state, action) {}
+
+  // const [state, dispatch] = useReducer(CountReducer, []);
+
   const handleChange = (e) => {
     setCart({ ...cart, [e.target.name]: e.target.value });
   };
