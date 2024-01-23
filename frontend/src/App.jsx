@@ -19,8 +19,8 @@ import Footer from "./Misc/Footer";
 import FireData from "./Components/Data";
 import RingLoader from "react-spinners/RingLoader";
 import NewAdminPage from "./Components/Admin/newAdmin";
-import XPage from "./Components/x";
 import GenerateImages from "./Components/GenerateImages";
+
 // import TestPage from "../../Test";
 
 export const UserData = createContext();
@@ -65,7 +65,6 @@ export default function App() {
         <Navbar></Navbar>
         <Routes>
           <Route path="/" element={<Movies />}></Route>
-          <Route path="/x" element={<XPage></XPage>}></Route>
           <Route path="/generate" element={<GenerateImages />}></Route>
           <Route path="/data" element={<FireData></FireData>}></Route>
           <Route path="/test" element={<WhatPage></WhatPage>}></Route>

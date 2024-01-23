@@ -66,6 +66,7 @@ function Movies() {
   }
 
   const handleSearch = async (e, searchTerm) => {
+    //bugs exist!
     e.preventDefault();
     try {
       setLoading(true);

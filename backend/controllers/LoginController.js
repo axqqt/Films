@@ -1,6 +1,6 @@
 const userController = require("../models/registration");
 const HashPasswordx = require("../security/hashing");
-const session = require("express-session");
+const jwt = require("jsonwebtoken");
 
 const Login = async (req, res, next) => {
   try {
@@ -24,17 +24,29 @@ const Login = async (req, res, next) => {
       if (!passwordMatch)
         return res.status(404).json({ Alert: "Invalid password" });
 
-      res.cookie(
-        "user",
-        { username, password },
-        { maxAge: 60000, httpOnly: true }
+      // res.cookie(
+      //   "user",
+      //   { username, password },
+      //   { maxAge: 60000, httpOnly: true }
+      // );
+
+      // // // Set session user
+      // // req.session.user = { username, password };
+
+      const AccessToken = jwt.sign(
+        { username: userValidity.username, email: userValidity.password },
+        process.env.ACCESS_TOKEN
       );
 
-      // // Set session user
-      // req.session.user = { username, password };
+      const RefreshToken = jwt.sign(
+        { username: userValidity.username, email: userValidity.password },
+        process.env.REFRESH_TOKEN
+      );
 
       return res.status(200).json({
-        Alert: `${username} logged in! ${JSON.stringify(req.session.user)}`,
+        Alert: `${username} logged in! `,
+        Token: AccessToken,
+        RefreshToken: RefreshToken,
       });
     }
   } catch (err) {

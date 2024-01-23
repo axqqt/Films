@@ -7,14 +7,15 @@ import Axios from "axios";
 import { Link } from "react-router-dom";
 import { googleProvider, auth, gitHubAuth } from "./Fire/FireConfig";
 import { signInWithPopup, signOut } from "firebase/auth";
+import { useSignIn } from "react-auth-kit";
 
-const Login = (props) => {
-  const { status, setStatus, loading, setLoading, RingLoader } =
+const Login = () => {
+  const { status, setStatus, loading, setLoading, RingLoader, setLogged } =
     useContext(UserData);
   const [data, setData] = useState({ username: "", password: "" });
   const usernamefield = useRef();
   const passwordfield = useRef();
-  const { setLogged } = props;
+  const signIn = useSignIn();
 
   const endPoint = "http://localhost:8000";
 
@@ -37,6 +38,13 @@ const Login = (props) => {
       const response = await Axios.post(`${endPoint}/login`, {
         username,
         password,
+      });
+
+      signIn({
+        token: response.data.Token,
+        expiresIn: 3600,
+        tokenType: "Bearer",
+        authState: { username: username, password: password },
       });
 
       if (response.data.status === 200) {
@@ -96,6 +104,7 @@ const Login = (props) => {
         const response = await Axios.post("/logout", loginCounter);
         if (response.status === 200) {
           setStatus("Logged out!");
+          setLogged(true);
         } else if (response.status === 401) {
           setStatus("No user was signed in to begin with!");
         } else {
