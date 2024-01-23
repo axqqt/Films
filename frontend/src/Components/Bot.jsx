@@ -30,24 +30,12 @@ const BotPage = () => {
         }}
         placeholder="Ask Gemini"
       />
-      <p>
-        {loading ? (
-          <RingLoader></RingLoader>
-        ) : response.length ? (
-          response.map((item, index) => (
-            <div key={index}>
-              {item.replace("\n", "").map((line, i) => (
-                <h1 key={i}>{line}</h1>
-              ))}
-            </div>
-          ))
-        ) : data === "" ? (
-          ""
-        ) : (
-          <p>No results found</p>
-        )}
-      </p>
-      <p>{JSON.stringify(response.generatedText)}</p>
+
+      {loading ? (
+        <RingLoader></RingLoader>
+      ) : (
+        <p>{JSON.stringify(response.generatedText)}</p>
+      )}
       <button onClick={sendPrompt}>Enter</button>
     </div>
   );
