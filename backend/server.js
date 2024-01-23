@@ -26,27 +26,36 @@ const sqlPath = require("./routes/secondary.js");
 const passport = require("passport");
 const errorHandler = require("./errors/errorHandler.js");
 
-// function isAuthenticated(req, res, next) {
-//   if (req.session.user) {
-//     res
-//       .status(200)
-//       .send(`${JSON.stringify(req.session.user.username)} has Logged in!`);
-//     next();
-//   } else {
-//     res.status(401).send("Unauthorized");
-//   }
-// }
+function isAuthenticated(req, res, next) {
+  if (req.session.user) {
+    res
+      .status(200)
+      .send(`${JSON.stringify(req.session.user.username)} has Logged in!`);
+    next();
+  } else {
+    res.status(401).send("Unauthorized");
+  }
+}
 
 app.use(express.json());
 app.use(cookieParser());
+
+app.use(
+  session({
+    secret: "password123",
+    resave: false,
+    saveUninitialized: true,
+  })
+);
+
 app.use(passport.initialize());
 app.use(passport.session(discordHandler));
 
 function midLog(req, res, next) {
   console.log(
     `Request coming from ${req.url} \nMethod-> ${req.method}\n${JSON.stringify(
-      req.session
-    )}\n${JSON.stringify(req.cookies)}`
+      req.cookies
+    )}`
   );
   next();
 }
@@ -62,15 +71,6 @@ async function connectDB() {
     console.error("Error connecting to the database:", error);
   }
 }
-
-app.use(
-  session({
-    secret: "password123",
-    resave: false,
-    saveUninitialized: true,
-    cookie: { secure: true, maxAge: 60000 },
-  })
-);
 
 app.use(
   cors({
@@ -97,15 +97,6 @@ app.use("/home", homepage);
 app.use("/links", linked);
 app.use("/gemini", gemini);
 app.use("/cart", cart);
-
-app.get("/", (req, res) => {
-  const sessionData = req.session;
-
-  console.log(JSON.stringify(sessionData));
-  return res
-    .status(200)
-    .json({ Alert: `Check the console! ${JSON.stringify(sessionData)}` });
-});
 
 app.use("*", (req, res) => {
   res.sendFile(join(__dirname, "./views/404", "404.html"));

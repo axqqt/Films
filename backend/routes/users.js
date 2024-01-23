@@ -2,7 +2,8 @@ const express = require("express");
 const router = express.Router();
 const userController = require("../controllers/UserController");
 const Axios = require("axios");
-const apiKey = "PGjIDFqBXtYMIDXPYE0FDQ==NzRPfBSaZRRY2SVW";
+require("dotenv").config();
+const apiKey = process.env.apiKey;
 
 const data = [];
 

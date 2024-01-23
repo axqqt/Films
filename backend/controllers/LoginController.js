@@ -1,5 +1,6 @@
 const userController = require("../models/registration");
 const HashPasswordx = require("../security/hashing");
+const session = require("express-session");
 
 const Login = async (req, res, next) => {
   try {
@@ -29,8 +30,8 @@ const Login = async (req, res, next) => {
         { maxAge: 60000, httpOnly: true }
       );
 
-      // Set session user
-      req.session.user = { username, password };
+      // // Set session user
+      // req.session.user = { username, password };
 
       return res.status(200).json({
         Alert: `${username} logged in! ${JSON.stringify(req.session.user)}`,
