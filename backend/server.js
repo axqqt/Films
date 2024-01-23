@@ -26,24 +26,42 @@ const sqlPath = require("./routes/secondary.js");
 const passport = require("passport");
 const errorHandler = require("./errors/errorHandler.js");
 
-function isAuthenticated(req, res, next) {
-  if (req.session.user) {
-    res
-      .status(200)
-      .send(`${JSON.stringify(req.session.user.username)} has Logged in!`);
-    next();
-  } else {
-    res.status(401).send("Unauthorized");
-  }
-}
-
-function midLog(req, res, next) {
-  console.log(`Request coming from ${req.url} \nMethod-> ${req.method}`);
-  next();
-}
+// function isAuthenticated(req, res, next) {
+//   if (req.session.user) {
+//     res
+//       .status(200)
+//       .send(`${JSON.stringify(req.session.user.username)} has Logged in!`);
+//     next();
+//   } else {
+//     res.status(401).send("Unauthorized");
+//   }
+// }
 
 app.use(express.json());
 app.use(cookieParser());
+app.use(passport.initialize());
+app.use(passport.session(discordHandler));
+
+function midLog(req, res, next) {
+  console.log(
+    `Request coming from ${req.url} \nMethod-> ${req.method}\n${JSON.stringify(
+      req.session
+    )}\n${JSON.stringify(req.cookies)}`
+  );
+  next();
+}
+
+async function connectDB() {
+  try {
+    await mongoose.connect(cluster, {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+    });
+    console.log("Connected to Cluster!");
+  } catch (error) {
+    console.error("Error connecting to the database:", error);
+  }
+}
 
 app.use(
   session({
@@ -54,10 +72,6 @@ app.use(
   })
 );
 
-app.use(passport.initialize());
-app.use(passport.session(discordHandler));
-
-app.use(errorHandler);
 app.use(
   cors({
     origin: ["http://localhost:5173"],
@@ -73,21 +87,25 @@ app.use(compression({ filter: false }));
 app.use(express.static(join(__dirname, "public")));
 app.use(bodyParser.urlencoded({ extended: true }));
 
-app.use("*", (req, res, next) => {
-  console.log(JSON.stringify(req.session));
-  console.log(JSON.stringify(req.cookies));
-  next();
-});
-
 app.use(midLog);
+app.use(errorHandler);
 app.use("/register", register);
 app.use("/login", login);
-// app.use(isAuthenticated);
+// app.use(isAuthenticated); //the middleware function only checks if the session exists if it's a first time!
 app.use("/sql", sqlPath);
 app.use("/home", homepage);
 app.use("/links", linked);
 app.use("/gemini", gemini);
 app.use("/cart", cart);
+
+app.get("/", (req, res) => {
+  const sessionData = req.session;
+
+  console.log(JSON.stringify(sessionData));
+  return res
+    .status(200)
+    .json({ Alert: `Check the console! ${JSON.stringify(sessionData)}` });
+});
 
 app.use("*", (req, res) => {
   res.sendFile(join(__dirname, "./views/404", "404.html"));
@@ -97,18 +115,6 @@ const admin = express();
 admin.use(express.json({ limit: "50mb" }));
 admin.use(cors());
 admin.use("/main", adminMain);
-
-async function connectDB() {
-  try {
-    await mongoose.connect(cluster, {
-      useNewUrlParser: true,
-      useUnifiedTopology: true,
-    });
-    console.log("Connected to Cluster!");
-  } catch (error) {
-    console.error("Error connecting to the database:", error);
-  }
-}
 
 async function adminBoot() {
   admin.listen(8001, () => {
