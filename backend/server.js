@@ -22,6 +22,7 @@ const adminMain = require("./routes/admin/adminMain");
 // const limiter = require("./limiter");
 const session = require("express-session");
 const discordHandler = require("./security/discordAuth.js");
+const gptGenerate = require("./routes/gpt.js");
 const sqlPath = require("./routes/secondary.js");
 const passport = require("passport");
 const errorHandler = require("./errors/errorHandler.js");
@@ -92,6 +93,7 @@ app.use(errorHandler);
 app.use("/register", register);
 app.use("/login", login);
 // app.use(isAuthenticated); //the middleware function only checks if the session exists if it's a first time!
+app.use("/images", gptGenerate);
 app.use("/sql", sqlPath);
 app.use("/home", homepage);
 app.use("/links", linked);
@@ -135,6 +137,7 @@ const { Server } = require("socket.io");
 const server = express();
 const httpServer = createServer(server);
 const io = new Server(httpServer);
+server.use(cors());
 
 io.on("connection", (socket) => {
   socket.on("message", (data) => {
