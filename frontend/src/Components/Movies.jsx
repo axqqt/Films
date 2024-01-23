@@ -10,7 +10,7 @@ const API_URL = "http://localhost:8000";
 
 function Movies() {
   const datax = useContext(UserData);
-  const { logged, setID, RingLoader } = datax;
+  const { logged, setID, RingLoader, user } = datax;
   const [data, setData] = useState([]);
   const [limit, setLimit] = useState(5);
   const [loading, setLoading] = useState(false);
@@ -114,7 +114,7 @@ function Movies() {
 
       <div className="mx-auto max-w-2xl p-4" style={{ padding: "5%" }}>
         <h1 className="text-3xl font-bold mb-4">
-          Welcome {logged ? logged : "Guest"}, {time}
+          Welcome {logged ? user : "Guest"}, {time}
         </h1>
         <form
           onSubmit={(e) => handleSearch(e, searchTerm)}

@@ -7,15 +7,23 @@ import Axios from "axios";
 import { Link } from "react-router-dom";
 import { googleProvider, auth, gitHubAuth } from "./Fire/FireConfig";
 import { signInWithPopup, signOut } from "firebase/auth";
-import { useSignIn } from "react-auth-kit";
+// import { useSignIn } from "react-auth-kit";
 
 const Login = () => {
-  const { status, setStatus, loading, setLoading, RingLoader, setLogged } =
-    useContext(UserData);
+  const {
+    status,
+    setStatus,
+    loading,
+    setLoading,
+    RingLoader,
+    setLogged,
+    user,
+    setUser,
+  } = useContext(UserData);
   const [data, setData] = useState({ username: "", password: "" });
   const usernamefield = useRef();
   const passwordfield = useRef();
-  const signIn = useSignIn();
+  // const signIn = useSignIn();
 
   const endPoint = "http://localhost:8000";
 
@@ -31,27 +39,21 @@ const Login = () => {
       setStatus("");
     }
 
-    const { username, password } = data;
-
     try {
       setLoading(true);
-      const response = await Axios.post(`${endPoint}/login`, {
-        username,
-        password,
-      });
+      const response = await Axios.post(`${endPoint}/login`, data);
 
-      signIn({
-        token: response.data.Token,
-        expiresIn: 3600,
-        tokenType: "Bearer",
-        authState: { username: username, password: password },
-      });
+      // signIn({
+      //   token: response.data.Token,
+      //   expiresIn: 3600,
+      //   tokenType: "Bearer",
+      //   authState: { username: username, password: password },
+      // });
 
       if (response.data.status === 200) {
         loginCounter++;
         setStatus(response.data.response.data.Alert);
         setLogged(true);
-        navigate("/");
       } else if (response.data.status === 404) {
         setStatus(response.data.data.Alert);
       } else {
@@ -71,6 +73,8 @@ const Login = () => {
       if (response) {
         setLogged(true);
         setStatus("Google sign-in successful");
+        setUser(auth?.currentUser?.displayName);
+        navigate("/");
       } else {
         setStatus("Error while logging in!");
       }
@@ -87,6 +91,8 @@ const Login = () => {
       if (response && response.user) {
         setLogged(true);
         setStatus("GitHub sign-in successful");
+        setUser(auth?.currentUser?.displayName);
+        navigate("/");
       } else {
         setStatus("Error while logging in!");
       }

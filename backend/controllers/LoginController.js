@@ -9,42 +9,40 @@ const Login = async (req, res, next) => {
     if (!username || !password)
       return res
         .status(400)
-        .json({ Alert: `Username or password not provided` });
+        .json({ alert: `Username or password not provided` });
 
     const userValidity = await userController
       .findOne({ username: username })
       .exec();
 
     if (!userValidity) {
-      return res.status(403).json({ Alert: `${username} Invalid Username` });
+      return res.status(403).json({ alert: `Invalid username or password` });
     } else {
       const secure = new HashPasswordx();
       const passwordMatch = secure.compare(password, userValidity.password);
 
       if (!passwordMatch)
-        return res.status(404).json({ Alert: "Invalid password" });
+        return res.status(404).json({ alert: "Invalid username or password" });
 
-      // res.cookie(
-      //   "user",
-      //   { username, password },
-      //   { maxAge: 60000, httpOnly: true }
-      // );
-
-      // // // Set session user
-      // // req.session.user = { username, password };
+      const accessTokenPayload = {
+        username: userValidity.username,
+        userId: userValidity._id,
+      };
 
       const AccessToken = jwt.sign(
-        { username: userValidity.username, email: userValidity.password },
-        process.env.ACCESS_TOKEN
+        accessTokenPayload,
+        process.env.ACCESS_TOKEN,
+        { expiresIn: "1h" }
       );
 
       const RefreshToken = jwt.sign(
-        { username: userValidity.username, email: userValidity.password },
-        process.env.REFRESH_TOKEN
+        { username: userValidity.username },
+        process.env.REFRESH_TOKEN,
+        { expiresIn: "7d" }
       );
 
       return res.status(200).json({
-        Alert: `${username} logged in! `,
+        alert: `${username} logged in!`,
         Token: AccessToken,
         RefreshToken: RefreshToken,
       });
