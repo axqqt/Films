@@ -22,7 +22,7 @@ const BotPage = () => {
   }
 
   return (
-    <div>
+    <div style={{ margin: "5%" }}>
       <h1>Gemini</h1>
       <input
         onChange={(e) => {

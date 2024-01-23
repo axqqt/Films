@@ -113,8 +113,10 @@ function Movies() {
       {showBot && <BotPage onClose={closeBot} />}
 
       <div className="mx-auto max-w-2xl p-4" style={{ padding: "5%" }}>
+        <img src={user.photoURL}></img>
         <h1 className="text-3xl font-bold mb-4">
-          Welcome {logged ? user : "Guest"}, {time}
+          Hi
+          {logged ? " " + user.displayName : " Guest"}! , {time}
         </h1>
         <form
           onSubmit={(e) => handleSearch(e, searchTerm)}

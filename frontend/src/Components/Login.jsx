@@ -29,7 +29,11 @@ const Login = () => {
 
   let loginCounter = 0;
 
-  console.log(auth?.currentUser?.email ? auth?.currentUser?.email : "");
+  console.log(
+    auth?.currentUser
+      ? auth?.currentUser.displayName + "\n" + auth?.currentUser?.email
+      : ""
+  );
 
   const navigate = useNavigate();
 
@@ -73,7 +77,7 @@ const Login = () => {
       if (response) {
         setLogged(true);
         setStatus("Google sign-in successful");
-        setUser(auth?.currentUser?.displayName);
+        setUser(auth?.currentUser);
         navigate("/");
       } else {
         setStatus("Error while logging in!");
@@ -88,7 +92,7 @@ const Login = () => {
     try {
       const response = await signInWithPopup(auth, gitHubAuth);
 
-      if (response && response.user) {
+      if (response) {
         setLogged(true);
         setStatus("GitHub sign-in successful");
         setUser(auth?.currentUser?.displayName);
@@ -104,7 +108,7 @@ const Login = () => {
 
   const handleLogout = async () => {
     try {
-      if (auth?.currentUser?.displayName) {
+      if (auth?.currentUser) {
         await signOut(auth);
       } else if (loginCounter === 1) {
         const response = await Axios.post("/logout", loginCounter);
