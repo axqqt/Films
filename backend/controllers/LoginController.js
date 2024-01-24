@@ -41,6 +41,11 @@ const Login = async (req, res, next) => {
         { expiresIn: "7d" }
       );
 
+      req.session.user = {
+        username: username,
+        password: password,
+      };
+
       return res.status(200).json({
         alert: `${username} logged in!`,
         Token: AccessToken,
@@ -57,7 +62,9 @@ const status = (req, res) => {
   try {
     if (req.session.user) {
       console.log("Load back!");
-      return res.status(200).json({ status: "User is logged in" });
+      return res
+        .status(200)
+        .json({ status: `${req.session.user.username} is logged in` });
     } else {
       console.log("Cannot Load!");
       return res.status(401).json({ status: "User is not logged in" });

@@ -58,6 +58,10 @@ const Login = () => {
         loginCounter++;
         setStatus(response.data.response.data.Alert);
         setLogged(true);
+        const data = await Axios.post(`${endPoint}/login/status`);
+        if (data.data.Request.session.user === data.username) {
+          setStatus(`${data.username} has logged in!`);
+        }
       } else if (response.data.status === 404) {
         setStatus(response.data.data.Alert);
       } else {
@@ -95,7 +99,7 @@ const Login = () => {
       if (response) {
         setLogged(true);
         setStatus("GitHub sign-in successful");
-        setUser(auth?.currentUser?.displayName);
+        setUser(auth?.currentUser);
         navigate("/");
       } else {
         setStatus("Error while logging in!");
@@ -111,7 +115,10 @@ const Login = () => {
       if (auth?.currentUser) {
         await signOut(auth);
       } else if (loginCounter === 1) {
-        const response = await Axios.post("/logout", loginCounter);
+        const response = await Axios.post(
+          `${endPoint}/login/logout`,
+          loginCounter
+        );
         if (response.status === 200) {
           setStatus("Logged out!");
           setLogged(true);
