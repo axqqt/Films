@@ -55,8 +55,9 @@ const Login = () => {
       // });
 
       if (response.data.status === 200) {
-        loginCounter++;
-        setStatus(response.data.response.data.Alert);
+        //bugs exist here i'm fixing it!
+        // loginCounter++;
+        // setStatus(response.data.response.data.Alert);
         setLogged(true);
         const data = await Axios.post(`${endPoint}/login/status`);
         if (data.data.Request.session.user === data.username) {
@@ -96,10 +97,10 @@ const Login = () => {
     try {
       const response = await signInWithPopup(auth, gitHubAuth);
 
-      if (response) {
+      if (response && response?.user) {
         setLogged(true);
         setStatus("GitHub sign-in successful");
-        setUser(auth?.currentUser);
+        setUser(response?.user);
         navigate("/");
       } else {
         setStatus("Error while logging in!");

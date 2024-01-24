@@ -60,11 +60,14 @@ const Login = async (req, res, next) => {
 
 const status = (req, res) => {
   try {
-    if (req.session.user) {
+    if (req?.session?.user) {
+      //optional chaining cuz I dont' want it to crash if the session is not there!
       console.log("Load back!");
-      return res
-        .status(200)
-        .json({ status: `${req.session.user.username} is logged in` });
+      return res.status(200).json({
+        status: `${req?.session?.user?.username} Logged In!`,
+        username: `${req?.session?.user?.username}`, //get the username and get the password in hopes of mapping in the frontend!
+        password: `${req?.session?.user?.password}`,
+      });
     } else {
       console.log("Cannot Load!");
       return res.status(401).json({ status: "User is not logged in" });
@@ -77,7 +80,7 @@ const status = (req, res) => {
 
 const logout = (req, res) => {
   try {
-    if (req.session.user) {
+    if (req?.session?.user) {
       req.session.destroy((err) => {
         if (err) {
           console.error("Error destroying session:", err);
@@ -87,7 +90,7 @@ const logout = (req, res) => {
         }
       });
     } else {
-      res.status(401).send("User not authenticated");
+      res.status(401).send("No user logged in!");
     }
   } catch (err) {
     console.error(err);

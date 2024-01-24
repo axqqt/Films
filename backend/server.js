@@ -19,7 +19,7 @@ const bodyParser = require("body-parser");
 const linked = require("./routes/linked");
 const cart = require("./routes/cart");
 const adminMain = require("./routes/admin/adminMain");
-// const limiter = require("./limiter");
+const limiter = require("./limiter");
 const session = require("express-session");
 const discordHandler = require("./security/discordAuth.js");
 const gptGenerate = require("./routes/gpt.js");
@@ -28,10 +28,14 @@ const passport = require("passport");
 const errorHandler = require("./errors/errorHandler.js");
 
 function isAuthenticated(req, res, next) {
-  if (req.session.user) {
+  if (req?.session?.user) {
+    const instance = req?.session?.user;
     res
       .status(200)
       .send(`${JSON.stringify(req.session.user.username)} has Logged in!`);
+    res.session.save((err) => {
+      if (err) throw err;
+    });
     next();
   } else {
     res.status(401).send("Unauthorized");
@@ -54,12 +58,44 @@ app.use(passport.session(discordHandler));
 
 function midLog(req, res, next) {
   console.log(
-    `Request coming from ${req.url} \nMethod-> ${req.method}\n${JSON.stringify(
-      req.cookies
+    `Request coming from ${req.url} \nMethod-> ${
+      req.method
+    }\nSession -> ${JSON.stringify(req?.session)})}\n ID -> ${JSON.stringify(
+      req.session.id
     )}`
   );
   next();
 }
+
+app.use(
+  cors({
+    origin: ["http://localhost:5173", "http://127.0.0.1:5173"], //react project
+  })
+);
+
+if (!fs.existsSync(join(__dirname, "public"))) {
+  fs.mkdirSync(join(__dirname, "public"));
+}
+
+app.use(midLog);
+app.use(helmet());
+app.use(compression({ filter: false }));
+app.use(express.static(join(__dirname, "public")));
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(errorHandler);
+app.use(compression());
+app.use(limiter, (req, res, next) => {
+  next();
+});
+app.use("/register", register);
+app.use("/login", login);
+// app.use(isAuthenticated); //the middleware function only checks if the session exists if it's a first time , if the session exists that means the user has logged in!
+app.use("/images", gptGenerate); //that's why the routes below are after logged in , to only give access when user is logged in!
+app.use("/sql", sqlPath);
+app.use("/home", homepage);
+app.use("/links", linked);
+app.use("/gemini", gemini);
+app.use("/cart", cart);
 
 async function connectDB() {
   try {
@@ -72,33 +108,6 @@ async function connectDB() {
     console.error("Error connecting to the database:", error);
   }
 }
-
-app.use(
-  cors({
-    origin: ["http://localhost:5173"],
-  })
-);
-
-if (!fs.existsSync(join(__dirname, "public"))) {
-  fs.mkdirSync(join(__dirname, "public"));
-}
-
-app.use(helmet());
-app.use(compression({ filter: false }));
-app.use(express.static(join(__dirname, "public")));
-app.use(bodyParser.urlencoded({ extended: true }));
-
-app.use(midLog);
-app.use(errorHandler);
-app.use("/register", register);
-app.use("/login", login);
-// app.use(isAuthenticated); //the middleware function only checks if the session exists if it's a first time!
-app.use("/images", gptGenerate);
-app.use("/sql", sqlPath);
-app.use("/home", homepage);
-app.use("/links", linked);
-app.use("/gemini", gemini);
-app.use("/cart", cart);
 
 app.use("*", (req, res) => {
   res.sendFile(join(__dirname, "./views/404", "404.html"));
