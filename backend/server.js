@@ -54,13 +54,13 @@ app.use(
 );
 
 app.use(passport.initialize());
-app.use(passport.session(discordHandler));
+app.use(passport.session(discordHandler)); //haven't implemented properly!
 
 function midLog(req, res, next) {
   console.log(
     `Request coming from ${req.url} \nMethod-> ${
       req.method
-    }\nSession -> ${JSON.stringify(req?.session)})}\n ID -> ${JSON.stringify(
+    }\nSession -> ${JSON.stringify(req?.session)})}\nID -> ${JSON.stringify(
       req.session.id
     )}`
   );

@@ -112,7 +112,10 @@ function Movies() {
       </button>
       {showBot && <BotPage onClose={closeBot} />}
 
-      <div className="mx-auto max-w-2xl p-4" style={{ padding: "5%" }}>
+      <div
+        className="mx-auto max-w-2xl p-4"
+        style={{ paddingBottom: "5%", margin: "5%" }}
+      >
         <img src={user.photoURL}></img>
         <h1 className="text-3xl font-bold mb-4">
           Hi

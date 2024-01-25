@@ -5,6 +5,8 @@
   text-decoration: none;
   list-style-type: none;
   word-break: break-all;
+  font-size: x-large;
+  color: black;
 }
 .container {
   max-width: 800px;

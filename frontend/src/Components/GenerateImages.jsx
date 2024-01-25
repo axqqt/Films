@@ -20,9 +20,9 @@ const GenerateImages = () => {
     e.preventDefault();
     try {
       setLoading(true);
-      const image = await Axios.post("http://localhost:8000/images", data);
-      setStatus(image.data.response.Alert);
-      setGenerated(image.data);
+      const response = await Axios.post("http://localhost:8000/images", data);
+      setStatus(response.data.Alert);
+      setGenerated(response.data);
     } catch (err) {
       console.error(err);
     } finally {

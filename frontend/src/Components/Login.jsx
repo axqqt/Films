@@ -47,29 +47,23 @@ const Login = () => {
       setLoading(true);
       const response = await Axios.post(`${endPoint}/login`, data);
 
-      // signIn({
-      //   token: response.data.Token,
-      //   expiresIn: 3600,
-      //   tokenType: "Bearer",
-      //   authState: { username: username, password: password },
-      // });
-
       if (response.data.status === 200) {
-        //bugs exist here i'm fixing it!
-        // loginCounter++;
-        // setStatus(response.data.response.data.Alert);
         setLogged(true);
-        const data = await Axios.post(`${endPoint}/login/status`);
-        if (data.data.Request.session.user === data.username) {
-          setStatus(`${data.username} has logged in!`);
+        const userData = await Axios.post(`${endPoint}/login/status`);
+        if (userData?.data?.username && userData?.data?.password) {
+          //double checking if user has provided both username and pass
+          setStatus(`${userData.data.username} has logged in!`);
+        } else {
+          setStatus("Invalid response format from server");
         }
-      } else if (response.data.status === 404) {
-        setStatus(response.data.data.Alert);
+      } else if (response.data.status === 401) {
+        setStatus("Invalid Credentials!");
       } else {
         setStatus("Something went wrong!");
       }
     } catch (err) {
       console.error(err);
+      setStatus("An error occurred while processing your request.");
     } finally {
       setLoading(false);
     }

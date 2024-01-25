@@ -70,7 +70,13 @@ const NewUser = (props) => {
           placeholder="Enter mail"
           name="mail"
         />
-        <input onChange={handleChange} placeholder="Enter Photo" name="photo" />
+        <input
+          onChange={handleChange}
+          placeholder="Enter Photo"
+          name="photo"
+          type="file"
+        />{" "}
+        {/**File handling part incomplete! */}
         <p>{status ? status : ""}</p>
         <button type="submit" disabled={loading}>
           {loading ? <RingLoader></RingLoader> : "Create User"}

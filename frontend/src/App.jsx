@@ -20,6 +20,7 @@ import FireData from "./Components/Data";
 import RingLoader from "react-spinners/RingLoader";
 import NewAdminPage from "./Components/Admin/newAdmin";
 import GenerateImages from "./Components/GenerateImages";
+import YTSPage from "./Components/YTS";
 
 // import TestPage from "../../Test";
 
@@ -37,6 +38,9 @@ export default function App() {
   const [loading, setLoading] = useState(false);
   const [status, setStatus] = useState("");
   const [id, setID] = useState("");
+  const [movies, setMovies] = useState([]);
+
+  //I didn't find the need to useCallback since i'm not passing any functions down as props through the contextAPI
 
   <RingLoader
     color="#36d7b7"
@@ -63,11 +67,14 @@ export default function App() {
           data,
           setData,
           RingLoader,
+          movies,
+          setMovies,
         }}
       >
         <Navbar></Navbar>
         <Routes>
           <Route path="/" element={<Movies />}></Route>
+          <Route path="/yts" element={<YTSPage></YTSPage>}></Route>
           <Route path="/generate" element={<GenerateImages />}></Route>
           <Route path="/data" element={<FireData></FireData>}></Route>
           <Route path="/test" element={<WhatPage></WhatPage>}></Route>

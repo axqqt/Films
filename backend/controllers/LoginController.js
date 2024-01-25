@@ -48,7 +48,7 @@ const Login = async (req, res, next) => {
 
       return res.status(200).json({
         alert: `${username} logged in!`,
-        Token: AccessToken,
+        AccessToken: AccessToken,
         RefreshToken: RefreshToken,
       });
     }

@@ -2,6 +2,8 @@ const mediaModel = require("../models/media");
 const cloudinary = require("cloudinary").v2;
 require("dotenv").config();
 
+const simplified = {};
+
 async function GetFilms(req, res) {
   const id = req?.params?.id; //thinking of possibly connecting two routes to the same function!
   if (!id) {
@@ -52,15 +54,15 @@ async function CreateFilms(req, res) {
     //   }
     // );
 
-    // let photoURL;
-    // try {
-    //   photoURL = await uploadToCloudinary(photo);
-    // } catch (uploadError) {
-    //   console.error(uploadError);
-    //   return res
-    //     .status(500)
-    //     .json({ error: "Error uploading photo to Cloudinary" });
-    // }
+    let photoURL;
+    try {
+      photoURL = await uploadToCloudinary(photo);
+    } catch (uploadError) {
+      console.error(uploadError);
+      return res
+        .status(500)
+        .json({ error: "Error uploading photo to Cloudinary" });
+    }
 
     const filmExists = await mediaModel.findOne({ title: title });
 
