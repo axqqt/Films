@@ -19,7 +19,7 @@ async function CreateItem(req, res) {
     if (!item || !description || !quantity) {
       return res
         .status(400)
-        .json({ Alert: "No item name/description or quantity given" });
+        .json({ alert: "No item name/description or quantity given" });
     }
 
     const verifyItem = await itemModel.findOne({ itemName: item });
@@ -29,7 +29,7 @@ async function CreateItem(req, res) {
         description: "My First Test Customer",
       });
 
-      const newItem = new itemModel({
+      await itemModel.create({
         itemName: item,
         itemDescription: description,
         itemQuantity: quantity,
@@ -38,17 +38,15 @@ async function CreateItem(req, res) {
         payment: customer,
       });
 
-      await newItem.save();
-
-      return res.status(201).json({ Alert: `Item ${item} saved` });
+      return res.status(201).json({ alert: `Item ${item} saved` });
     } else {
-      return res.status(409).json({ Alert: `Item ${item} already exists` });
+      return res.status(409).json({ alert: `Item ${item} already exists` });
     }
   } catch (err) {
     console.error(err);
     return res
       .status(500)
-      .json({ Alert: `Internal Server Error: ${err.message}` });
+      .json({ alert: `Internal Server Error: ${err.message}` });
   }
 }
 

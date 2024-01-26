@@ -9,6 +9,11 @@ const YTSPage = () => {
 
   const { movies, setMovies, loading, setLoading, RingLoader } = datax;
   const [movie, setMovie] = useState("");
+  const [qual, setQual] = useState("All");
+
+  const handleChange = (e) => {
+    setQual({ ...qual, [e.target.name]: e.target.value });
+  };
 
   async function fetchFilms() {
     try {
@@ -27,7 +32,7 @@ const YTSPage = () => {
     try {
       setLoading(true);
       const yts = await Axios.get(
-        `https://yts.mx/api/v2/list_movies.json?query_term=${movie}`
+        `https://yts.mx/api/v2/list_movies.json?query_term=${movie}&quality=${qual}`
       );
       setMovies(yts.data.data.movies);
     } catch (err) {
@@ -51,6 +56,21 @@ const YTSPage = () => {
           }}
           placeholder="Search for a film"
         />
+        <label>Choose a car:</label>
+        <select>
+          <option value="480p" onChange={handleChange}>
+            480p
+          </option>
+          <option value="720p" onChange={handleChange}>
+            720p
+          </option>
+          <option value="1080p" onChange={handleChange}>
+            1080p
+          </option>
+          <option value="2160p" onChange={handleChange}>
+            2160p
+          </option>
+        </select>
         <button type="submit" disabled={loading}>
           Search for film!
         </button>

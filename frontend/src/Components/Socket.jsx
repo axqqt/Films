@@ -1,7 +1,7 @@
 import { io } from "socket.io-client";
 import { useEffect, useState } from "react";
 
-const socket = io("http://localhost:4000/");
+const socket = io("http://localhost:4000");
 
 const Socket = () => {
   const [input, setInput] = useState("");
@@ -56,7 +56,7 @@ const Socket = () => {
           <li key={index}>{message}</li>
         ))}
       </ul>
-      <p>{JSON.stringify(systemMessages)}</p>
+      {systemMessages}
     </div>
   );
 };

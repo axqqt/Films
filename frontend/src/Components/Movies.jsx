@@ -4,6 +4,7 @@ import Axios from "axios";
 import { Link } from "react-router-dom";
 import DisplayFilm from "./DisplayFilm";
 import BotPage from "./Bot";
+import { DeleteFilm, GetMain } from "./Services/Api";
 // import { Transition } from "@headlessui/react";
 
 const API_URL = "http://localhost:8000";
@@ -22,8 +23,8 @@ function Movies() {
   async function fetchFromBack() {
     try {
       setLoading(true);
-      const response = await Axios.get(`${API_URL}/home`);
-      setData(response.data);
+      const response = await GetMain();
+      setData(response);
     } catch (error) {
       console.error("Error fetching data:", error);
     } finally {
@@ -38,7 +39,7 @@ function Movies() {
   async function deleteFilm(id) {
     try {
       setLoading(true);
-      await Axios.delete(`${API_URL}/home/${id}`);
+      await DeleteFilm(id);
       setData((prevData) => prevData.filter((film) => film._id !== id));
     } catch (error) {
       console.error("Error deleting film:", error);
@@ -50,7 +51,7 @@ function Movies() {
   async function editTitle(id, modifiedTitle) {
     try {
       setLoading(true);
-      await Axios.put(`${API_URL}/home/${id}`, { title: modifiedTitle });
+      await editTitle(id, modifiedTitle);
 
       setData((prevData) =>
         prevData.map((film) =>
@@ -71,7 +72,7 @@ function Movies() {
     try {
       setLoading(true);
       const response = await Axios.get(`${API_URL}/home/${searchTerm}`, limit);
-      setData(response.data);
+      setData(response);
     } catch (error) {
       console.error("Error searching:", error);
     } finally {

@@ -163,7 +163,7 @@ const httpServer = createServer(server);
 const io = new Server(httpServer);
 server.use(cors({ origin: "*" }));
 
-io.on("connection", (socket) => {
+io.on("connect", (socket) => {
   socket.on("message", (data) => {
     io.emit("message", data);
     console.log(data);
