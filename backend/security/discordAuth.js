@@ -1,16 +1,32 @@
 const passport = require("passport");
-const { Strategy } = require("passport-discord").Strategy;
+const { Strategy } = require("passport-discord");
+const userModel = require("../models/userOrder");
 
 const discordHandler = passport.use(
-  //not implemented yet!
   new Strategy(
     {
-      clientID: "id",
-      clientSecret: "secret",
-      callbackURL: "callbackURL",
+      clientID: "your-client-id",
+      clientSecret: "your-client-secret",
+      callbackURL: "your-callback-url",
     },
-    (accessToken, refreshToken, profile, done) => {
-      return done(null, profile);
+    async (accessToken, refreshToken, profile, done) => {
+      const { username } = profile;
+
+      try {
+        const findUser = await userModel.findOne({ username });
+
+        if (!findUser) {
+          throw new Error("User not found!");
+        }
+
+        if (findUser.password !== password) {
+          throw new Error("Invalid Credentials!");
+        }
+
+        done(null, findUser);
+      } catch (err) {
+        done(err, null);
+      }
     }
   )
 );

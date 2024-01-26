@@ -1,18 +1,55 @@
-/* @import "https://raw.githubusercontent.com/jonathantneal/system-font-css/gh-pages/system-font.css"; */
+:root {
+  --primary-color: #3498db;
+  --danger-color: #e74c3c;
+  --success-color: #2ecc71;
+}
 
+/* General Styles */
 * {
   font-family: "Poppins", Courier, monospace;
+  scroll-behavior: smooth;
   text-decoration: none;
   list-style-type: none;
   word-break: break-all;
   font-size: x-large;
   color: black;
 }
+
+body {
+  background: dodgerblue linear-gradient(22deg, aqua, dodgerblue, deeppink)
+    fixed;
+  color: white;
+  font: normal 32px/1.6 system-ui, sans-serif;
+  text-shadow: 0 1px 1px hsl(0 0% 0% / 20%);
+  margin: 3rem;
+}
+
+h1 {
+  font-weight: normal;
+}
+
+a {
+  color: inherit;
+}
+
+a:focus,
+a:hover {
+  text-decoration-color: black;
+}
+
+input {
+  font: inherit;
+  padding: 0.2em 0.5em;
+}
+
+/* Container Styles */
 .container {
   max-width: 800px;
   margin: 0 auto;
+  width: 90%; /* Responsive style */
 }
 
+/* Form Styles */
 form {
   margin-top: 20px;
 }
@@ -27,7 +64,7 @@ input[type="number"] {
 
 button {
   padding: 10px;
-  background-color: #3498db;
+  background-color: var(--primary-color);
   color: #fff;
   border: none;
   border-radius: 4px;
@@ -38,12 +75,14 @@ button:hover {
   background-color: #2980b9;
 }
 
+/* Loading Styles */
 .loading {
   font-size: 1.5rem;
   font-weight: bold;
   margin-top: 20px;
 }
 
+/* Film Card Styles */
 .film-card {
   margin-top: 20px;
   border: 1px solid #ddd;
@@ -73,10 +112,11 @@ button:hover {
 .trailer-link {
   margin-top: 10px;
   text-decoration: none;
-  color: #3498db;
+  color: var(--primary-color);
   font-weight: bold;
 }
 
+/* Buttons Container Styles */
 .buttons-container {
   margin-top: 10px;
   display: flex;
@@ -93,7 +133,7 @@ button:hover {
 }
 
 .delete-button {
-  background-color: #e74c3c;
+  background-color: var(--danger-color);
   color: #fff;
 }
 
@@ -108,7 +148,7 @@ button:hover {
 }
 
 .update-button {
-  background-color: #2ecc71;
+  background-color: var(--success-color);
   color: #fff;
 }
 
@@ -119,40 +159,15 @@ button:hover {
 .add-film-link {
   margin-top: 20px;
   text-decoration: none;
-  color: #3498db;
+  color: var(--primary-color);
   font-weight: bold;
 }
 
-/* Responsive styles */
+/* Responsive Styles */
 @media (max-width: 600px) {
   .container {
     width: 90%;
   }
-}
 
-body {
-  background: dodgerblue linear-gradient(22deg, aqua, dodgerblue, deeppink)
-    fixed;
-  color: white;
-  font: normal 32px/1.6 system-ui, sans-serif;
-  text-shadow: 0 1px 1px hsl(0 0% 0% / 20%);
-  margin: 3rem;
-}
-
-h1 {
-  font-weight: normal;
-}
-
-a {
-  color: inherit;
-}
-
-a:focus,
-a:hover {
-  text-decoration-color: black;
-}
-
-input {
-  font: inherit;
-  padding: 0.2em 0.5em;
+  /* Add more responsive styles as needed */
 }

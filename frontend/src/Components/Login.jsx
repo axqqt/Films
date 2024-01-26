@@ -29,11 +29,11 @@ const Login = () => {
 
   let loginCounter = 0;
 
-  console.log(
-    auth?.currentUser
-      ? auth?.currentUser.displayName + "\n" + auth?.currentUser?.email
-      : ""
-  );
+  // console.log(
+  //   auth?.currentUser
+  //     ? auth?.currentUser.displayName + "\n" + auth?.currentUser?.email
+  //     : ""
+  // );
 
   const navigate = useNavigate();
 
@@ -45,21 +45,20 @@ const Login = () => {
 
     try {
       setLoading(true);
-      const response = await Axios.post(`${endPoint}/login`, data);
+      const response = await Axios.post(`${endPoint}/login`, data, {
+        withCredentials: true,
+      });
 
       if (response.data.status === 200) {
         setLogged(true);
-        const userData = await Axios.post(`${endPoint}/login/status`);
-        if (userData?.data?.username && userData?.data?.password) {
-          //double checking if user has provided both username and pass
-          setStatus(`${userData.data.username} has logged in!`);
-        } else {
-          setStatus("Invalid response format from server");
-        }
-      } else if (response.data.status === 401) {
-        setStatus("Invalid Credentials!");
+
+        const username = response.data.username;
+        setStatus(`${username} has logged in!`);
+        setUser(username);
+
+        navigate("/");
       } else {
-        setStatus("Something went wrong!");
+        setStatus(response.data.alert || "Invalid username or password.");
       }
     } catch (err) {
       console.error(err);
@@ -87,17 +86,17 @@ const Login = () => {
     }
   };
 
-  const signUpGitHub = async () => {
+  const signInGitHub = async () => {
     try {
       const response = await signInWithPopup(auth, gitHubAuth);
 
-      if (response && response?.user) {
+      if (response) {
         setLogged(true);
         setStatus("GitHub sign-in successful");
-        setUser(response?.user);
+        setUser(auth?.currentUser);
         navigate("/");
       } else {
-        setStatus("Error while logging in!");
+        setStatus("Error while signing in!");
       }
     } catch (err) {
       console.error(err);
@@ -154,7 +153,7 @@ const Login = () => {
           {loading ? <RingLoader></RingLoader> : "Login"}
         </button>
         <button onClick={signUpGoogle}>Sign Up With Google!</button>
-        <button onClick={signUpGitHub}>Sign Up with GitHub!</button>
+        <button onClick={signInGitHub}>Sign Up with GitHub!</button>
         <br></br>
         <button onClick={handleLogout}>Log Out!</button>
         <h1> {status}</h1>

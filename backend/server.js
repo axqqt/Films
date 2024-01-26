@@ -27,20 +27,18 @@ const sqlPath = require("./routes/secondary.js");
 const passport = require("passport");
 const errorHandler = require("./errors/errorHandler.js");
 
-function isAuthenticated(req, res, next) {
-  if (req?.session?.user) {
-    const instance = req?.session?.user;
-    res
-      .status(200)
-      .send(`${JSON.stringify(req.session.user.username)} has Logged in!`);
-    res.session.save((err) => {
-      if (err) throw err;
-    });
-    next();
-  } else {
-    res.status(401).send("Unauthorized");
-  }
-}
+// function isAuthenticated(req, res, next) {
+//   if (req?.session?.user) {
+//     const instance = req?.session?.user;
+//     res.status(200).send(`${JSON.stringify(instance.username)} has Logged in!`);
+//     req.session.save((err) => {
+//       if (err) throw err;
+//       next();
+//     });
+//   } else {
+//     res.status(401).send("Unauthorized");
+//   }
+// }
 
 app.use(express.json());
 app.use(cookieParser());
@@ -50,11 +48,16 @@ app.use(
     secret: "password123",
     resave: false,
     saveUninitialized: true,
+    cookie: {
+      maxAge: 60000,
+    },
   })
 );
 
-app.use(passport.initialize());
-app.use(passport.session(discordHandler)); //haven't implemented properly!
+// app.use(passport.initialize());
+// app.use(passport.session(discordHandler)); //haven't implemented properly!
+
+// app.post("/api/auth", passport.authenticate("discord"), (req, res) => {});
 
 function midLog(req, res, next) {
   console.log(
@@ -87,15 +90,25 @@ app.use(compression());
 app.use(limiter, (req, res, next) => {
   next();
 });
+
+const info = (req, res, next) => {
+  console.log(
+    `User -> ${JSON.stringify(req.session)}\nID -> ${req.session.id}`
+  );
+  next();
+};
+
+// app.use(limiter);
+app.use(info);
 app.use("/register", register);
 app.use("/login", login);
-// app.use(isAuthenticated); //the middleware function only checks if the session exists if it's a first time , if the session exists that means the user has logged in!
-app.use("/images", gptGenerate); //that's why the routes below are after logged in , to only give access when user is logged in!
-app.use("/sql", sqlPath);
+// app.use(isAuthenticated);
 app.use("/home", homepage);
 app.use("/links", linked);
 app.use("/gemini", gemini);
 app.use("/cart", cart);
+app.use("/images", gptGenerate);
+app.use("/sql", sqlPath);
 
 async function connectDB() {
   try {
@@ -119,18 +132,20 @@ admin.use(cors());
 admin.use("/main", adminMain);
 
 async function adminBoot() {
-  admin.listen(8001, () => {
-    connectDB();
-    console.log("Admin up on port 8001");
-  });
+  try {
+    await connectDB();
+    admin.listen(8001, () => {
+      console.log("Admin up on port 8001");
+    });
+  } catch (error) {
+    console.error("Error starting admin:", error);
+  }
 }
-
-adminBoot();
 
 async function clientBoot() {
   try {
+    await connectDB();
     app.listen(port, () => {
-      connectDB();
       console.log(`Client is up on port ${port}`);
     });
   } catch (error) {
@@ -138,7 +153,7 @@ async function clientBoot() {
   }
 }
 
-clientBoot();
+Promise.all([adminBoot(), clientBoot()]);
 
 const { createServer } = require("http");
 const { Server } = require("socket.io");
@@ -146,7 +161,7 @@ const { Server } = require("socket.io");
 const server = express();
 const httpServer = createServer(server);
 const io = new Server(httpServer);
-server.use(cors());
+server.use(cors({ origin: "*" }));
 
 io.on("connection", (socket) => {
   socket.on("message", (data) => {

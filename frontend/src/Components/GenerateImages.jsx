@@ -1,6 +1,6 @@
 /* eslint-disable no-unused-vars */
 import { UserData } from "../App";
-import { useContext, useState } from "react";
+import { useContext, useRef, useState } from "react";
 import Axios from "axios";
 import RingLoader from "react-spinners/RingLoader";
 
@@ -15,6 +15,9 @@ const GenerateImages = () => {
     quantity: 1,
     resolution: "1024x1024", //defaults!
   });
+  const imgRef = useRef();
+  const quanRef = useRef();
+  const resRef = useRef();
 
   const generateImage = async (e) => {
     e.preventDefault();
@@ -27,6 +30,14 @@ const GenerateImages = () => {
       console.error(err);
     } finally {
       setLoading(false);
+      setData({
+        image: "",
+        quantity: 1,
+        resolution: "1024x1024", //defaults!
+      });
+      imgRef.current.value = "";
+      quanRef.current.value = "";
+      resRef.current.value = "";
     }
   };
 
@@ -42,6 +53,7 @@ const GenerateImages = () => {
           onChange={handleChange}
           name="image"
           placeholder="Enter image to generate!"
+          ref={imgRef}
           type="text"
         />
         <div>
@@ -49,6 +61,7 @@ const GenerateImages = () => {
             onChange={handleChange}
             name="quantity"
             type="number"
+            ref={quanRef}
             placeholder="Enter Quantity"
             value={data.quantity}
           />
@@ -58,6 +71,7 @@ const GenerateImages = () => {
           name="resolution"
           placeholder="Enter resolution"
           type="text"
+          ref={resRef}
           value={data.resolution}
         />
         <button type="submit" disabled={loading}>
@@ -67,7 +81,7 @@ const GenerateImages = () => {
       {generated && generated.length ? (
         generated.map((x, index) => (
           <div key={x.id || index}>
-            <img src={x.image} alt={`Image of ${x.prompt}`} />
+            <img src={x.image_url} alt={`Image of ${data.image}`} />
           </div>
         ))
       ) : (

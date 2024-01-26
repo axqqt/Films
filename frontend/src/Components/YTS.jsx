@@ -81,7 +81,7 @@ const YTSPage = () => {
               <h2>{x.date_uploaded ? `Uploaded on ${x.date_uploaded}` : ""}</h2>
               {x.url && (
                 <a href={x.url}>
-                  <h1>Click here to Learn More!</h1>
+                  <h1> Click here to view {x.title}</h1>
                 </a>
               )}
               {/* <h2>
