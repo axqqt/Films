@@ -13,7 +13,7 @@ const DisplayFilm = ({ x }) => {
       <br></br>
       {x.photo ? <img src={x.photo} alt={`Image of ${x.title}`}></img> : ""}
       <div>
-        <p>{x.rating}</p>
+        <p>{x.rating ? `Rated ${x.rating}/10` : <h1>Unrated!</h1>}</p>
       </div>
     </div>
   );
