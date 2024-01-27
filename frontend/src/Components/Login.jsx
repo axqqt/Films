@@ -46,22 +46,15 @@ const Login = () => {
     try {
       setLoading(true);
       const response = await Axios.post(`${endPoint}/login`, data);
-
+      console.log(response.data);
       setLogged(true);
-      setUser(response.data.response.Alert.username);
+      setUser(response.data?.username); //bug
       navigate("/");
-
-      // if (response.data.response.data.username === 200) {
-      //   setLogged(true);
-
-      // const username = response.data.username;
-      // setStatus(`${username} has logged in!`);
-      // setUser(username);
 
       console.log(response.data);
     } catch (err) {
       console.error(err);
-      setStatus("An error occurred while processing your request.");
+      setStatus(err.message);
     } finally {
       setLoading(false);
     }
@@ -107,14 +100,11 @@ const Login = () => {
     try {
       if (auth?.currentUser) {
         await signOut(auth);
-      } else if (loginCounter === 1) {
-        const response = await Axios.post(
-          `${endPoint}/login/logout`,
-          loginCounter
-        );
+      } else {
+        const response = await Axios.post(`${endPoint}/login/logout`);
         if (response.status === 200) {
           setStatus("Logged out!");
-          setLogged(true);
+          setLogged(false);
         } else if (response.status === 401) {
           setStatus("No user was signed in to begin with!");
         } else {

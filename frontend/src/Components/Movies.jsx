@@ -120,8 +120,8 @@ function Movies() {
       >
         <img src={user.photoURL}></img>
         <h1 className="text-3xl font-bold mb-4">
-          Hi
-          {logged ? " " + user.displayName : " Guest"}! , {time}
+          {logged ? `Welcome back,  ${user.displayName}` : `Welcome Guest`}! ,{" "}
+          {time}
         </h1>
         <form
           onSubmit={(e) => handleSearch(e, searchTerm)}
