@@ -49,17 +49,19 @@ const Login = () => {
         withCredentials: true,
       });
 
-      if (response.data.status === 200) {
-        setLogged(true);
+      // if (response.data.response.data.username === 200) {
+      //   setLogged(true);
 
-        const username = response.data.username;
-        setStatus(`${username} has logged in!`);
-        setUser(username);
+      // const username = response.data.username;
+      // setStatus(`${username} has logged in!`);
+      // setUser(username);
 
-        navigate("/");
-      } else {
-        setStatus(response.data.alert || "Invalid username or password.");
-      }
+      console.log(response.data);
+
+      navigate("/");
+      // } else {
+      //   setStatus(response.data.alert || "Invalid username or password.");
+      // }
     } catch (err) {
       console.error(err);
       setStatus("An error occurred while processing your request.");

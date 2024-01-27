@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import { useState, useContext } from "react";
 import { UserData } from "../App";
 import Axios from "axios";
@@ -99,7 +100,7 @@ const AddFilm = () => {
           placeholder="Enter alternate image by address"
           name="alternate"
         />
-        <input onChange={handleFileChange} type="file" />
+        {/* <input onChange={handleFileChange} type="file" /> */}
         <input
           value={data.rating}
           onChange={handleChange}

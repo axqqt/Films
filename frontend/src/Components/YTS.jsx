@@ -47,7 +47,7 @@ const YTSPage = () => {
   }, []);
 
   return (
-    <div>
+    <div style={{ padding: "5%" }}>
       <h1>YTS Page!</h1>
       <form onSubmit={fetchFilmsSearch}>
         <input
