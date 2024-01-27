@@ -9,15 +9,23 @@ const Socket = () => {
   const [userMessages, setUserMessages] = useState([]);
   const [systemMessages, setSystemMessages] = useState([]);
 
+  let socketCount = 0;
+
   useEffect(() => {
-    const handleConnect = () => {
+    const handleConnect = (err) => {
+      if (err) throw err;
+      socketCount++;
       console.log("Connected to server");
       setIsConnected(true);
     };
 
     const handleUserMessage = (message) => {
-      console.log("Received user message:", message);
-      setUserMessages((prevMessages) => [...prevMessages, message]);
+      if (socketCount === 1) {
+        console.log("Received user message:", message);
+        setUserMessages((prevMessages) => [...prevMessages, message]);
+      } else {
+        console.log("Not connected!");
+      }
     };
 
     const handleSystemMessage = (message) => {

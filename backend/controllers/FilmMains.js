@@ -2,11 +2,10 @@ const mediaModel = require("../models/media");
 const cloudinary = require("cloudinary").v2;
 require("dotenv").config();
 
-const simplified = {};
-
 async function GetFilms(req, res) {
-  const id = req?.params?.id; //thinking of possibly connecting two routes to the same function!
-  if (!id) {
+  const limit = req?.body?.limit;
+  const searchTerm = req?.params?.searchTerm; //thinking of possibly connecting two routes to the same function!
+  if (!searchTerm) {
     try {
       const videos = await mediaModel.find(); //if no such id is given then do this!
       res.status(200).json(videos);
@@ -16,11 +15,9 @@ async function GetFilms(req, res) {
     }
   } else {
     try {
-      const found = await mediaModel.aggregate([
-        { $match: { _id: String(id) } },
-      ]);
+      const found = await mediaModel.find({ title: searchTerm });
       if (found.length === 0) {
-        return res.status(404).json({ Alert: "ID not found" });
+        return res.status(404).json({ Alert: "Film not found!" });
       } else {
         return res.status(200).json(found);
       }

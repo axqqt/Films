@@ -75,11 +75,11 @@ export default function App() {
         <Navbar></Navbar>
         <Routes>
           <Route path="/" element={<Movies />}></Route>
-          <Route path="/scan" element={<Scanned></Scanned>}></Route>
-          <Route path="/yts" element={<YTSPage></YTSPage>}></Route>
+          <Route path="/scan" element={<Scanned />}></Route>
+          <Route path="/yts" element={<YTSPage />}></Route>
           <Route path="/generate" element={<GenerateImages />}></Route>
-          <Route path="/data" element={<FireData></FireData>}></Route>
-          <Route path="/test" element={<WhatPage></WhatPage>}></Route>
+          <Route path="/data" element={<FireData />}></Route>
+          <Route path="/test" element={<WhatPage />}></Route>
           <Route path="/socket" element={<ChatPage />}></Route>
           <Route path="/home" element={<LandingPage />} />
           <Route path="/newuser" element={<NewUser />} />
@@ -91,7 +91,7 @@ export default function App() {
           <Route path="/chats" element={<ChatPage />} />
           <Route path="/updateshop" element={<Cart />} />
           <Route path="/viewShop" element={<ViewExisting />} />
-          <Route path="/admin" element={<NewAdminPage></NewAdminPage>}></Route>
+          <Route path="/admin" element={<NewAdminPage />}></Route>
           <Route path="*" element={<PageNotFound />} />
         </Routes>
         <Footer></Footer>

@@ -8,15 +8,20 @@ const httpServer = createServer(app);
 const io = new Server(httpServer);
 app.use(cors({ origin: "*" }));
 
-io.on("connect", (socket) => {
-  socket.on("message", (data) => {
-    io.emit("message", data);
-    console.log(data);
-  });
+io.on("connect", (err, socket) => {
+  try {
+    if (err) throw err;
+    socket.on("message", (data) => {
+      io.emit("message", data);
+      console.log(data);
+    });
 
-  socket.on("remove", (data) => {
-    io.emit("remove", data);
-  });
+    socket.on("remove", (data) => {
+      io.emit("remove", data);
+    });
+  } catch (err) {
+    console.log(err);
+  }
 });
 
 httpServer.listen(4000, () => {

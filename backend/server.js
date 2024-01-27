@@ -83,7 +83,7 @@ if (!fs.existsSync(join(__dirname, "public"))) {
 app.use(midLog);
 app.use(helmet());
 app.use(compression({ filter: false }));
-app.use(express.static(join(__dirname, "public")));
+app.use(express.static("public", { maxAge: 31536000 }));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(errorHandler);
 app.use(compression());
