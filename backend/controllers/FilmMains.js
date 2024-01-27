@@ -87,16 +87,37 @@ async function CreateFilms(req, res) {
   }
 }
 
-async function uploadToCloudinary(photo) {
+// async function uploadToCloudinary(photo) {
+//   try {
+//     const result = await cloudinary.uploader.upload(
+//       photo.buffer.toString("base64")
+//     );
+//     return result;
+//   } catch (error) {
+//     console.error(error);
+//     throw new Error("Error uploading to Cloudinary");
+//   }
+// }
+
+async function ScanImage(req, res) {
+  const { photo } = req?.body;
+
   try {
-    const result = await cloudinary.uploader.upload(
-      photo.buffer.toString("base64")
+    const scanned = await Axios.post(
+      "http://api-gpu.youscan.io/api/v2/images/detect",
+      {
+        headers: {
+          " Authorization": `Basic ABCDEF`,
+          " Content-Type": `application/json`,
+        },
+      },
+      photo
     );
-    return result;
-  } catch (error) {
-    console.error(error);
-    throw new Error("Error uploading to Cloudinary");
+    return res.status(scanned.status).json(scanned);
+  } catch (err) {
+    console.error(err);
+    return res.status(err.status).json(err.message);
   }
 }
 
-module.exports = { GetFilms, CreateFilms };
+module.exports = { GetFilms, CreateFilms, ScanImage };

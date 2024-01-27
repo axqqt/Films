@@ -43,7 +43,7 @@ const Login = async (req, res, next) => {
         req.session.user = { username };
 
         return res.status(200).json({
-          alert: `${username} logged in!`,
+          Alert: `${username} logged in!`,
           AccessToken,
           RefreshToken,
           username,

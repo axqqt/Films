@@ -21,6 +21,7 @@ import RingLoader from "react-spinners/RingLoader";
 import NewAdminPage from "./Components/Admin/newAdmin";
 import GenerateImages from "./Components/GenerateImages";
 import YTSPage from "./Components/YTS";
+import Scanned from "./Components/Scanned";
 
 // import TestPage from "../../Test";
 
@@ -74,6 +75,7 @@ export default function App() {
         <Navbar></Navbar>
         <Routes>
           <Route path="/" element={<Movies />}></Route>
+          <Route path="/scan" element={<Scanned></Scanned>}></Route>
           <Route path="/yts" element={<YTSPage></YTSPage>}></Route>
           <Route path="/generate" element={<GenerateImages />}></Route>
           <Route path="/data" element={<FireData></FireData>}></Route>

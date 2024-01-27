@@ -52,7 +52,6 @@ const AddFilm = () => {
 
       const response = await Axios.post(
         "http://localhost:8000/home",
-        // { list },
         // {
         //   headers: { "Content-Type": "multipart/form-data" },
         // }
@@ -74,7 +73,6 @@ const AddFilm = () => {
   return (
     <>
       <h1 style={{ fontSize: 32 }}>Add Film</h1>
-
       <form onSubmit={createFilm}>
         <input
           value={data.title}

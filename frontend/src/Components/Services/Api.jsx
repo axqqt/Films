@@ -27,3 +27,16 @@ export async function GetUserData() {
   const r = await Axios.get(`${API_URL}/register`);
   return r.data;
 }
+
+export async function UploadImage(image) {
+  try {
+    const response = await Axios.post("http://localhost:8000/films", image, {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    return response.data;
+  } catch (err) {
+    console.error(err);
+  }
+}

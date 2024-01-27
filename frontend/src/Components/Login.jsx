@@ -45,9 +45,11 @@ const Login = () => {
 
     try {
       setLoading(true);
-      const response = await Axios.post(`${endPoint}/login`, data, {
-        withCredentials: true,
-      });
+      const response = await Axios.post(`${endPoint}/login`, data);
+
+      setLogged(true);
+      setUser(response.data.response.Alert.username);
+      navigate("/");
 
       // if (response.data.response.data.username === 200) {
       //   setLogged(true);
@@ -57,11 +59,6 @@ const Login = () => {
       // setUser(username);
 
       console.log(response.data);
-
-      navigate("/");
-      // } else {
-      //   setStatus(response.data.alert || "Invalid username or password.");
-      // }
     } catch (err) {
       console.error(err);
       setStatus("An error occurred while processing your request.");

@@ -10,8 +10,8 @@ const ViewExisting = (props) => {
   const datax = useContext(UserData);
   const { status, setStatus, loading, setLoading, data, setData, RingLoader } =
     datax;
-  const count = useSelector((state) => state.price);
-  const dispatch = useDispatch();
+  // const count = useSelector((state) => state.price);
+  // const dispatch = useDispatch();
 
   const getItems = async () => {
     try {
@@ -62,7 +62,7 @@ const ViewExisting = (props) => {
 
   return (
     <div>
-      <h2>{count}</h2>
+      {/* <h2>{count}</h2>
       <button
         className="place-items-center"
         onClick={() => {
@@ -70,7 +70,7 @@ const ViewExisting = (props) => {
         }}
       >
         Increase
-      </button>
+      </button> */}
       <h1 style={{ textAlign: "center" }}>Manage Shop</h1>
       <div>
         {loading ? (

@@ -56,8 +56,11 @@ const YTSPage = () => {
           }}
           placeholder="Search for a film"
         />
-        <label>Choose a car:</label>
+        <label>Choose a quality!</label>
         <select>
+          <option value="All" onChange={handleChange}>
+            All
+          </option>
           <option value="480p" onChange={handleChange}>
             480p
           </option>
@@ -104,11 +107,9 @@ const YTSPage = () => {
                   <h1> Click here to view {x.title}</h1>
                 </a>
               )}
-              {/* <h2>
-                <a href={x.torrents?.url[0]}>
-                  {x.torrents ? x.torrents.url[0] : ""}
-                </a>
-              </h2> */}
+              <h2>
+                {x.torrents.quality ? `Qual ${x.torrents.quality}` : <h1></h1>}
+              </h2>
             </div>
           ))}
         </div>

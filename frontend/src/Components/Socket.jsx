@@ -56,7 +56,14 @@ const Socket = () => {
           <li key={index}>{message}</li>
         ))}
       </ul>
-      {systemMessages}
+      <div>
+        <h2>System Messages:</h2>
+        <ul>
+          {systemMessages.map((message, index) => (
+            <li key={index}>{message}</li>
+          ))}
+        </ul>
+      </div>
     </div>
   );
 };
