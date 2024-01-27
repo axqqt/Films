@@ -136,6 +136,7 @@ function Movies() {
           />
           <label className="flex items-center">
             <span className="mr-2">Enter limit</span>
+            <br />
             <input
               type="number"
               onChange={(e) => setLimit(e.target.value)}

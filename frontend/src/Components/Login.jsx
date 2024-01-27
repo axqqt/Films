@@ -1,158 +1,206 @@
-/* eslint-disable no-unused-vars */
-/* eslint-disable react/prop-types */
-import { useState, useRef, useContext } from "react";
-import { useNavigate } from "react-router-dom";
+import { useEffect, useState, useContext } from "react";
 import { UserData } from "../App";
 import Axios from "axios";
 import { Link } from "react-router-dom";
-import { googleProvider, auth, gitHubAuth } from "./Fire/FireConfig";
-import { signInWithPopup, signOut } from "firebase/auth";
-// import { useSignIn } from "react-auth-kit";
+import DisplayFilm from "./DisplayFilm";
+import BotPage from "./Bot";
+import {
+  DeleteFilm,
+  GetMain,
+  EditTitle as editFilmTitle,
+} from "./Services/Api";
 
-const Login = () => {
-  const {
-    status,
-    setStatus,
-    loading,
-    setLoading,
-    RingLoader,
-    setLogged,
-    user,
-    setUser,
-  } = useContext(UserData);
-  const [data, setData] = useState({ username: "", password: "" });
-  const usernamefield = useRef();
-  const passwordfield = useRef();
-  // const signIn = useSignIn();
+const API_URL = "http://localhost:8000";
 
-  const endPoint = "http://localhost:8000";
+function Movies() {
+  const datax = useContext(UserData);
+  const { logged, setID, RingLoader, user } = datax;
+  const [data, setData] = useState([]);
+  const [limit, setLimit] = useState(5);
+  const [loading, setLoading] = useState(false);
+  const [searchTerm, setSearchTerm] = useState("");
+  const [modifiedTitle, setModifiedTitle] = useState("");
+  const [time, setTime] = useState("");
+  const [showBot, setShowBot] = useState(false);
 
-  let loginCounter = 0;
-
-  // console.log(
-  //   auth?.currentUser
-  //     ? auth?.currentUser.displayName + "\n" + auth?.currentUser?.email
-  //     : ""
-  // );
-
-  const navigate = useNavigate();
-
-  const LogUser = async (e) => {
-    e.preventDefault();
-    if (status !== "") {
-      setStatus("");
-    }
-
+  async function fetchFromBack() {
     try {
       setLoading(true);
-      const response = await Axios.post(`${endPoint}/login`, data);
-      console.log(response.data);
-      setLogged(true);
-      setUser(response.data?.username); //bug
-      navigate("/");
+      const response = await GetMain();
+      setData(response);
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    } finally {
+      setLoading(false);
+    }
+  }
 
-      console.log(response.data);
-    } catch (err) {
-      console.error(err);
-      setStatus(err.message);
+  useEffect(() => {
+    fetchFromBack();
+  }, []);
+
+  async function deleteFilm(id) {
+    try {
+      setLoading(true);
+      await DeleteFilm(id);
+      setData((prevData) => prevData.filter((film) => film._id !== id));
+    } catch (error) {
+      console.error("Error deleting film:", error);
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  async function editTitle(id, modifiedTitle) {
+    try {
+      setLoading(true);
+      await editFilmTitle(id, modifiedTitle);
+
+      setData((prevData) =>
+        prevData.map((film) =>
+          film._id === id ? { ...film, title: modifiedTitle } : film
+        )
+      );
+    } catch (error) {
+      console.error("Error editing title:", error);
+    } finally {
+      setLoading(false);
+      setModifiedTitle("");
+    }
+  }
+
+  const handleSearch = async (e, searchTerm) => {
+    e.preventDefault();
+    try {
+      setLoading(true);
+      const response = await Axios.get(`${API_URL}/home/${searchTerm}`);
+      setData(response.data);
+    } catch (error) {
+      console.error("Error searching:", error);
     } finally {
       setLoading(false);
     }
   };
 
-  const signUpGoogle = async () => {
-    try {
-      const response = await signInWithPopup(auth, googleProvider);
+  const today = new Date();
+  const hours = today.getHours();
 
-      if (response) {
-        setLogged(true);
-        setStatus("Google sign-in successful");
-        setUser(auth?.currentUser);
-        navigate("/");
-      } else {
-        setStatus("Error while logging in!");
-      }
-    } catch (err) {
-      console.error(err);
-      setStatus("Failed to sign in with Google");
+  useEffect(() => {
+    if (hours < 12) {
+      setTime("Good Morning!");
+    } else if (hours < 17) {
+      setTime("Good Afternoon!");
+    } else if (hours < 20) {
+      setTime("Good Evening!");
+    } else {
+      setTime("What are you doing up late? :)");
     }
+  }, [hours]);
+
+  const viewBot = () => {
+    setShowBot(true);
   };
 
-  const signInGitHub = async () => {
-    try {
-      const response = await signInWithPopup(auth, gitHubAuth);
-
-      if (response) {
-        setLogged(true);
-        setStatus("GitHub sign-in successful");
-        setUser(auth?.currentUser);
-        navigate("/");
-      } else {
-        setStatus("Error while signing in!");
-      }
-    } catch (err) {
-      console.error(err);
-      setStatus("Failed to sign in with GitHub");
-    }
-  };
-
-  const handleLogout = async () => {
-    try {
-      if (auth?.currentUser) {
-        await signOut(auth);
-      } else {
-        const response = await Axios.post(`${endPoint}/login/logout`);
-        if (response.status === 200) {
-          setStatus("Logged out!");
-          setLogged(false);
-        } else if (response.status === 401) {
-          setStatus("No user was signed in to begin with!");
-        } else {
-          setStatus("Server issue!");
-        }
-      }
-    } catch (err) {
-      console.error(err);
-    }
-  };
-
-  const handleChange = (e) => {
-    setData({ ...data, [e.target.name]: e.target.value });
+  const closeBot = () => {
+    setShowBot(false);
   };
 
   return (
-    <div style={{ padding: "5%", justifyContent: "space-evenly" }}>
-      <h1>Login Page</h1>
-      <form onSubmit={LogUser}>
-        <input
-          type="text"
-          ref={usernamefield}
-          onChange={handleChange}
-          placeholder="Enter Username"
-          name="username"
-        />
-        <input
-          ref={passwordfield}
-          type="password"
-          onChange={handleChange}
-          placeholder="Enter password"
-          name="password"
-        />
-        <button type="submit" disabled={loading}>
-          {loading ? <RingLoader></RingLoader> : "Login"}
-        </button>
-        <button onClick={signUpGoogle}>Sign Up With Google!</button>
-        <button onClick={signInGitHub}>Sign Up with GitHub!</button>
-        <br></br>
-        <button onClick={handleLogout}>Log Out!</button>
-        <h1> {status}</h1>
-      </form>
-      <br></br>
-      <Link to="/newuser">Not a user yet? Click Here 😊</Link>
-      <br></br>
-      <Link to="/forgotpass">Forgot your password? Click Here</Link>
-    </div>
-  );
-};
+    <>
+      <button
+        onClick={viewBot}
+        className="bg-blue-500 text-white p-2 hover:bg-blue-700"
+      >
+        View Bot
+      </button>
+      {showBot && <BotPage onClose={closeBot} />}
 
-export default Login;
+      <div
+        className="mx-auto max-w-2xl p-4"
+        style={{ paddingBottom: "5%", margin: "5%" }}
+      >
+        <img src={user.photoURL} alt="User" />
+        <h1 className="text-3xl font-bold mb-4">
+          {logged ? `Welcome back,  ${user.displayName}` : `Welcome Guest`}! ,{" "}
+          {time}
+        </h1>
+        <form
+          onSubmit={(e) => handleSearch(e, searchTerm)}
+          className="flex items-center space-x-2 mb-4"
+        >
+          <input
+            type="text"
+            placeholder="Search Here..."
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+            className="p-2 border border-gray-300 flex-1"
+          />
+          <label className="flex items-center">
+            <span className="mr-2">Enter limit</span>
+            <br />
+            <input
+              type="number"
+              onChange={(e) => setLimit(e.target.value)}
+              value={limit}
+              className="p-2 border border-gray-300"
+            />
+          </label>
+          <button
+            type="submit"
+            disabled={loading}
+            className="p-2 bg-blue-500 text-white hover:bg-blue-700"
+          >
+            Search
+          </button>
+        </form>
+        <br></br>
+        {loading ? (
+          <RingLoader></RingLoader>
+        ) : data && data.length ? (
+          data.map((x) => (
+            <div key={x._id} className="data-headlessui-state">
+              <DisplayFilm x={x} />
+              <Link
+                to={`film/${x._id}`}
+                onClick={() => {
+                  if (setID !== "") {
+                    setID("");
+                  }
+                  setID(x._id);
+                }}
+                className="text-blue-500 hover:underline block mt-2"
+              >
+                Click to View
+              </Link>
+              <div className="mt-2 flex items-center space-x-2">
+                <button
+                  onClick={() => deleteFilm(x._id)}
+                  className="p-2 bg-red-500 text-white hover:bg-red-700"
+                >
+                  Delete Film
+                </button>
+                <input
+                  onChange={(e) => setModifiedTitle(e.target.value)}
+                  placeholder="Update Film Title"
+                  className="p-2 border border-gray-300"
+                />
+                <button
+                  onClick={() => editTitle(x._id, modifiedTitle)}
+                  className="p-2 bg-green-500 text-white hover:bg-green-700"
+                >
+                  Make changes
+                </button>
+              </div>
+            </div>
+          ))
+        ) : (
+          <p className="mt-4 text-lg font-bold">
+            {searchTerm ? "No results found" : "No Trailers Added"}
+          </p>
+        )}
+      </div>
+    </>
+  );
+}
+
+export default Movies;
