@@ -14,7 +14,6 @@ import ViewExisting from "./Components/ViewExisting";
 import IDWisePage from "./Components/IDWise";
 import Navbar from "./Misc/Navbar";
 import PageNotFound from "./Components/404";
-import WhatPage from "./Components/Test";
 import Footer from "./Misc/Footer";
 import FireData from "./Components/Data";
 import RingLoader from "react-spinners/RingLoader";
@@ -22,8 +21,6 @@ import NewAdminPage from "./Components/Admin/newAdmin";
 import GenerateImages from "./Components/GenerateImages";
 import YTSPage from "./Components/YTS";
 import Scanned from "./Components/Scanned";
-
-// import TestPage from "../../Test";
 
 export const UserData = createContext();
 
@@ -79,7 +76,6 @@ export default function App() {
           <Route path="/yts" element={<YTSPage />}></Route>
           <Route path="/generate" element={<GenerateImages />}></Route>
           <Route path="/data" element={<FireData />}></Route>
-          <Route path="/test" element={<WhatPage />}></Route>
           <Route path="/socket" element={<ChatPage />}></Route>
           <Route path="/home" element={<LandingPage />} />
           <Route path="/newuser" element={<NewUser />} />
