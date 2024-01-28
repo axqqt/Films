@@ -33,7 +33,7 @@ const userCart = new mongoose.Schema(
     },
     userOrder: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "UserOrder",
+      ref: "users",
     },
   },
   { timestamps: true }

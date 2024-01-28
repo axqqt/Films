@@ -1,6 +1,6 @@
 const passport = require("passport");
 const { Strategy } = require("passport-discord");
-const userModel = require("../models/userOrder");
+const userModel = require("../models/registration");
 
 const discordHandler = passport.use(
   new Strategy(

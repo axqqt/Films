@@ -32,6 +32,10 @@ const movieSchema = new mongoose.Schema(
       type: String,
     },
     rating: { type: String },
+    addedBy: {
+      type: String,
+      ref: "users",
+    },
   },
   { timestamps: true }
 );

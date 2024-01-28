@@ -1,6 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable no-unused-vars */
 import { useState, useEffect, useContext } from "react";
+import { useReducer } from "react";
 import { UserData } from "../App";
 import Axios from "axios";
 
@@ -11,8 +12,99 @@ const YTSPage = () => {
   const [movie, setMovie] = useState("");
   const [qual, setQual] = useState("All");
 
+  const reducer = (state, action) => {
+    switch (action.type) {
+      case "COMPLETE":
+        return action.data.map((movie) => (
+          <div key={movie.id} style={{ padding: "5%" }}>
+            <h1>{movie.title}</h1>
+            <img
+              src={movie.large_cover_image}
+              alt={`Image of ${movie.title}`}
+            />
+            <img
+              src={movie.background_image_original}
+              alt={`Background image of ${movie.title}`}
+            />
+            <p>{movie.description_full || ""}</p>
+            <p>{movie.rating ? `Rated ${movie.rating}/10` : ""}</p>
+            <p>{movie.year ? `Released in ${movie.year}` : ""}</p>
+            <h2>
+              {movie.runtime
+                ? `Runtime is ${Math.abs(movie.runtime / 60)} hours`
+                : ""}
+            </h2>
+            <p>{movie.mpa_rating ? `Rating ${movie.mpa_rating}` : ""}</p>
+            <p>{movie.language}</p>
+            <h2>
+              {movie.date_uploaded ? `Uploaded on ${movie.date_uploaded}` : ""}
+            </h2>
+            {movie.url && (
+              <a href={movie.url}>
+                <h1> Click here to view {movie.title}</h1>
+              </a>
+            )}
+            <h2>
+              {movie.torrents.quality ? (
+                `Qual ${movie.torrents.quality}`
+              ) : (
+                <h1></h1>
+              )}
+            </h2>
+          </div>
+        ));
+      case "SEARCHED":
+        return action.data.map((movie) => (
+          <div key={movie.id} style={{ padding: "5%" }}>
+            <h1>{movie.title}</h1>
+            <img
+              src={movie.large_cover_image}
+              alt={`Image of ${movie.title}`}
+            />
+            <img
+              src={movie.background_image_original}
+              alt={`Background image of ${movie.title}`}
+            />
+            <p>{movie.description_full || ""}</p>
+            <p>{movie.rating ? `Rated ${movie.rating}/10` : ""}</p>
+            <p>{movie.year ? `Released in ${movie.year}` : ""}</p>
+            <h2>
+              {movie.runtime
+                ? `Runtime is ${Math.abs(movie.runtime / 60)} hours`
+                : ""}
+            </h2>
+            <p>{movie.mpa_rating ? `Rating ${movie.mpa_rating}` : ""}</p>
+            <p>{movie.language}</p>
+            <h2>
+              {movie.date_uploaded ? `Uploaded on ${movie.date_uploaded}` : ""}
+            </h2>
+            {movie.url && (
+              <a href={movie.url}>
+                <h1> Click here to view {movie.title}</h1>
+              </a>
+            )}
+            <h2>
+              {movie.torrents.quality ? (
+                `Qual ${movie.torrents.quality}`
+              ) : (
+                <h1></h1>
+              )}
+            </h2>
+          </div>
+        ));
+      default:
+        return state;
+    }
+  };
+
+  const [data, dispatch] = useReducer(reducer, movies);
+
+  const getFilms = (data) => {
+    dispatch({ type: "COMPLETE", data });
+  };
+
   const handleChange = (e) => {
-    setQual({ ...qual, [e.target.name]: e.target.value });
+    setQual(e.target.value);
   };
 
   async function fetchFilms() {
@@ -57,22 +149,12 @@ const YTSPage = () => {
           placeholder="Search for a film"
         />
         <label>Choose a quality!</label>
-        <select>
-          <option value="All" onChange={handleChange}>
-            All
-          </option>
-          <option value="480p" onChange={handleChange}>
-            480p
-          </option>
-          <option value="720p" onChange={handleChange}>
-            720p
-          </option>
-          <option value="1080p" onChange={handleChange}>
-            1080p
-          </option>
-          <option value="2160p" onChange={handleChange}>
-            2160p
-          </option>
+        <select value={qual} onChange={handleChange}>
+          <option value="All">All</option>
+          <option value="480p">480p</option>
+          <option value="720p">720p</option>
+          <option value="1080p">1080p</option>
+          <option value="2160p">2160p</option>
         </select>
         <button type="submit" disabled={loading}>
           Search for film!
