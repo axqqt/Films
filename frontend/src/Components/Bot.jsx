@@ -1,6 +1,7 @@
 import { useState } from "react";
-import Axios from "axios";
+
 import RingLoader from "react-spinners/RingLoader";
+import { Gemini } from "./Services/Api";
 const BotPage = () => {
   const [data, setData] = useState("");
   const [loading, setLoading] = useState(false);
@@ -10,10 +11,8 @@ const BotPage = () => {
     e.preventDefault();
     try {
       setLoading(true);
-      const result = await Axios.post("http://localhost:8000/gemini", {
-        data: data,
-      });
-      setResponse(result.data);
+      const promptResponse = await Gemini(data);
+      setResponse(promptResponse);
     } catch (err) {
       console.error(err);
     } finally {

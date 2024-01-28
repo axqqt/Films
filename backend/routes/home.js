@@ -2,9 +2,6 @@ const express = require("express");
 const router = express.Router();
 const FilmMainController = require("../controllers/FilmMains");
 const Search = require("../controllers/SearchTitle");
-const multer = require("multer");
-const storage = multer.memoryStorage();
-const upload = multer({ storage: storage });
 
 router
   .route("/")

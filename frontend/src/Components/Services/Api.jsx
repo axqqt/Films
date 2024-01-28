@@ -6,6 +6,29 @@ export async function GetMain() {
   return response.data;
 }
 
+export async function Gemini(data) {
+  const result = await Axios.post("http://localhost:8000/gemini", {
+    data: data,
+  });
+  return result.data;
+}
+
+export async function ForgotPass(data) {
+  const r = await Axios.post("http://localhost:8000/register/forgot", {
+    data,
+  });
+}
+
+export async function UserData() {
+  const r = await Axios.get("http://localhost:8000/register");
+  return r.data;
+}
+
+export async function DeleteUsers(id) {
+  const response = await Axios.delete(`http://localhost:8000/register/${id}`);
+  return response.data;
+}
+
 export async function SearchData(searchTerm, limit) {
   const response = await Axios.get(`${API_URL}/home/${searchTerm}`, limit);
   return response.data;

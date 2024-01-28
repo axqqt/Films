@@ -3,7 +3,7 @@ const cloudinary = require("cloudinary").v2;
 require("dotenv").config();
 
 async function GetFilms(req, res) {
-  const limit = req?.body?.limit;
+  // const limit = req?.body?.limit;
   const searchTerm = req?.params?.searchTerm; //thinking of possibly connecting two routes to the same function!
   if (!searchTerm) {
     try {

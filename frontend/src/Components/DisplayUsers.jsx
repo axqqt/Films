@@ -1,6 +1,6 @@
 import { useEffect, useState, useContext } from "react";
-import Axios from "axios";
 import { UserData } from "../App";
+import { DeleteUsers } from "./Services/Api";
 
 const DisplayUsers = () => {
   const [users, setUsers] = useState([]);
@@ -10,8 +10,8 @@ const DisplayUsers = () => {
   async function UserDatax() {
     try {
       setLoading(true);
-      const r = await Axios.get("http://localhost:8000/register");
-      setUsers(r.data);
+      const r = await UserData();
+      setUsers(r);
     } catch (err) {
       console.error(err);
     } finally {
@@ -25,9 +25,7 @@ const DisplayUsers = () => {
   async function DeleteUser(id) {
     try {
       setLoading(true);
-      const response = await Axios.delete(
-        `http://localhost:8000/register/${id}`
-      ).then(() => {
+      const response = await DeleteUsers(id).then(() => {
         if (response.status === 200) {
           UserData();
         }

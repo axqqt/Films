@@ -75,7 +75,6 @@ export default function App() {
         <Navbar></Navbar>
         <Routes>
           <Route path="/" element={<Movies />}></Route>
-
           <Route path="/scan" element={<Scanned />}></Route>
           <Route path="/yts" element={<YTSPage />}></Route>
           <Route path="/generate" element={<GenerateImages />}></Route>

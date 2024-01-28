@@ -10,8 +10,6 @@ const ViewExisting = (props) => {
   const datax = useContext(UserData);
   const { status, setStatus, loading, setLoading, data, setData, RingLoader } =
     datax;
-  // const count = useSelector((state) => state.price);
-  // const dispatch = useDispatch();
 
   const getItems = async () => {
     try {

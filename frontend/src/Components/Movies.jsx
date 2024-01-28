@@ -118,7 +118,10 @@ function Movies() {
         className="mx-auto max-w-2xl p-4"
         style={{ paddingBottom: "5%", margin: "5%" }}
       >
-        <img src={user.photoURL}></img>
+        <img
+          src={user.photoURL}
+          alt={` ${user.photoURL ? "Image of ${x.displayName}" : ""}`}
+        ></img>
         <h1 className="text-3xl font-bold mb-4">
           {logged ? `Welcome back,  ${user.displayName}` : `Welcome Guest`}! ,{" "}
           {time}

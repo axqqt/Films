@@ -42,7 +42,7 @@ const AddFilm = () => {
     try {
       setLoading(true);
 
-      // const list = new FormData();
+      // const list = new FormData(); //must be sent in as a form cuz of the image hmmmmm
       // list.append("title", data.title);
       // list.append("description", data.description);
       // list.append("trailer", data.trailer);

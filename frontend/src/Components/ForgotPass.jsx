@@ -1,4 +1,3 @@
-import Axios from "axios";
 import { useContext } from "react";
 import { UserData } from "../App";
 
@@ -11,11 +10,9 @@ const ForgotPass = () => {
     e.preventDefault();
     try {
       setLoading(true);
-      const r = await Axios.post("http://localhost:8000/register/forgot", {
-        data,
-      });
+      const r = await ForgotPass(data);
       if (r.status === 200) {
-        setStatus("Ok");
+        setStatus("Password Reset! 👍🏻");
       }
     } catch (err) {
       console.error(err);
