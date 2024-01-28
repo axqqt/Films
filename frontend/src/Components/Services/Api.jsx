@@ -17,6 +17,7 @@ export async function ForgotPass(data) {
   const r = await Axios.post("http://localhost:8000/register/forgot", {
     data,
   });
+  return r.data;
 }
 
 export async function UserData() {
