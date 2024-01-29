@@ -10,7 +10,7 @@ const LandingPage = () => {
   if (!logged) {
     return <NewUser setLogged={setLogged} setUser={setUser}></NewUser>;
   } else {
-    return <Login logged={logged} setLogged={setLogged}></Login>;
+    return <Login></Login>;
   }
 };
 

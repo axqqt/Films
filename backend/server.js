@@ -26,6 +26,7 @@ const gptGenerate = require("./routes/gpt.js");
 const sqlPath = require("./routes/secondary.js");
 const passport = require("passport");
 const errorHandler = require("./errors/errorHandler.js");
+const commentsModel = require("./routes/comments.js");
 
 // function isAuthenticated(req, res, next) {
 //   if (req?.session?.user) {
@@ -103,6 +104,7 @@ app.use(info);
 app.use("/register", register);
 app.use("/login", login);
 // app.use(isAuthenticated);
+app.use("/comments", commentsModel);
 app.use("/home", homepage);
 app.use("/links", linked);
 app.use("/gemini", gemini);
@@ -154,3 +156,29 @@ async function clientBoot() {
 }
 
 Promise.all([adminBoot(), clientBoot()]);
+
+const { createServer } = require("http");
+const { Server } = require("socket.io");
+
+const httpServer = createServer(app);
+const io = new Server(httpServer);
+
+io.on("connect", (err, socket) => {
+  try {
+    if (err) throw err;
+    socket.on("message", (data) => {
+      io.emit("message", data);
+      console.log(data.id);
+    });
+
+    socket.on("remove", (data) => {
+      io.emit("remove", data);
+    });
+  } catch (err) {
+    console.log(err);
+  }
+});
+
+httpServer.listen(4000, () => {
+  console.log("Server is listening on port 4000");
+});

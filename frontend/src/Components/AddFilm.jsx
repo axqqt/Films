@@ -42,20 +42,21 @@ const AddFilm = () => {
     try {
       setLoading(true);
 
-      // const list = new FormData(); //must be sent in as a form cuz of the image hmmmmm
-      // list.append("title", data.title);
-      // list.append("description", data.description);
-      // list.append("trailer", data.trailer);
-      // list.append("photo", data.photo);
-      // list.append("alternate", data.alternate);
-      // list.append("rating", data.rating);
+      const list = new FormData(); //must be sent in as a form cuz of the image hmmmmm
+      list.append("title", data.title);
+      list.append("description", data.description);
+      list.append("trailer", data.trailer);
+      list.append("photo", data.photo);
+      list.append("alternate", data.alternate);
+      list.append("rating", data.rating);
 
       const response = await Axios.post(
         "http://localhost:8000/home",
-        // {
-        //   headers: { "Content-Type": "multipart/form-data" },
-        // }
-        data
+
+        list,
+        {
+          headers: { "Content-Type": "multipart/form-data" },
+        }
       );
 
       if (response.status === 201) {
@@ -98,7 +99,7 @@ const AddFilm = () => {
           placeholder="Enter alternate image by address"
           name="alternate"
         />
-        {/* <input onChange={handleFileChange} type="file" /> */}
+        <input onChange={handleFileChange} type="file" />
         <input
           value={data.rating}
           onChange={handleChange}

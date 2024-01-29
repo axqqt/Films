@@ -16,7 +16,7 @@ const NewAdminPage = () => {
     try {
       setLoading(true);
       const response = await Axios.post(`${endPoint}/main`, admin);
-      setStatus(response.data.status.Alert);
+      setStatus(response.data.response?.data?.Alert);
     } catch (err) {
       console.error(err);
     } finally {

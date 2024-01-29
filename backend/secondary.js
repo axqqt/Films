@@ -13,7 +13,7 @@ io.on("connect", (err, socket) => {
     if (err) throw err;
     socket.on("message", (data) => {
       io.emit("message", data);
-      console.log(data);
+      console.log(data.id);
     });
 
     socket.on("remove", (data) => {

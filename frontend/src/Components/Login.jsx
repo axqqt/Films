@@ -8,7 +8,7 @@ import { googleProvider, auth, gitHubAuth } from "./Fire/FireConfig";
 import { signInWithPopup, signOut } from "firebase/auth";
 import { UserData } from "../App";
 
-const Login = () => {
+const Login = (props) => {
   const {
     status,
     setStatus,
@@ -25,6 +25,8 @@ const Login = () => {
 
   const endPoint = "http://localhost:8000";
   const navigate = useNavigate();
+
+  console.log(auth.currentUser);
 
   const LogUser = async (e) => {
     e.preventDefault();
@@ -84,6 +86,9 @@ const Login = () => {
   };
 
   const handleLogout = async () => {
+    if (status !== "") {
+      setStatus("");
+    }
     try {
       if (auth?.currentUser) {
         await signOut(auth);
@@ -93,7 +98,7 @@ const Login = () => {
           setStatus("Logged out!");
           setLogged(false);
         } else if (response.status === 401) {
-          setStatus("No user was signed in to begin with!");
+          setStatus("No user was signed in!");
         } else {
           setStatus("Server issue!");
         }

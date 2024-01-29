@@ -21,6 +21,8 @@ import NewAdminPage from "./Components/Admin/newAdmin";
 import GenerateImages from "./Components/GenerateImages";
 import YTSPage from "./Components/YTS";
 import Scanned from "./Components/Scanned";
+import Orders from "./Components/Orders";
+import Comments from "./Components/Comments";
 
 export const UserData = createContext();
 
@@ -72,17 +74,21 @@ export default function App() {
         <Navbar></Navbar>
         <Routes>
           <Route path="/" element={<Movies />}></Route>
+          <Route path="/comments" element={<Comments />}></Route>
+          <Route path="/newuser" element={<NewUser />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/orders" element={<Orders />}></Route>
           <Route path="/scan" element={<Scanned />}></Route>
           <Route path="/yts" element={<YTSPage />}></Route>
           <Route path="/generate" element={<GenerateImages />}></Route>
           <Route path="/data" element={<FireData />}></Route>
           <Route path="/socket" element={<ChatPage />}></Route>
           <Route path="/home" element={<LandingPage />} />
-          <Route path="/newuser" element={<NewUser />} />
+
           <Route path="/addfilm" element={<AddFilm />} />
           <Route path="/manage" element={<DisplayUsers />} />
           <Route path="/film/:id" element={<IDWisePage />} />
-          <Route path="/login" element={<Login />} />
+
           <Route path="/forgotpass" element={<ForgotPass />} />
           <Route path="/chats" element={<ChatPage />} />
           <Route path="/updateshop" element={<Cart />} />

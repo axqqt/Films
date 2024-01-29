@@ -64,3 +64,12 @@ export async function UploadImage(image) {
     console.error(err);
   }
 }
+
+export async function GetComments() {
+  try {
+    const comments = await Axios.get("http://localhost:8000/comments");
+    return comments.data;
+  } catch (err) {
+    console.error(err);
+  }
+}
