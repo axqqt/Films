@@ -1,6 +1,6 @@
 const { GoogleGenerativeAI } = require("@google/generative-ai");
 require("dotenv").config();
-const geminiKey = process.env.GEMINI_KEY;
+const geminiKey = process.env.gemini_key;
 const genAI = new GoogleGenerativeAI(geminiKey);
 
 async function GeminiCall(req, res) {

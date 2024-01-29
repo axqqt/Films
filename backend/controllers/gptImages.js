@@ -1,6 +1,6 @@
 const Axios = require("axios");
 require("dotenv").config();
-const openapiKey = process.env.openapiKey;
+const openapiKey = process.env.open_api_key;
 
 const generateImages = async (req, res) => {
   const { image, quantity = 1, resolution = "1024x1024" } = req?.body;
