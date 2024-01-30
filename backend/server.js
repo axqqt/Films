@@ -2,7 +2,7 @@ const express = require("express");
 const app = express();
 require("dotenv").config();
 const port = process.env.port || 3000;
-const cluster = process.env.cluster;
+const cluster = process.env.mongodb_cluster;
 const cors = require("cors");
 const helmet = require("helmet");
 const compression = require("compression");

@@ -23,6 +23,7 @@ import YTSPage from "./Components/YTS";
 import Scanned from "./Components/Scanned";
 import Orders from "./Components/Orders";
 import Comments from "./Components/Comments";
+import WeatherPage from "./Components/Weather";
 
 export const UserData = createContext();
 
@@ -74,6 +75,7 @@ export default function App() {
         <Navbar></Navbar>
         <Routes>
           <Route path="/" element={<Movies />}></Route>
+          <Route path="/weather" element={<WeatherPage />}></Route>
           <Route path="/comments" element={<Comments />}></Route>
           <Route path="/newuser" element={<NewUser />} />
           <Route path="/login" element={<Login />} />

@@ -3,6 +3,7 @@
 import { useState, useEffect, useContext } from "react";
 import { UserData } from "../App";
 import Axios from "axios";
+import { YTSDefault } from "./Services/Api";
 
 const YTSPage = () => {
   const datax = useContext(UserData);
@@ -18,8 +19,8 @@ const YTSPage = () => {
   async function fetchFilms() {
     try {
       setLoading(true);
-      const yts = await Axios.get("https://yts.mx/api/v2/list_movies.json");
-      setMovies(yts.data.data.movies);
+      const yts = await YTSDefault();
+      setMovies(yts);
     } catch (err) {
       console.error(err);
     } finally {

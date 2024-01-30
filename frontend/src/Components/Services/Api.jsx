@@ -73,3 +73,12 @@ export async function GetComments() {
     console.error(err);
   }
 }
+
+export async function YTSDefault() {
+  try {
+    const data = await Axios.get("https://yts.mx/api/v2/list_movies.json");
+    return data.data.data.movies;
+  } catch (err) {
+    console.error(err);
+  }
+}
