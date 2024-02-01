@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 /* eslint-disable no-unused-vars */
 import { useContext, useEffect } from "react";
 import Axios from "axios";
@@ -6,7 +7,7 @@ import { UserData } from "../App";
 import ItemsPage from "./Items";
 
 const ViewExisting = (props) => {
-  // const { item, setItem } = props;
+  const { item, setItem } = props;
   const datax = useContext(UserData);
   const { status, setStatus, loading, setLoading, data, setData, RingLoader } =
     datax;

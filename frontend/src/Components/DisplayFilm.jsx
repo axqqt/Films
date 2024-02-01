@@ -2,7 +2,7 @@
 
 const DisplayFilm = ({ x }) => {
   return (
-    <div key={x.id}>
+    <div key={x._id}>
       <h1 className="text-2xl font-bold">{x.title}</h1>
       <img
         src={x.alternate || x.photo || "No image available"}

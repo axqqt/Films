@@ -26,8 +26,6 @@ const Login = (props) => {
   const endPoint = "http://localhost:8000";
   const navigate = useNavigate();
 
-  console.log(auth.currentUser);
-
   const LogUser = async (e) => {
     e.preventDefault();
     if (status !== "") {
@@ -86,25 +84,27 @@ const Login = (props) => {
   };
 
   const handleLogout = async () => {
-    if (status !== "") {
-      setStatus("");
-    }
     try {
-      if (auth?.currentUser) {
+      if (auth && auth?.currentUser) {
+        //for firebase
         await signOut(auth);
+        setLogged(false);
+        setStatus("Logged out!");
       } else {
-        const response = await Axios.post(`${endPoint}/login/logout`);
+        const response = await Axios.post(`${endPoint}/login/logout`); //normal login!
+
         if (response.status === 200) {
-          setStatus("Logged out!");
           setLogged(false);
+          setStatus("Logged out!");
         } else if (response.status === 401) {
-          setStatus("No user was signed in!");
+          setStatus(response?.data?.response?.data || "Unauthorized");
         } else {
           setStatus("Server issue!");
         }
       }
-    } catch (err) {
-      console.error(err);
+    } catch (error) {
+      console.error("Logout error:", error);
+      setStatus("Error during logout");
     }
   };
 

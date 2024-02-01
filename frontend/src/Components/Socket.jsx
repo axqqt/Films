@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { io } from "socket.io-client";
 import { useEffect, useState } from "react";
 
@@ -36,6 +37,7 @@ const Socket = () => {
     socket.on("connect", handleConnect);
     socket.on("message", handleUserMessage);
     socket.on("remove", handleSystemMessage);
+    socket.on("join", () => {});
 
     return () => {
       socket.disconnect();

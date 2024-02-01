@@ -40,27 +40,30 @@ async function CreateFilms(req, res) {
     const { title, description, trailer, alternate, rating } = req?.body;
     const photo = req.file;
 
-    // Check if required fields are missing
     if (!title || !trailer) {
       return res.status(400).json({ error: "Title or trailer missing" });
     }
 
+    // if (!photo || !photo.buffer) {
+    //   return res.status(400).json({ error: "File missing or invalid" });
+    // }
+
     // const video = await cloudinary.uploader.upload(
-    //   req.file.buffer.toString("base64"),
+    //   photo.buffer.toString("base64"),
     //   {
     //     resource_type: "video",
     //   }
     // );
 
-    let photoURL;
-    try {
-      photoURL = await uploadToCloudinary(photo);
-    } catch (uploadError) {
-      console.error(uploadError);
-      return res
-        .status(500)
-        .json({ error: "Error uploading photo to Cloudinary" });
-    }
+    // let photoURL;
+    // try {
+    //   photoURL = await uploadToCloudinary(photo);
+    // } catch (uploadError) {
+    //   console.error(uploadError);
+    //   return res
+    //     .status(500)
+    //     .json({ error: "Error uploading photo to Cloudinary" });
+    // }
 
     const filmExists = await mediaModel.findOne({ title: title });
 
@@ -69,7 +72,7 @@ async function CreateFilms(req, res) {
         title,
         description,
         trailer,
-        photo: photoURL.url,
+        // photo: photoURL.url,
         // video: video.secure_url,
         alternate,
         rating,

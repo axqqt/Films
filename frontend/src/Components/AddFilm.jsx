@@ -15,7 +15,7 @@ const AddFilm = () => {
     trailer: "",
     photo: null,
     alternate: "",
-    rating: "",
+    rating: 0,
   });
 
   const handleChange = (e) => {
@@ -33,7 +33,7 @@ const AddFilm = () => {
       trailer: "",
       photo: null,
       alternate: "",
-      rating: "",
+      rating: 0,
     });
   };
 
@@ -52,11 +52,11 @@ const AddFilm = () => {
 
       const response = await Axios.post(
         "http://localhost:8000/home",
-
-        list,
-        {
-          headers: { "Content-Type": "multipart/form-data" },
-        }
+        data
+        // list,
+        // {
+        //   headers: { "Content-Type": "multipart/form-data" },
+        // }
       );
 
       if (response.status === 201) {
@@ -99,7 +99,8 @@ const AddFilm = () => {
           placeholder="Enter alternate image by address"
           name="alternate"
         />
-        <input onChange={handleFileChange} type="file" />
+        {/* <input onChange={handleFileChange} type="file" /> */}{" "}
+        {/**Problem exists here! */}
         <input
           value={data.rating}
           onChange={handleChange}

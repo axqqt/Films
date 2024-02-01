@@ -5,8 +5,6 @@ const Axios = require("axios");
 require("dotenv").config();
 const apiKey = process.env.api_key;
 
-const data = [];
-
 router.route("/").get(userController.GetUsers).post(userController.CreateUser);
 
 router.route("/:id").delete(userController.deleteUser);

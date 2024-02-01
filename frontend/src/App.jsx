@@ -7,7 +7,7 @@ import LandingPage from "./Components/Landing";
 import { createContext, useState } from "react";
 import Login from "./Components/Login";
 import ForgotPass from "./Components/ForgotPass";
-import "./App.css";
+
 import ChatPage from "./Components/Socket";
 import Cart from "./Components/Cart";
 import ViewExisting from "./Components/ViewExisting";
@@ -24,6 +24,7 @@ import Scanned from "./Components/Scanned";
 import Orders from "./Components/Orders";
 import Comments from "./Components/Comments";
 import WeatherPage from "./Components/Weather";
+import "./App.css";
 
 export const UserData = createContext();
 

@@ -25,3 +25,5 @@ export const theme = {
     },
   },
 };
+
+//my tailwind is not working for some reason :(
