@@ -36,7 +36,8 @@
   },
   "scripts": {
     "start": "nodemon server.js && secondary.js",
-    "build": "npm run build"
+    "build": "npm run build",
+    "test": "jest"
   },
   "name": "backend",
   "version": "1.0.0",
@@ -44,5 +45,11 @@
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "description": ""
+  "description": "",
+  "devDependencies": {
+    "@babel/core": "^7.23.9",
+    "@babel/node": "^7.23.9",
+    "@babel/preset-env": "^7.23.9",
+    "jest": "^29.7.0"
+  }
 }

@@ -55,18 +55,23 @@ async function UpdateFilm(req, res) {
   try {
     const id = req?.params?.id;
     const title = req.body?.title;
+    const newRating = req?.body?.rating;
 
-    const filmExists = await mediaModel.findOne({
-      _id: String(id),
-    });
+    const filmExists = await mediaModel.findById(id); // Use findById for updating by ID
     if (!filmExists) {
       return res.status(404).json({ Alert: "Film doesn't exist" });
-    } else {
-      await mediaModel.findOneAndUpdate({ title: title });
-      return res.status(200).json({ Alert: "Film Updated" });
     }
+
+    if (title) {
+      await mediaModel.findByIdAndUpdate(id, { title: title });
+    } else if (newRating !== undefined) {
+      await mediaModel.findByIdAndUpdate(id, { rating: newRating });
+    }
+
+    return res.status(200).json({ Alert: "Film Updated" });
   } catch (err) {
     console.error(err);
+    res.status(500).json({ Alert: "Internal Server Error" });
   }
 }
 

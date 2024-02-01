@@ -3,28 +3,33 @@ const cloudinary = require("cloudinary").v2;
 require("dotenv").config();
 
 async function GetFilms(req, res) {
-  // const limit = req?.body?.limit;
-  const searchTerm = req?.params?.searchTerm; //thinking of possibly connecting two routes to the same function!
-  if (!searchTerm) {
-    try {
-      const videos = await mediaModel.find(); //if no such id is given then do this!
+  try {
+    const searchTerm = req?.params?.searchTerm;
+
+    if (!searchTerm) {
+      const videos = await mediaModel.aggregate([
+        {
+          $lookup: {
+            from: "movies",
+            localField: "_id",
+            foreignField: "title",
+            as: "movies",
+          },
+        },
+      ]);
       res.status(200).json(videos);
-    } catch (error) {
-      console.error(error);
-      res.status(500).json({ error: "Internal Server Error" });
-    }
-  } else {
-    try {
+    } else {
       const found = await mediaModel.find({ title: searchTerm });
+
       if (found.length === 0) {
         return res.status(404).json({ Alert: "Film not found!" });
       } else {
         return res.status(200).json(found);
       }
-    } catch (error) {
-      console.error(error);
-      return res.status(400).json({ error: "Invalid ID format" });
     }
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Internal Server Error" });
   }
 }
 
@@ -34,6 +39,8 @@ cloudinary.config({
   api_secret: "Vry5wv5flNncSsA3t6km4SQcGnM",
   secure: true,
 });
+
+// const filmValidator = () => {};
 
 async function CreateFilms(req, res) {
   try {
