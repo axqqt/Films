@@ -119,7 +119,7 @@ function Movies() {
         style={{ paddingBottom: "5%", margin: "5%" }}
       >
         <img
-          src={user.photoURL}
+          src={user?.photoURL}
           alt={` ${user.photoURL ? "Image of ${x.displayName}" : ""}`}
         ></img>
         <h1 className="text-3xl font-bold mb-4">

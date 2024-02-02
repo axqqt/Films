@@ -1,13 +1,13 @@
+/* eslint-disable no-unused-vars */
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Movies from "./Components/Movies";
 import AddFilm from "./Components/AddFilm";
 import NewUser from "./Components/NewUser";
 import DisplayUsers from "./Components/DisplayUsers";
 import LandingPage from "./Components/Landing";
-import { createContext, useState } from "react";
+import { createContext, useEffect, useState } from "react";
 import Login from "./Components/Login";
 import ForgotPass from "./Components/ForgotPass";
-
 import ChatPage from "./Components/Socket";
 import Cart from "./Components/Cart";
 import ViewExisting from "./Components/ViewExisting";
@@ -41,6 +41,15 @@ export default function App() {
   const [status, setStatus] = useState("");
   const [id, setID] = useState("");
   const [movies, setMovies] = useState([]);
+
+  // useEffect((next)=>{
+  //   const exists = localStorage.getItem("user");
+  //   if(!exists){
+  //     next();
+  //   }else{
+  //     alert(exists);
+  //   }
+  // })
 
   //I didn't find the need to useCallback since i'm not passing any functions down as props through the contextAPI
 

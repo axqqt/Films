@@ -30,20 +30,25 @@ const Login = (props) => {
     e.preventDefault();
     if (status !== "") {
       setStatus("");
-      try {
-        setLoading(true);
-        const response = await Axios.post(`${endPoint}/login`, data);
+    }
+    try {
+      setLoading(true);
+      const response = await Axios.post(`${endPoint}/login`, data);
+      if (response.status === 200) {
+        // alert(response.data.Alert);
         console.log(response.data);
         setLogged(true);
         setUser(response.data?.username);
+        // localStorage.setItem("user", response.data); //bugs still exist here 🤔
         navigate("/");
-        console.log(response.data);
-      } catch (err) {
-        console.error(err);
-        setStatus(err.message);
-      } finally {
-        setLoading(false);
+      } else {
+        alert("Invalid Credentials!"); //for now!
       }
+    } catch (err) {
+      console.error(err);
+      setStatus(err.message);
+    } finally {
+      setLoading(false);
     }
   };
 
