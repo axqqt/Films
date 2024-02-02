@@ -6,7 +6,7 @@ router
   .route("/")
   .get(async (req, res) => {
     try {
-      const comments = await commentModel.find().populate();
+      const comments = await commentModel.find();
       return res.status(200).json(comments);
     } catch (err) {
       console.error(err);

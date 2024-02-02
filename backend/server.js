@@ -68,6 +68,7 @@ function midLog(req, res, next) {
       req.session.id
     )}`
   );
+  if (req.session.user) return res.session.user.save();
   next();
 }
 

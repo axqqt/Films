@@ -24,7 +24,7 @@ const Login = (props) => {
   const usernameField = useRef();
   const passwordField = useRef();
 
-  const endPoint = "http://localhost:8000";
+  const endPoint = "http://localhost:8000/login";
   const navigate = useNavigate();
 
   const LogUser = async (e) => {
@@ -35,7 +35,7 @@ const Login = (props) => {
       }
       try {
         setLoading(true);
-        const response = await Axios.post(`${endPoint}/login`, data);
+        const response = await Axios.post(`${endPoint}`, data);
         if (response.status === 200) {
           // alert(response.data.Alert);
           console.log(response.data);
@@ -100,7 +100,7 @@ const Login = (props) => {
         setLogged(false);
         setStatus("Logged out!");
       } else {
-        const response = await Axios.post(`${endPoint}/login/logout`); //normal login!
+        const response = await Axios.post(`${endPoint}/logout`); //normal login!
 
         if (response.status === 200) {
           setLogged(false);

@@ -109,7 +109,7 @@ function Movies() {
       {/**Mock UI for landing page! */}
       {/**Use veloxal for Username and veloxal123 for password!*/}
       {!logged && !user ? (
-        <div>
+        <div style={{ padding: "5%" }}>
           <h1>
             Hello, Welcome to VeloFlix!🍿 <br />
             <button>
@@ -142,7 +142,7 @@ function Movies() {
 
             <h1 className="text-3xl font-bold mb-4">
               {logged
-                ? `Welcome back,  ${user.displayName || user.username}`
+                ? `Welcome back  ${user.displayName || user.username}`
                 : `Welcome Guest`}
               ! , {time}
             </h1>
