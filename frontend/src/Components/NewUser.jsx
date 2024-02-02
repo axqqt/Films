@@ -15,6 +15,9 @@ const NewUser = (props) => {
 
   const createUser = async (e) => {
     e.preventDefault();
+    if (setStatus !== "") {
+      setStatus("");
+    }
 
     const { username, password, mail, photo } = data;
 
@@ -30,6 +33,7 @@ const NewUser = (props) => {
       if (response.data.status === 201) {
         setStatus(`${username} Created`);
         setLogged(true);
+        navigator("/login");
       } else if (response.status === 409) {
         setStatus(`${username} or ${mail} already exist`);
       } else if (response.status === 400) {

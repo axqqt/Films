@@ -84,6 +84,7 @@ export default function App() {
       >
         <Navbar></Navbar>
         <Routes>
+          {/**I'll customize the main component for logged and not logged in users! */}
           <Route path="/" element={<Movies />}></Route>
           <Route path="/weather" element={<WeatherPage />}></Route>
           <Route path="/comments" element={<Comments />}></Route>

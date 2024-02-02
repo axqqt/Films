@@ -106,101 +106,115 @@ function Movies() {
 
   return (
     <>
-      <button
-        onClick={viewBot}
-        className="bg-blue-500 text-white p-2 hover:bg-blue-700"
-      >
-        View Bot
-      </button>
-      {showBot && <BotPage onClose={closeBot} />}
-
-      <div
-        className="mx-auto max-w-2xl p-4"
-        style={{ paddingBottom: "5%", margin: "5%" }}
-      >
-        <img
-          src={user?.photoURL}
-          alt={` ${user.photoURL ? "Image of ${x.displayName}" : ""}`}
-        ></img>
-        <h1 className="text-3xl font-bold mb-4">
-          {logged ? `Welcome back,  ${user.displayName}` : `Welcome Guest`}! ,{" "}
-          {time}
-        </h1>
-        <form
-          onSubmit={(e) => handleSearch(e, searchTerm)}
-          className="flex items-center space-x-2 mb-4"
-        >
-          <input
-            type="text"
-            placeholder="Search Here..."
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-            className="p-2 border border-gray-300 flex-1"
-          />
-          <label className="flex items-center">
-            <span className="mr-2">Enter limit</span>
-            <br />
-            <input
-              type="number"
-              onChange={(e) => setLimit(e.target.value)}
-              value={limit}
-              className="p-2 border border-gray-300"
-            />
-          </label>
+      {/**Mock UI for landing page! */}
+      {!logged && !user ? (
+        <div>
+          <h1>
+            Hello, Welcome to VeloFlix!🍿 <br />
+            <button>
+              <Link to="/login">Login to get started!</Link>
+            </button>
+          </h1>
+        </div>
+      ) : (
+        <div>
+          {" "}
           <button
-            type="submit"
-            disabled={loading}
-            className="p-2 bg-blue-500 text-white hover:bg-blue-700"
+            onClick={viewBot}
+            className="bg-blue-500 text-white p-2 hover:bg-blue-700"
           >
-            Search
+            View Bot
           </button>
-        </form>
-        <br></br>
-        {loading ? (
-          <RingLoader></RingLoader>
-        ) : data && data.length ? (
-          data.map((x) => (
-            <div key={x._id} className="data-headlessui-state">
-              <DisplayFilm x={x} />
-              <Link
-                to={`film/${x._id}`}
-                onClick={() => {
-                  if (setID !== "") {
-                    setID("");
-                  }
-                  setID(x._id);
-                }}
-                className="text-blue-500 hover:underline block mt-2"
-              >
-                Click to View
-              </Link>
-              <div className="mt-2 flex items-center space-x-2">
-                <button
-                  onClick={() => deleteFilm(x._id)}
-                  className="p-2 bg-red-500 text-white hover:bg-red-700"
-                >
-                  Delete Film
-                </button>
+          {showBot && <BotPage onClose={closeBot} />}
+          <div
+            className="mx-auto max-w-2xl p-4"
+            style={{ paddingBottom: "5%", margin: "5%" }}
+          >
+            <img
+              src={user?.photoURL}
+              alt={` ${user.photoURL ? "Image of ${x.displayName}" : ""}`}
+            ></img>
+            <h1 className="text-3xl font-bold mb-4">
+              {logged ? `Welcome back,  ${user.displayName}` : `Welcome Guest`}!
+              , {time}
+            </h1>
+            <form
+              onSubmit={(e) => handleSearch(e, searchTerm)}
+              className="flex items-center space-x-2 mb-4"
+            >
+              <input
+                type="text"
+                placeholder="Search Here..."
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+                className="p-2 border border-gray-300 flex-1"
+              />
+              <label className="flex items-center">
+                <span className="mr-2">Enter limit</span>
+                <br />
                 <input
-                  onChange={(e) => setModifiedTitle(e.target.value)}
-                  placeholder="Update Film Title"
+                  type="number"
+                  onChange={(e) => setLimit(e.target.value)}
+                  value={limit}
                   className="p-2 border border-gray-300"
                 />
-                <button
-                  onClick={() => editTitle(x._id, modifiedTitle)}
-                  className="p-2 bg-green-500 text-white hover:bg-green-700"
-                >
-                  Make changes
-                </button>
-              </div>
-            </div>
-          ))
-        ) : (
-          <p className="mt-4 text-lg font-bold">
-            {searchTerm ? "No results found" : "No Trailers Added"}
-          </p>
-        )}
-      </div>
+              </label>
+              <button
+                type="submit"
+                disabled={loading}
+                className="p-2 bg-blue-500 text-white hover:bg-blue-700"
+              >
+                Search
+              </button>
+            </form>
+            <br></br>
+            {loading ? (
+              <RingLoader></RingLoader>
+            ) : data && data.length ? (
+              data.map((x) => (
+                <div key={x._id} className="data-headlessui-state">
+                  <DisplayFilm x={x} />
+                  <Link
+                    to={`film/${x._id}`}
+                    onClick={() => {
+                      if (setID !== "") {
+                        setID("");
+                      }
+                      setID(x._id);
+                    }}
+                    className="text-blue-500 hover:underline block mt-2"
+                  >
+                    Click to View
+                  </Link>
+                  <div className="mt-2 flex items-center space-x-2">
+                    <button
+                      onClick={() => deleteFilm(x._id)}
+                      className="p-2 bg-red-500 text-white hover:bg-red-700"
+                    >
+                      Delete Film
+                    </button>
+                    <input
+                      onChange={(e) => setModifiedTitle(e.target.value)}
+                      placeholder="Update Film Title"
+                      className="p-2 border border-gray-300"
+                    />
+                    <button
+                      onClick={() => editTitle(x._id, modifiedTitle)}
+                      className="p-2 bg-green-500 text-white hover:bg-green-700"
+                    >
+                      Make changes
+                    </button>
+                  </div>
+                </div>
+              ))
+            ) : (
+              <p className="mt-4 text-lg font-bold">
+                {searchTerm ? "No results found" : "No Trailers Added"}
+              </p>
+            )}
+          </div>
+        </div>
+      )}
     </>
   );
 }
