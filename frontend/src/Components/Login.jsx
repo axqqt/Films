@@ -16,6 +16,7 @@ const Login = (props) => {
     setLoading,
     RingLoader,
     setLogged,
+    logged,
     setUser,
   } = useContext(UserData);
 
@@ -28,27 +29,30 @@ const Login = (props) => {
 
   const LogUser = async (e) => {
     e.preventDefault();
-    if (status !== "") {
-      setStatus("");
-    }
-    try {
-      setLoading(true);
-      const response = await Axios.post(`${endPoint}/login`, data);
-      if (response.status === 200) {
-        // alert(response.data.Alert);
-        console.log(response.data);
-        setLogged(true);
-        setUser(response.data?.username);
-        // localStorage.setItem("user", response.data); //bugs still exist here 🤔
-        navigate("/");
-      } else {
-        alert("Invalid Credentials!"); //for now!
+    if (!logged) {
+      if (status !== "") {
+        setStatus("");
       }
-    } catch (err) {
-      console.error(err);
-      setStatus(err.message);
-    } finally {
-      setLoading(false);
+      try {
+        setLoading(true);
+        const response = await Axios.post(`${endPoint}/login`, data);
+        if (response.status === 200) {
+          // alert(response.data.Alert);
+          console.log(response.data);
+          setLogged(true);
+          setUser(response.data);
+          navigate("/"); //bugs still exist here 🤔
+        } else {
+          alert("Invalid Credentials!"); //for now!
+        }
+      } catch (err) {
+        console.error(err);
+        setStatus("Username/Password Wrong!");
+      } finally {
+        setLoading(false);
+      }
+    } else {
+      setStatus("User already logged in!");
     }
   };
 
@@ -101,6 +105,9 @@ const Login = (props) => {
         if (response.status === 200) {
           setLogged(false);
           setStatus("Logged out!");
+          setTimeout(() => {
+            navigate("/");
+          }, 3000);
         } else if (response.status === 401) {
           setStatus(response?.data?.response?.data || "Unauthorized");
         } else {

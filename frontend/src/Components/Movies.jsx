@@ -107,6 +107,7 @@ function Movies() {
   return (
     <>
       {/**Mock UI for landing page! */}
+      {/**Use veloxal for Username and veloxal123 for password!*/}
       {!logged && !user ? (
         <div>
           <h1>
@@ -130,13 +131,20 @@ function Movies() {
             className="mx-auto max-w-2xl p-4"
             style={{ paddingBottom: "5%", margin: "5%" }}
           >
-            <img
-              src={user?.photoURL}
-              alt={` ${user.photoURL ? "Image of ${x.displayName}" : ""}`}
-            ></img>
+            {user.photoURL ? (
+              <img
+                src={user?.photoURL}
+                alt={` ${user.photoURL ? "Image of ${x.displayName}" : ""}`}
+              ></img>
+            ) : (
+              ""
+            )}
+
             <h1 className="text-3xl font-bold mb-4">
-              {logged ? `Welcome back,  ${user.displayName}` : `Welcome Guest`}!
-              , {time}
+              {logged
+                ? `Welcome back,  ${user.displayName || user.username}`
+                : `Welcome Guest`}
+              ! , {time}
             </h1>
             <form
               onSubmit={(e) => handleSearch(e, searchTerm)}

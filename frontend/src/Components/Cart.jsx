@@ -64,7 +64,7 @@ const Cart = () => {
 
   return (
     <div style={{ margin: "2%", justifyContent: "space-evenly 2px" }}>
-      <h1>Cart</h1>
+      <h1>Add to Cart</h1>
       <form onSubmit={AddItem}>
         <input
           name="item"
