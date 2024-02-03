@@ -5,11 +5,22 @@ const commentModel = require("../models/comments");
 router
   .route("/")
   .get(async (req, res) => {
-    try {
-      const comments = await commentModel.find();
-      return res.status(200).json(comments);
-    } catch (err) {
-      console.error(err);
+    if (req.session.user) {
+      try {
+        const comments = await commentModel
+          .find({ username: req.session.user.username })
+          .populate("users"); //still trying to figure out how to get user specific data 🤔
+        return res.status(200).json(comments);
+      } catch (err) {
+        console.error(err);
+      }
+    } else {
+      try {
+        const comments = await commentModel.find();
+        return res.status(200).json(comments);
+      } catch (err) {
+        console.error(err);
+      }
     }
   })
   .post(async (req, res) => {

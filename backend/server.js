@@ -25,6 +25,7 @@ const discordHandler = require("./security/discordAuth.js");
 const gptGenerate = require("./routes/gpt.js");
 const sqlPath = require("./routes/secondary.js");
 const passport = require("passport");
+const mongoStore = require("connect-mongo");
 const errorHandler = require("./errors/errorHandler.js");
 const commentsModel = require("./routes/comments.js");
 
@@ -52,6 +53,7 @@ app.use(
     cookie: {
       maxAge: 60000,
     },
+    // store: mongoStore.create({ client: mongoose.connection.getClient() }),
   })
 );
 
@@ -166,14 +168,17 @@ const { createServer } = require("http");
 const { Server } = require("socket.io");
 
 const httpServer = createServer(app);
-const io = new Server(httpServer);
+const io = new Server(httpServer, {
+  cors: {
+    origin: ["http://localhost:5173", "http://127.0.0.1:5173"],
+  },
+});
 
 io.on("connect", (err, socket) => {
   try {
     if (err) throw err;
     socket.on("message", (data) => {
       io.emit(data);
-      console.log(data.id);
     });
 
     socket.on("remove", (data) => {

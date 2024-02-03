@@ -1,3 +1,4 @@
 {
-  "java.compile.nullAnalysis.mode": "automatic"
+  "java.compile.nullAnalysis.mode": "automatic",
+  "cmake.sourceDirectory": "C:/Users/dulra/Downloads/Project/FilmTrailersRealProj/mobile/linux"
 }

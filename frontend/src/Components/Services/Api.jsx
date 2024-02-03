@@ -7,26 +7,26 @@ export async function GetMain() {
 }
 
 export async function Gemini(data) {
-  const result = await Axios.post("http://localhost:8000/gemini", {
+  const result = await Axios.post(`${API_URL}/gemini`, {
     data: data,
   });
   return result.data;
 }
 
 export async function ForgotPass(data) {
-  const r = await Axios.post("http://localhost:8000/register/forgot", {
+  const r = await Axios.post(`${API_URL}/register/forgot`, {
     data,
   });
   return r.data;
 }
 
 export async function UserData() {
-  const r = await Axios.get("http://localhost:8000/register");
+  const r = await Axios.get(`${API_URL}/register`);
   return r.data;
 }
 
 export async function DeleteUsers(id) {
-  const response = await Axios.delete(`http://localhost:8000/register/${id}`);
+  const response = await Axios.delete(`${API_URL}/register/${id}`);
   return response.data;
 }
 
@@ -54,7 +54,7 @@ export async function GetUserData() {
 
 export async function UploadImage(image) {
   try {
-    const response = await Axios.post("http://localhost:8000/films", image, {
+    const response = await Axios.post(`${API_URL}/films`, image, {
       headers: {
         "Content-Type": "application/json",
       },
@@ -67,7 +67,7 @@ export async function UploadImage(image) {
 
 export async function GetComments() {
   try {
-    const comments = await Axios.get("http://localhost:8000/comments");
+    const comments = await Axios.get(`${API_URL}/comments`);
     return comments.data;
   } catch (err) {
     console.error(err);

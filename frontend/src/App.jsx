@@ -97,11 +97,9 @@ export default function App() {
           <Route path="/data" element={<FireData />}></Route>
           <Route path="/socket" element={<ChatPage />}></Route>
           <Route path="/home" element={<LandingPage />} />
-
           <Route path="/addfilm" element={<AddFilm />} />
           <Route path="/manage" element={<DisplayUsers />} />
           <Route path="/film/:id" element={<IDWisePage />} />
-
           <Route path="/forgotpass" element={<ForgotPass />} />
           <Route path="/chats" element={<ChatPage />} />
           <Route path="/updateshop" element={<Cart />} />
