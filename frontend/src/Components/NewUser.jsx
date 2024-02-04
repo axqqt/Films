@@ -74,12 +74,12 @@ const NewUser = (props) => {
           placeholder="Enter mail"
           name="mail"
         />
-        <input
+        {/* <input
           onChange={handleChange}
           placeholder="Enter Photo"
           name="photo"
           type="file"
-        />{" "}
+        />{" "} */}
         {/**File handling part incomplete! */}
         <p>{status ? status : ""}</p>
         <button type="submit" disabled={loading}>

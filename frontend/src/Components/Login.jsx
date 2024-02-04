@@ -27,6 +27,8 @@ const Login = (props) => {
   const endPoint = "http://localhost:8000/login";
   const navigate = useNavigate();
 
+  let loginChecker = 0;
+
   const LogUser = async (e) => {
     e.preventDefault();
     if (!logged) {
@@ -50,6 +52,10 @@ const Login = (props) => {
         setStatus("Username/Password Wrong!");
       } finally {
         setLoading(false);
+          if(loginChecker===1){
+            localStorage.setItem("user",data) //set the data to log back type scenario?
+          }
+    
       }
     } else {
       setStatus("User already logged in!");
@@ -99,12 +105,14 @@ const Login = (props) => {
         await signOut(auth);
         setLogged(false);
         setStatus("Logged out!");
+        loginChecker++;
       } else {
         const response = await Axios.post(`${endPoint}/logout`); //normal login!
 
         if (response.status === 200) {
           setLogged(false);
           setStatus("Logged out!");
+          loginChecker++;
           setTimeout(() => {
             navigate("/");
           }, 3000);

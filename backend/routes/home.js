@@ -15,4 +15,6 @@ router
   .delete(Search.DeleteItems)
   .put(Search.UpdateFilm);
 
+router.route("/:searchTerm").get(Search.SearchByTitle);
+
 module.exports = router;

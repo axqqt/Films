@@ -3,6 +3,9 @@ const HashPasswordx = require("../security/hashing");
 const jwt = require("jsonwebtoken");
 
 const Login = async (req, res, next) => {
+  console.log("\n");
+  
+  console.log(req.session);
   if (!req?.session?.user) {
     try {
       const { username, password } = req?.body;

@@ -99,15 +99,17 @@ const AddFilm = () => {
           placeholder="Enter alternate image by address"
           name="alternate"
         />
-        {/* <input onChange={handleFileChange} type="file" /> */}{" "}
+        {/* <input onChange={handleFileChange} type="file" /> */}
         {/**Problem exists here! */}
+        <span><p>Rating...</p>
         <input
           value={data.rating}
           onChange={handleChange}
           type="number"
           name="rating"
           placeholder="Enter rating"
-        />
+        /></span>
+        
         <button type="submit" disabled={loading}>
           {loading ? <RingLoader></RingLoader> : "Add Film"}
         </button>

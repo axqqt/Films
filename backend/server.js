@@ -9,7 +9,6 @@ const compression = require("compression");
 const mongoose = require("mongoose");
 const homepage = require("./routes/home");
 const { join } = require("path");
-const morgan = require("morgan");
 const fs = require("fs");
 const register = require("./routes/users");
 const login = require("./routes/login");
@@ -25,8 +24,6 @@ const discordHandler = require("./security/discordAuth.js");
 const gptGenerate = require("./routes/gpt.js");
 const sqlPath = require("./routes/secondary.js");
 const passport = require("passport");
-const mongoStore = require("connect-mongo");
-const errorHandler = require("./errors/errorHandler.js");
 const commentsModel = require("./routes/comments.js");
 
 // function isAuthenticated(req, res, next) {
@@ -53,7 +50,6 @@ app.use(
     cookie: {
       maxAge: 60000,
     },
-    // store: mongoStore.create({ client: mongoose.connection.getClient() }),
   })
 );
 
@@ -62,17 +58,7 @@ app.use(
 
 // app.post("/api/auth", passport.authenticate("discord"), (req, res) => {});
 
-function midLog(req, res, next) {
-  console.log(
-    `Request coming from ${req.url} \nMethod-> ${
-      req.method
-    }\nSession -> ${JSON.stringify(req?.session)})}\nID -> ${JSON.stringify(
-      req.session.id
-    )}`
-  );
-  if (req.session.user) return res.session.user.save();
-  next();
-}
+
 
 app.use(
   cors({
@@ -84,12 +70,12 @@ if (!fs.existsSync(join(__dirname, "public"))) {
   fs.mkdirSync(join(__dirname, "public"));
 }
 
-app.use(midLog);
+
 app.use(helmet());
 app.use(compression({ filter: false }));
 app.use(express.static("public", { maxAge: 31536000 }));
 app.use(bodyParser.urlencoded({ extended: true }));
-app.use(errorHandler);
+
 app.use(compression());
 app.use(limiter, (req, res, next) => {
   next();
@@ -97,7 +83,7 @@ app.use(limiter, (req, res, next) => {
 
 const info = (req, res, next) => {
   console.log(
-    `User -> ${JSON.stringify(req.session)}\nID -> ${req.session.id}`
+    req.session
   );
   next();
 };
@@ -106,7 +92,7 @@ const info = (req, res, next) => {
 app.use(info);
 app.use("/register", register);
 app.use("/login", login);
-// app.use(isAuthenticated);
+// app.use(isAuthenticated); //once user logs unlocks the rest of the routes!
 app.use("/comments", commentsModel);
 app.use("/home", homepage);
 app.use("/links", linked);

@@ -3,6 +3,9 @@ const cloudinary = require("cloudinary").v2;
 require("dotenv").config();
 
 async function GetFilms(req, res) {
+  
+ 
+
   try {
     const searchTerm = req?.params?.searchTerm;
 
@@ -45,11 +48,15 @@ cloudinary.config({
 async function CreateFilms(req, res) {
   try {
     const { title, description, trailer, alternate, rating } = req?.body;
+ 
     const photo = req.file;
 
     if (!title || !trailer) {
       return res.status(400).json({ error: "Title or trailer missing" });
     }
+
+    //THERES AN ISSUE WITH CLOUDINARY 😭
+
 
     // if (!photo || !photo.buffer) {
     //   return res.status(400).json({ error: "File missing or invalid" });
@@ -62,6 +69,7 @@ async function CreateFilms(req, res) {
     //   }
     // );
 
+    
     // let photoURL;
     // try {
     //   photoURL = await uploadToCloudinary(photo);

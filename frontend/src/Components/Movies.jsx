@@ -110,15 +110,26 @@ function Movies() {
     <>
       {/**Mock UI for landing page! */}
       {/**Use veloxal for Username and veloxal123 for password!*/}
-      {!logged && !user ? (
-        <div style={{ padding: "5%" }}>
-          <h1>
-            Hello, Welcome to VeloFlix!🍿 <br />
-            <button>
-              <Link to="/login">Login to get started!</Link>
-            </button>
-          </h1>
-        </div>
+      {!logged ? (
+   <div className="flex items-center justify-center h-screen">
+   <div className="text-center">
+     <h1 className="text-4xl font-bold mb-4">Welcome to VeloFlix! 🍿</h1>
+     <p className="text-lg mb-4">
+       Explore a world of movies and trailers. Join VeloFlix for a
+       personalized experience.
+     </p>
+     <button className="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-700">
+       <Link to="/login">Login</Link>
+     </button>
+     <p className="mt-4">
+       Dont have an account?
+       <br/>
+       <Link to="/newuser" className="text-blue-500 hover:underline">
+         Register here
+       </Link>
+     </p>
+   </div>
+ </div>
       ) : (
         <div>
           {" "}

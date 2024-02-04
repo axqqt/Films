@@ -13,6 +13,9 @@ const ForgotPass = () => {
       const r = await ForgotPass(data);
       if (r.status === 200) {
         setStatus("Password Reset! 👍🏻");
+        setTimeout(() => {
+          navigator("/login");
+        }, 2000);
       }
     } catch (err) {
       console.error(err);

@@ -1,6 +1,40 @@
 const mediaModel = require("../models/media");
 require("dotenv").config();
 
+const getFilms = async (req, res) => {
+  const { searchTerm } = req?.params;
+  if (!searchTerm) return res.status(400).json({ Alert: "Search Term!" });
+
+  const data = await mediaModel.findOne({ title: searchTerm });
+  if (!data) {
+    res.status(400).json({ Alert: "No Film Found!" });
+  } else {
+    res.status(200).json(data);
+  }
+};
+
+async function SearchByTitle(req, res) {
+  const { title, id } = req?.params;
+  if (!title) return res.status(400).json({ Alert: "Title not provided" });
+
+  try {
+    const matches = await mediaModel.find({
+      $or: [{ title: title }, { _id: String(id) }],
+    });
+
+    if (!matches || matches.length === 0) {
+      return res
+        .status(404)
+        .json({ Alert: "No matching films found or ID does not match" });
+    } else {
+      res.status(200).json(matches);
+    }
+  } catch (error) {
+    console.error("Error searching by title:", error);
+    res.status(500).json({ Alert: "Internal Server Error" });
+  }
+}
+
 async function IDWise(req, res) {
   const id = req?.params?.id;
   if (!id) return res.status(400).json({ Alert: "No ID Provided" });
@@ -75,4 +109,4 @@ async function UpdateFilm(req, res) {
   }
 }
 
-module.exports = { SearchByTitle, DeleteItems, UpdateFilm, IDWise };
+module.exports = { SearchByTitle, DeleteItems, UpdateFilm, IDWise, getFilms };

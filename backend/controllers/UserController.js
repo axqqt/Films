@@ -1,6 +1,22 @@
 const userSchema = require("../models/registration");
 const HashPassword = require("../security/hashing");
 
+
+const userSpecific = async (req,res)=>{ //user logged in?
+  const username = req?.session?.user?.username
+  if(!username ){
+    return res.status(400).json({Alert:"No user logged in!"})
+  }else{
+    const userValidity = await userSchema.findOne({username:username})
+    if(!userValidity){
+      return res.status(403).json({Alert:`${username} is invalid!`})
+    }else{
+      return res.status(200).json(userValidity)
+    }
+  }
+}
+
+
 async function GetUsers(req, res, next) {
   try {
     const users = await userSchema.find().sort("createdAt");
@@ -89,4 +105,12 @@ const updatePassword = async (req, res) => {
   }
 };
 
-module.exports = { CreateUser, GetUsers, deleteUser, updatePassword };
+
+
+
+
+
+
+
+
+module.exports = { CreateUser, GetUsers, deleteUser, updatePassword,userSpecific };

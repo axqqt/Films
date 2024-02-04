@@ -5,7 +5,7 @@ const limiter = new rateLimit({
   limit: 100, // Limit each IP to 100 requests per `window` (here, per 15 minutes).
   standardHeaders: "draft-7", // draft-6: `RateLimit-*` headers; draft-7: combined `RateLimit` header
   legacyHeaders: false, // Disable the `X-RateLimit-*` headers.
-  db: "mongodb+srv://deranged248:derangedfrfrlmao@deranged.bvcwyla.mongodb.net/Videos?retryWrites=true&w=majority",
+  db: process.env.mongodb_cluster,
 });
 
 module.exports = limiter;
