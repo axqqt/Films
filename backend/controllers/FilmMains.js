@@ -1,10 +1,35 @@
 const mediaModel = require("../models/media");
 const cloudinary = require("cloudinary").v2;
+
 require("dotenv").config();
 
 async function GetFilms(req, res) {
   
- 
+  // try {
+  //   if (!req.session.user) {
+  //     return res.status(401).json({ Alert: "Unauthorized" });
+  //   }
+
+  //   const userSpecific = await mediaModel.aggregate([
+  //     {
+  //       $lookup: {
+  //         from: 'users',
+  //         localField: 'title',
+  //         foreignField: '_id',
+  //         as: 'films',
+  //       },
+  //     },
+  //   ]);
+
+  //   if (!userSpecific || userSpecific.length === 0) {
+  //     return res.status(404).json({ Alert: "No films found for the user" });
+  //   } else {
+  //     return res.status(200).json(userSpecific);
+  //   }
+  // } catch (error) {
+  //   console.error(error);
+  //   return res.status(500).json({ error: "Internal Server Error" });
+  // }
 
   try {
     const searchTerm = req?.params?.searchTerm;
@@ -43,11 +68,11 @@ cloudinary.config({
   secure: true,
 });
 
-// const filmValidator = () => {};
+
 
 async function CreateFilms(req, res) {
   try {
-    const { title, description, trailer, alternate, rating } = req?.body;
+    const { title, description, trailer, alternate, rating} = req?.body;
  
     const photo = req.file;
 
@@ -72,7 +97,8 @@ async function CreateFilms(req, res) {
     
     // let photoURL;
     // try {
-    //   photoURL = await uploadToCloudinary(photo);
+    //   // photoURL = await uploadToCloudinary(photo);
+    //   photoURL = cloudinary.uploader.upload(photo).then(result=>console.log(result))
     // } catch (uploadError) {
     //   console.error(uploadError);
     //   return res
@@ -87,6 +113,7 @@ async function CreateFilms(req, res) {
         title,
         description,
         trailer,
+        photo,
         // photo: photoURL.url,
         // video: video.secure_url,
         alternate,

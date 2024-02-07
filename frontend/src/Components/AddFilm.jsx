@@ -5,15 +5,14 @@ import Axios from "axios";
 import { Link } from "react-router-dom";
 
 const AddFilm = () => {
-  const datax = useContext(UserData);
+  const { status, setStatus, loading, setLoading, RingLoader } = useContext(UserData);
 
-  const { status, setStatus, loading, setLoading, RingLoader } = datax;
 
   const [data, setData] = useState({
     title: "",
     description: "",
     trailer: "",
-    photo: null,
+    photo: "",
     alternate: "",
     rating: 0,
   });
@@ -99,7 +98,7 @@ const AddFilm = () => {
           placeholder="Enter alternate image by address"
           name="alternate"
         />
-        {/* <input onChange={handleFileChange} type="file" /> */}
+        <input onChange={handleFileChange} type="file" />
         {/**Problem exists here! */}
         <span><p>Rating...</p>
         <input

@@ -70,6 +70,7 @@ const status = (req, res) => {
       return res.status(200).json({
         status: `${req.session.user.username} Logged In!`,
         username: req.session.user.username,
+        Session: req.session,
       });
     } else {
       console.log("Cannot Load!");

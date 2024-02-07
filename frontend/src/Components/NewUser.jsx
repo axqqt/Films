@@ -5,11 +5,9 @@ import { UserData } from "../App";
 import Axios from "axios";
 
 const NewUser = (props) => {
-  const datax = useContext(UserData);
+  const { setStatus, setLoading, setData, data, loading, status, RingLoader } = useContext(UserData);
 
-  const { setStatus, setLoading, setData, data, loading, status, RingLoader } =
-    datax;
-
+ 
   // eslint-disable-next-line no-unused-vars
   const { setLogged, setUser } = props;
 
@@ -30,7 +28,7 @@ const NewUser = (props) => {
         photo,
       });
 
-      if (response.data.status === 201) {
+      if (response.status === 201) {
         setStatus(`${username} Created`);
         setLogged(true);
         navigator("/login");

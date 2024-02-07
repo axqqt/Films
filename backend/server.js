@@ -72,6 +72,7 @@ if (!fs.existsSync(join(__dirname, "public"))) {
 
 
 app.use(helmet());
+app.disable('x-powered-by')
 app.use(compression({ filter: false }));
 app.use(express.static("public", { maxAge: 31536000 }));
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -99,7 +100,7 @@ app.use("/links", linked);
 app.use("/gemini", gemini);
 app.use("/cart", cart);
 app.use("/images", gptGenerate);
-app.use("/sql", sqlPath);
+app.use("/sql", sqlPath); //INCLUDED THIS JUST FOR FUN
 
 app.get("/", (req, res) => {
   res.send("<h1>Hey Docker! 🐳👋🏻</h1>");

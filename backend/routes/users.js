@@ -11,7 +11,7 @@ router.route("/:id").get(userController.userSpecific).delete(userController.dele
 
 router.route("/forgot").post(userController.updatePassword);
 
-router.get("/arg", async (req, res, next) => {
+router.get("/arg", async (req, res, next) => { //JUST INCLUDED THIS FOR FUN
   const { arg } = req?.body;
 
   try {

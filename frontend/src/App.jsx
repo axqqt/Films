@@ -15,7 +15,6 @@ import IDWisePage from "./Components/IDWise";
 import Navbar from "./Misc/Navbar";
 import PageNotFound from "./Components/404";
 import Footer from "./Misc/Footer";
-import FireData from "./Components/Data";
 import RingLoader from "react-spinners/RingLoader";
 import NewAdminPage from "./Components/Admin/newAdmin";
 import GenerateImages from "./Components/GenerateImages";
@@ -23,7 +22,6 @@ import YTSPage from "./Components/YTS";
 import Scanned from "./Components/Scanned";
 import Orders from "./Components/Orders";
 import Comments from "./Components/Comments";
-import WeatherPage from "./Components/Weather";
 import "./App.css";
 
 export const UserData = createContext();
@@ -86,15 +84,13 @@ export default function App() {
         <Routes>
           {/**I'll customize the main component for logged and not logged in users! */}
           <Route path="/" element={<Movies />}></Route>
-          <Route path="/weather" element={<WeatherPage />}></Route>
-          <Route path="/comments" element={<Comments />}></Route>
           <Route path="/newuser" element={<NewUser />} />
           <Route path="/login" element={<Login />} />
+          <Route path="/comments" element={<Comments />}></Route>
           <Route path="/orders" element={<Orders />}></Route>
           <Route path="/scan" element={<Scanned />}></Route>
           <Route path="/yts" element={<YTSPage />}></Route>
           <Route path="/generate" element={<GenerateImages />}></Route>
-          <Route path="/data" element={<FireData />}></Route>
           <Route path="/socket" element={<ChatPage />}></Route>
           <Route path="/home" element={<LandingPage />} />
           <Route path="/addfilm" element={<AddFilm />} />

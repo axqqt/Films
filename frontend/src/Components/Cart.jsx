@@ -6,8 +6,8 @@ import ViewExisting from "./ViewExisting";
 // import WhatPage from "./Test";
 
 const Cart = () => {
-  const datax = useContext(UserData);
-  const { status, setStatus, loading, setLoading, RingLoader } = datax;
+  const { status, setStatus, loading, setLoading, RingLoader } = useContext(UserData);
+ 
 
   const [cart, setCart] = useState({
     item: "",

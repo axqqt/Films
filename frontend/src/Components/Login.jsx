@@ -59,6 +59,8 @@ const Login = (props) => {
       }
     } else {
       setStatus("User already logged in!");
+      
+  
     }
   };
 

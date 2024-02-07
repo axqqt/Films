@@ -8,9 +8,8 @@ import ItemsPage from "./Items";
 
 const ViewExisting = (props) => {
   const { item, setItem } = props;
-  const datax = useContext(UserData);
-  const { status, setStatus, loading, setLoading, data, setData, RingLoader } =
-    datax;
+  const { status, setStatus, loading, setLoading, data, setData, RingLoader } = useContext(UserData);
+
 
   const getItems = async () => {
     try {

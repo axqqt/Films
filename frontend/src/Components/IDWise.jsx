@@ -6,8 +6,7 @@ import { UserData } from "../App";
 const API_URL = "http://localhost:8000";
 
 const IDWisePage = () => {
-  const datax = useContext(UserData);
-  const { status, setStatus, RingLoader } = datax;
+  const { status, setStatus, RingLoader } = useContext(UserData);
   const [movie, setMovie] = useState({});
   const [loading, setLoading] = useState(true);
 

@@ -4,8 +4,9 @@ import { UserData } from "../App";
 import RingLoader from "react-spinners/RingLoader";
 import { GetComments } from "./Services/Api";
 import Axios from "axios";
+import { Link } from "react-router-dom";
 const Comments = () => {
-  const { loading, setLoading } = useContext(UserData);
+  const { loading, setLoading,logged } = useContext(UserData);
   const [comments, setComments] = useState([]);
   const [msg, setMsg] = useState("");
   async function getComments() {
@@ -38,39 +39,39 @@ const Comments = () => {
   }, []);
 
   return (
-    <div>
-      <h1>Comments</h1>
-      {loading ? (
-        <RingLoader />
-      ) : comments && comments.length ? (
-        comments.map((x) => (
-          <div key={x._id}>
-            <p>{x.comment}</p>
-            <div>
-              <form
-                onSubmit={(e) => {
-                  e.preventDefault();
-                  addComment(x._id);
+    logged?<div>
+    <h1>Comments</h1>
+    {loading ? (
+      <RingLoader />
+    ) : comments && comments.length ? (
+      comments.map((x) => (
+        <div key={x._id}>
+          <p>{x.comment}</p>
+          <div>
+            <form
+              onSubmit={(e) => {
+                e.preventDefault();
+                addComment(x._id);
+              }}
+            >
+              <input
+                onChange={(e) => {
+                  setMsg(e.target.value);
                 }}
-              >
-                <input
-                  onChange={(e) => {
-                    setMsg(e.target.value);
-                  }}
-                  type="text"
-                  placeholder="Enter Message..."
-                ></input>
-                <button type="submit">
-                  {loading ? "Loading..." : "Add Comment!"}
-                </button>
-              </form>
-            </div>
+                type="text"
+                placeholder="Enter Message..."
+              ></input>
+              <button type="submit">
+                {loading ? "Loading..." : "Add Comment!"}
+              </button>
+            </form>
           </div>
-        ))
-      ) : (
-        "No comments posted!"
-      )}
-    </div>
+        </div>
+      ))
+    ) : (
+      "No comments posted!"
+    )}
+  </div>:<div><h1>Please <Link to="/login">Login</Link> to Continue! </h1></div>
   );
 };
 

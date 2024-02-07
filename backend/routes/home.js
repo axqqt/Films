@@ -2,11 +2,26 @@ const express = require("express");
 const router = express.Router();
 const FilmMainController = require("../controllers/FilmMains");
 const Search = require("../controllers/SearchTitle");
+const path = require("path");
+const multer = require("multer");
+
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, "images");
+  },
+  filename: (req, file, cb) => {
+    console.log(file);
+    cb(null, Date.now() + path.extname(file.originalname));
+  },
+});
+
+const upload = multer({ storage: storage });
 
 router
   .route("/")
   .get(FilmMainController.GetFilms)
-  .post(FilmMainController.CreateFilms);
+  .post(upload.single("image"), FilmMainController.CreateFilms);
+
 
 router.route("/:title").get(Search.SearchByTitle);
 router

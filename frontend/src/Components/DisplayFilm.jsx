@@ -21,8 +21,7 @@ const DisplayFilm = ({ x }) => {
       if (updatedRating.status === 200) {
         alert("Updated Likes!");
       }
-      // Instead of full page reload, consider updating state to trigger re-render
-      // window.location.reload();
+      navigator("/")
     } catch (err) {
       console.error(err);
     } finally {

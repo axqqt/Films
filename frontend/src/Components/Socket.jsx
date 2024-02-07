@@ -37,7 +37,9 @@ const Socket = () => {
     socket.on("connect", handleConnect);
     socket.on("message", handleUserMessage);
     socket.on("remove", handleSystemMessage);
-    socket.on("join", () => {});
+    socket.on("join", (data) => {
+      console.log(`Received Data! ${data}`);
+    });
 
     return () => {
       socket.disconnect();

@@ -9,6 +9,11 @@ const Navbar = () => {
         </Link>
       </li>
       <li>
+        <Link to="/comments" className="text-white hover:text-gray-300">
+          Comments
+        </Link>
+      </li>
+      <li>
         <Link to="/socket" className="text-white hover:text-gray-300">
           Chat
         </Link>

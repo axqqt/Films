@@ -10,8 +10,7 @@ import { DeleteFilm, GetMain } from "./Services/Api";
 const API_URL = "http://localhost:8000";
 
 function Movies() {
-  const datax = useContext(UserData);
-  const { logged, setID, RingLoader, user } = datax;
+  const { logged, setID, RingLoader, user } = useContext(UserData);
   const [data, setData] = useState([]);
   const [limit, setLimit] = useState(5);
   const [loading, setLoading] = useState(false);
@@ -66,10 +65,10 @@ function Movies() {
     }
   }
 
-  const handleSearch = async (e, searchTerm) => {
+  const handleSearch = async ( searchTerm) => {
     //bugs exist!
     // limit
-    e.preventDefault();
+    
     try {
       setLoading(true);
       const response = await Axios.get(`${API_URL}/home/${searchTerm}`);
@@ -132,7 +131,6 @@ function Movies() {
  </div>
       ) : (
         <div>
-          {" "}
           <button
             onClick={viewBot}
             className="bg-blue-500 text-white p-2 hover:bg-blue-700"
@@ -152,7 +150,7 @@ function Movies() {
               ! , {time}
             </h1>
             <form
-              onSubmit={(e) => handleSearch(e, searchTerm)}
+            onSubmit={(e) => { e.preventDefault(); handleSearch(searchTerm); }}
               className="flex items-center space-x-2 mb-4"
             >
               <input

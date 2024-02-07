@@ -2,9 +2,8 @@ import { useContext } from "react";
 import { UserData } from "../App";
 
 const ForgotPass = () => {
-  const datax = useContext(UserData);
-  const { status, setStatus, loading, setLoading, data, setData, RingLoader } =
-    datax;
+  const { status, setStatus, loading, setLoading, data, setData, RingLoader } = useContext(UserData);
+
 
   const ForgotPass = async (e) => {
     e.preventDefault();

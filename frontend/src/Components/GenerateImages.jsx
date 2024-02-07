@@ -5,9 +5,8 @@ import Axios from "axios";
 import RingLoader from "react-spinners/RingLoader";
 
 const GenerateImages = () => {
-  const datax = useContext(UserData);
+  const { loading, setLoading, status, setStatus } = useContext(UserData);
 
-  const { loading, setLoading, status, setStatus } = datax;
 
   const [generated, setGenerated] = useState([]);
   const [data, setData] = useState({

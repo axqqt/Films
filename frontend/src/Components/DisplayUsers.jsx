@@ -4,8 +4,7 @@ import { DeleteUsers } from "./Services/Api";
 
 const DisplayUsers = () => {
   const [users, setUsers] = useState([]);
-  const datax = useContext(UserData);
-  const { loading, setLoading, RingLoader } = datax;
+  const { loading, setLoading, RingLoader } = useContext(UserData);
 
   async function UserDatax() {
     try {
