@@ -5,14 +5,14 @@ import Axios from "axios";
 import { Link } from "react-router-dom";
 
 const AddFilm = () => {
-  const { status, setStatus, loading, setLoading, RingLoader } = useContext(UserData);
+  const { status, setStatus, loading, setLoading, RingLoader,logged } = useContext(UserData);
 
 
   const [data, setData] = useState({
     title: "",
     description: "",
     trailer: "",
-    photo: "",
+    photo: null,
     alternate: "",
     rating: 0,
   });
@@ -24,6 +24,7 @@ const AddFilm = () => {
   const handleFileChange = (e) => {
     setData({ ...data, photo: e.target.files[0] });
   };
+  
 
   const resetForm = () => {
     setData({
@@ -36,28 +37,29 @@ const AddFilm = () => {
     });
   };
 
-  async function createFilm(e) {
+  const createFilm = async (e) => {
     e.preventDefault();
     try {
       setLoading(true);
-
-      const list = new FormData(); //must be sent in as a form cuz of the image hmmmmm
-      list.append("title", data.title);
-      list.append("description", data.description);
-      list.append("trailer", data.trailer);
-      list.append("photo", data.photo);
-      list.append("alternate", data.alternate);
-      list.append("rating", data.rating);
-
+  
+      const formData = new FormData();
+      formData.append("title", data.title);
+      formData.append("description", data.description);
+      formData.append("trailer", data.trailer);
+      formData.append("alternate", data.alternate);
+      formData.append("rating", data.rating);
+      if (data.photo) { // Check if a file is selected
+        formData.append("photo", data.photo);
+      }
+  
       const response = await Axios.post(
         "http://localhost:8000/home",
-        data
-        // list,
-        // {
-        //   headers: { "Content-Type": "multipart/form-data" },
-        // }
+        formData,
+        {
+          headers: { "Content-Type": "multipart/form-data" },
+        }
       );
-
+  
       if (response.status === 201) {
         setStatus(`${data.title} Added`);
       }
@@ -68,11 +70,13 @@ const AddFilm = () => {
       setLoading(false);
       resetForm();
     }
-  }
+  };
+  
 
   return (
     <>
-      <h1 style={{ fontSize: 32 }}>Add Film</h1>
+  
+      <h1 style={{ fontSize: 32,display:"flex" }}>Add Film</h1>
       <form onSubmit={createFilm}>
         <input
           value={data.title}
@@ -98,7 +102,8 @@ const AddFilm = () => {
           placeholder="Enter alternate image by address"
           name="alternate"
         />
-        <input onChange={handleFileChange} type="file" />
+    <input onChange={handleFileChange} type="file" name="photo" />
+
         {/**Problem exists here! */}
         <span><p>Rating...</p>
         <input

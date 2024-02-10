@@ -10,10 +10,9 @@ import { DeleteFilm, GetMain } from "./Services/Api";
 const API_URL = "http://localhost:8000";
 
 function Movies() {
-  const { logged, setID, RingLoader, user } = useContext(UserData);
+  const { logged, setID, RingLoader, user,loading,setLoading } = useContext(UserData);
   const [data, setData] = useState([]);
   const [limit, setLimit] = useState(5);
-  const [loading, setLoading] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
   const [modifiedTitle, setModifiedTitle] = useState("");
   const [time, setTime] = useState("");
@@ -68,7 +67,6 @@ function Movies() {
   const handleSearch = async ( searchTerm) => {
     //bugs exist!
     // limit
-    
     try {
       setLoading(true);
       const response = await Axios.get(`${API_URL}/home/${searchTerm}`);

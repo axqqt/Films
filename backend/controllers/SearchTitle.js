@@ -14,13 +14,13 @@ const getFilms = async (req, res) => {
 };
 
 async function SearchByTitle(req, res) {
-  const { title, id } = req?.params;
-  if (!title) return res.status(400).json({ Alert: "Title not provided" });
+  const { searchTerm, id } = req?.params;
+  if (!searchTerm) return res.status(400).json({ Alert: "Title not provided" });
 
   try {
-    const matches = await mediaModel.find({
-      $or: [{ title: title }, { _id: String(id) }],
-    });
+    const matches = await mediaModel.aggregate([{
+      $match: [{ title: searchTerm }, { _id: String(id) }],
+    }]);
 
     if (!matches || matches.length === 0) {
       return res
@@ -77,7 +77,7 @@ async function DeleteItems(req, res) {
     if (!filmExists) {
       return res.status(404).json({ Alert: "Film doesn't exist" });
     } else {
-      await mediaModel.deleteOne({ _id: id });
+      await mediaModel.deleteOne({ _id: String(id) });
       return res.status(200).json({ Alert: "Film Deleted" });
     }
   } catch (err) {
@@ -88,8 +88,7 @@ async function DeleteItems(req, res) {
 async function UpdateFilm(req, res) {
   try {
     const id = req?.params?.id;
-    const title = req.body?.title;
-    const newRating = req?.body?.rating;
+    const {title,newRating}  = req?.body;
 
     const filmExists = await mediaModel.findById(id); // Use findById for updating by ID
     if (!filmExists) {

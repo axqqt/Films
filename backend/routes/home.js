@@ -7,7 +7,7 @@ const multer = require("multer");
 
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
-    cb(null, "images");
+    cb(null, path.join(__dirname, 'backend/routes/uploads'));
   },
   filename: (req, file, cb) => {
     console.log(file);
@@ -15,15 +15,16 @@ const storage = multer.diskStorage({
   },
 });
 
+
 const upload = multer({ storage: storage });
 
 router
   .route("/")
   .get(FilmMainController.GetFilms)
-  .post(upload.single("image"), FilmMainController.CreateFilms);
+  .post(upload.single("file"), FilmMainController.CreateFilms);
 
 
-router.route("/:title").get(Search.SearchByTitle);
+router.route("/:searchTerm").get(Search.SearchByTitle);
 router
   .route("/:id")
   .post(Search.IDWise)

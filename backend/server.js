@@ -50,6 +50,7 @@ app.use(
     cookie: {
       maxAge: 60000,
     },
+  
   })
 );
 
@@ -76,8 +77,6 @@ app.disable('x-powered-by')
 app.use(compression({ filter: false }));
 app.use(express.static("public", { maxAge: 31536000 }));
 app.use(bodyParser.urlencoded({ extended: true }));
-
-app.use(compression());
 app.use(limiter, (req, res, next) => {
   next();
 });
@@ -110,8 +109,8 @@ async function connectDB() {
   try {
     await mongoose.connect(cluster, {
       useNewUrlParser: true,
-      useUnifiedTopology: true,
     });
+    // mongoose.set("autoIndex",true)
     console.log("Connected to Cluster!");
   } catch (error) {
     console.error("Error connecting to the database:", error);

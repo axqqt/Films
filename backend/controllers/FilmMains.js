@@ -1,7 +1,7 @@
 const mediaModel = require("../models/media");
 const cloudinary = require("cloudinary").v2;
 
-require("dotenv").config();
+
 
 async function GetFilms(req, res) {
   
@@ -72,7 +72,7 @@ cloudinary.config({
 
 async function CreateFilms(req, res) {
   try {
-    const { title, description, trailer, alternate, rating} = req?.body;
+    const { title, description, trailer, alternate, rating } = req?.body;
  
     const photo = req.file;
 
@@ -80,32 +80,12 @@ async function CreateFilms(req, res) {
       return res.status(400).json({ error: "Title or trailer missing" });
     }
 
-    //THERES AN ISSUE WITH CLOUDINARY 😭
 
-
-    // if (!photo || !photo.buffer) {
-    //   return res.status(400).json({ error: "File missing or invalid" });
-    // }
-
-    // const video = await cloudinary.uploader.upload(
-    //   photo.buffer.toString("base64"),
-    //   {
-    //     resource_type: "video",
-    //   }
-    // );
-
+   
+    const photoURL = await cloudinary.uploader.upload(photo.path, {
+      resource_type: "auto",
+    });
     
-    // let photoURL;
-    // try {
-    //   // photoURL = await uploadToCloudinary(photo);
-    //   photoURL = cloudinary.uploader.upload(photo).then(result=>console.log(result))
-    // } catch (uploadError) {
-    //   console.error(uploadError);
-    //   return res
-    //     .status(500)
-    //     .json({ error: "Error uploading photo to Cloudinary" });
-    // }
-
     const filmExists = await mediaModel.findOne({ title: title });
 
     if (!filmExists) {
@@ -113,9 +93,7 @@ async function CreateFilms(req, res) {
         title,
         description,
         trailer,
-        photo,
-        // photo: photoURL.url,
-        // video: video.secure_url,
+        photo: photoURL.url, 
         alternate,
         rating,
       });
@@ -130,17 +108,18 @@ async function CreateFilms(req, res) {
   }
 }
 
-async function uploadToCloudinary(photo) {
-  try {
-    const result = await cloudinary.uploader.upload(
-      photo.buffer.toString("base64")
-    );
-    return result;
-  } catch (error) {
-    console.error(error);
-    throw new Error("Error uploading to Cloudinary");
-  }
-}
+
+// async function uploadToCloudinary(photo) {
+//   try {
+//     const result = await cloudinary.uploader.upload(
+//       photo.buffer.toString("base64")
+//     );
+//     return result;
+//   } catch (error) {
+//     console.error(error);
+//     throw new Error("Error uploading to Cloudinary");
+//   }
+// }
 
 async function ScanImage(req, res) {
   const { photo } = req?.body;

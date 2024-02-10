@@ -4,7 +4,9 @@ import { useContext, useRef, useState } from "react";
 import Axios from "axios";
 import RingLoader from "react-spinners/RingLoader";
 
-const GenerateImages = () => {
+const GenerateImages = () => { 
+
+  //api key is not valid which is why this is not working properly!
   const { loading, setLoading, status, setStatus } = useContext(UserData);
 
 

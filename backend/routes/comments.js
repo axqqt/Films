@@ -8,8 +8,8 @@ router
     if (req.session.user) {
       try {
         const comments = await commentModel
-          .find({ username: req.session.user.username })
-          .populate("users"); //still trying to figure out how to get user specific data 🤔
+          .aggregate([{$group:{username:req.session.user.username}}])
+           //still trying to figure out how to get user specific data 🤔
         return res.status(200).json(comments);
       } catch (err) {
         console.error(err);
@@ -23,7 +23,8 @@ router
       }
     }
   })
-  .post(async (req, res) => {
+
+  router.route("/:id").post(async (req, res) => {
     const id = req?.params?.id;
     const comment = req?.body?.comment;
 
@@ -59,5 +60,6 @@ router
       return res.status(500).json({ Alert: "Internal Server Error" });
     }
   });
+  
 
 module.exports = router;

@@ -30,6 +30,10 @@ const Login = (props) => {
   let loginChecker = 0;
 
   const LogUser = async (e) => {
+    const userPrior = localStorage.getItem("users");
+
+    console.log(userPrior);
+   
     e.preventDefault();
     if (!logged) {
       if (status !== "") {
@@ -37,7 +41,8 @@ const Login = (props) => {
       }
       try {
         setLoading(true);
-        const response = await Axios.post(`${endPoint}`, data);
+        if(!userPrior){        
+          const response = await Axios.post(`${endPoint}`, data);
         if (response.status === 200) {
           // alert(response.data.Alert);
           console.log(response.data);
@@ -46,7 +51,20 @@ const Login = (props) => {
           navigate("/"); //bugs still exist here 🤔
         } else {
           alert("Invalid Credentials!"); //for now!
+        }}else{
+          const response = await Axios.post(`${endPoint}`, userPrior);
+          if (response.status === 200) {
+            // alert(response.data.Alert);
+            console.log(response.data);
+            setLogged(true);
+            setUser(response.data);
+            localStorage.setItem("user",data)
+            navigate("/"); //bugs still exist here 🤔
+          } else {
+            alert("Invalid Credentials!"); //for now!
+          }
         }
+
       } catch (err) {
         console.error(err);
         setStatus("Username/Password Wrong!");
@@ -55,10 +73,13 @@ const Login = (props) => {
           if(loginChecker===1){
             localStorage.setItem("user",data) //set the data to log back type scenario?
           }
-    
       }
     } else {
       setStatus("User already logged in!");
+      setTimeout(()=>{
+        navigate("/")
+      },1500)
+      
       
   
     }
@@ -134,7 +155,7 @@ const Login = (props) => {
     setData({ ...data, [e.target.name]: e.target.value });
   };
 
-  return (
+  return !logged?(
     <div style={{ padding: "5%", justifyContent: "space-evenly" }}>
       <h1>Login Page</h1>
       <form onSubmit={LogUser}>
@@ -166,7 +187,7 @@ const Login = (props) => {
       <br></br>
       <Link to="/forgotpass">Forgot your password? Click Here</Link>
     </div>
-  );
+  ):<div><h1>You are already logged in!</h1><p>Click <Link to="/">Here</Link> to go back to the homepage! OR <button onClick={handleLogout}>Logout!</button></p></div>
 };
 
 export default Login;

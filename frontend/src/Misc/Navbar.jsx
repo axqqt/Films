@@ -38,11 +38,6 @@ const Navbar = () => {
           Add Film
         </Link>
       </li>
-      <li>
-        <Link to="/updateshop" className="text-white hover:text-gray-300">
-          View Store (Admin)
-        </Link>
-      </li>
     </ul>
   );
 };

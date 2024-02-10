@@ -1,10 +1,13 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { io } from "socket.io-client";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
+import DefaultLogin from "./DefaultLogin";
+import { UserData } from "../App";
 
 const socket = io("http://localhost:4000");
 
 const Socket = () => {
+  const {logged} = useContext(UserData)
   const [input, setInput] = useState("");
   const [isConnected, setIsConnected] = useState(false);
   const [userMessages, setUserMessages] = useState([]);
@@ -52,7 +55,8 @@ const Socket = () => {
     setInput("");
   };
 
-  return (
+  return logged?
+  (
     <div>
       <h1>Chat Page!</h1>
       <input
@@ -77,7 +81,7 @@ const Socket = () => {
         </ul>
       </div>
     </div>
-  );
+  ): <DefaultLogin/>
 };
 
 export default Socket;

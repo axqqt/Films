@@ -5,6 +5,19 @@ const Axios = require("axios");
 require("dotenv").config();
 const apiKey = process.env.api_key;
 
+// checkSchema({
+//   username: {
+//     errorMessage: 'Invalid username',
+//     isEmail: true,
+//   },
+//   password: {
+//     isLength: {
+//       options: { min: 8 },
+//       errorMessage: 'Password should be at least 8 chars',
+//     },
+//   },
+// });
+
 router.route("/").get(userController.GetUsers).post(userController.CreateUser);
 
 router.route("/:id").get(userController.userSpecific).delete(userController.deleteUser);
