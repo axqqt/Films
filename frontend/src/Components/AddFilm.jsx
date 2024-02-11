@@ -12,7 +12,7 @@ const AddFilm = () => {
     title: "",
     description: "",
     trailer: "",
-    photo: null,
+    image: null,
     alternate: "",
     rating: 0,
   });
@@ -22,7 +22,7 @@ const AddFilm = () => {
   };
 
   const handleFileChange = (e) => {
-    setData({ ...data, photo: e.target.files[0] });
+    setData({ ...data, image: e.target.files[0] });
   };
   
 
@@ -31,7 +31,7 @@ const AddFilm = () => {
       title: "",
       description: "",
       trailer: "",
-      photo: null,
+      image: null,
       alternate: "",
       rating: 0,
     });
@@ -48,8 +48,8 @@ const AddFilm = () => {
       formData.append("trailer", data.trailer);
       formData.append("alternate", data.alternate);
       formData.append("rating", data.rating);
-      if (data.photo) { // Check if a file is selected
-        formData.append("photo", data.photo);
+      if (data.image) { // Check if a file is selected
+        formData.append("image", data.image);
       }
   
       const response = await Axios.post(
@@ -102,7 +102,7 @@ const AddFilm = () => {
           placeholder="Enter alternate image by address"
           name="alternate"
         />
-    <input onChange={handleFileChange} type="file" name="photo" />
+    <input onChange={handleFileChange} type="file" name="image" />
 
         {/**Problem exists here! */}
         <span><p>Rating...</p>

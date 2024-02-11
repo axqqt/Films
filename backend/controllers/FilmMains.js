@@ -74,7 +74,7 @@ async function CreateFilms(req, res) {
   try {
     const { title, description, trailer, alternate, rating } = req?.body;
  
-    const photo = req.file;
+    const image = req?.file;
 
     if (!title || !trailer) {
       return res.status(400).json({ error: "Title or trailer missing" });
@@ -82,9 +82,7 @@ async function CreateFilms(req, res) {
 
 
    
-    const photoURL = await cloudinary.uploader.upload(photo.path, {
-      resource_type: "auto",
-    });
+    const photo = await cloudinary.uploader.upload(image);
     
     const filmExists = await mediaModel.findOne({ title: title });
 
@@ -93,7 +91,7 @@ async function CreateFilms(req, res) {
         title,
         description,
         trailer,
-        photo: photoURL.url, 
+        photo: photo.url, 
         alternate,
         rating,
       });

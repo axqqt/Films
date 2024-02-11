@@ -79,7 +79,6 @@ export default function App() {
           <Route path="/comments" element={<Comments />}></Route>  
           <Route path="/yts" element={<YTSPage />}></Route>
           <Route path="/generate" element={<GenerateImages />}></Route>
-          <Route path="/socket" element={<ChatPage />}></Route>
           <Route path="/home" element={<LandingPage />} />
           <Route path="/addfilm" element={<AddFilm />} />
           <Route path="/manage" element={<DisplayUsers />} />

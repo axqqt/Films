@@ -16,28 +16,12 @@ const gemini = require("./routes/gemini");
 const cookieParser = require("cookie-parser");
 const bodyParser = require("body-parser");
 const linked = require("./routes/linked");
-const cart = require("./routes/cart");
-const adminMain = require("./routes/admin/adminMain");
 const limiter = require("./limiter");
 const session = require("express-session");
-const discordHandler = require("./security/discordAuth.js");
 const gptGenerate = require("./routes/gpt.js");
-const sqlPath = require("./routes/secondary.js");
-const passport = require("passport");
 const commentsModel = require("./routes/comments.js");
 
-// function isAuthenticated(req, res, next) {
-//   if (req?.session?.user) {
-//     const instance = req?.session?.user;
-//     res.status(200).send(`${JSON.stringify(instance.username)} has Logged in!`);
-//     req.session.save((err) => {
-//       if (err) throw err;
-//       next();
-//     });
-//   } else {
-//     res.status(401).send("Unauthorized");
-//   }
-// }
+
 
 app.use(express.json());
 app.use(cookieParser());
@@ -54,10 +38,6 @@ app.use(
   })
 );
 
-// app.use(passport.initialize());
-// app.use(passport.session(discordHandler)); //haven't implemented properly!
-
-// app.post("/api/auth", passport.authenticate("discord"), (req, res) => {});
 
 
 
@@ -72,24 +52,18 @@ if (!fs.existsSync(join(__dirname, "public"))) {
 }
 
 
-app.use(helmet());
+
 app.disable('x-powered-by')
 app.use(compression({ filter: false }));
 app.use(express.static("public", { maxAge: 31536000 }));
 app.use(bodyParser.urlencoded({ extended: true }));
-app.use(limiter, (req, res, next) => {
-  next();
-});
 
-const info = (req, res, next) => {
-  console.log(
-    req.session
-  );
-  next();
-};
 
-// app.use(limiter);
-app.use(info);
+
+app.use(helmet());
+app.use(limiter,(next)=>{
+    next();
+})
 app.use("/register", register);
 app.use("/login", login);
 // app.use(isAuthenticated); //once user logs unlocks the rest of the routes!
@@ -97,9 +71,7 @@ app.use("/comments", commentsModel);
 app.use("/home", homepage);
 app.use("/links", linked);
 app.use("/gemini", gemini);
-app.use("/cart", cart);
-app.use("/images", gptGenerate);
-app.use("/sql", sqlPath); //INCLUDED THIS JUST FOR FUN
+app.use("/images", gptGenerate); //INCLUDED THIS JUST FOR FUN
 
 app.get("/", (req, res) => {
   res.send("<h1>Hey Docker! 🐳👋🏻</h1>");
@@ -121,21 +93,7 @@ app.use("*", (req, res) => {
   res.sendFile(join(__dirname, "./views/404", "404.html"));
 });
 
-const admin = express();
-admin.use(express.json({ limit: "50mb" }));
-admin.use(cors());
-admin.use("/main", adminMain);
 
-async function adminBoot() {
-  try {
-    await connectDB();
-    admin.listen(8001, () => {
-      console.log("Admin up on port 8001");
-    });
-  } catch (error) {
-    console.error("Error starting admin:", error);
-  }
-}
 
 async function clientBoot() {
   try {
@@ -147,8 +105,7 @@ async function clientBoot() {
     console.error("Error starting client:", error);
   }
 }
-
-Promise.all([adminBoot(), clientBoot()]);
+clientBoot();
 
 const { createServer } = require("http");
 const { Server } = require("socket.io");

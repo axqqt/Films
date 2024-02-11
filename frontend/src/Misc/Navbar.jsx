@@ -14,7 +14,7 @@ const Navbar = () => {
         </Link>
       </li>
       <li>
-        <Link to="/socket" className="text-white hover:text-gray-300">
+        <Link to="/chats" className="text-white hover:text-gray-300">
           Chat
         </Link>
       </li>

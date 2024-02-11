@@ -5,7 +5,6 @@ import { Link } from "react-router-dom";
 import DisplayFilm from "./DisplayFilm";
 import BotPage from "./Bot";
 import { DeleteFilm, GetMain } from "./Services/Api";
-// import { Transition } from "@headlessui/react";
 
 const API_URL = "http://localhost:8000";
 
