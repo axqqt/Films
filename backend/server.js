@@ -1,7 +1,7 @@
 const express = require("express");
 const app = express();
 require("dotenv").config();
-const port = process.env.port || 3000;
+const port = process.env.port;
 const cluster = process.env.mongodb_cluster;
 const cors = require("cors");
 const helmet = require("helmet");
@@ -22,7 +22,6 @@ const gptGenerate = require("./routes/gpt.js");
 const commentsModel = require("./routes/comments.js");
 
 
-
 app.use(express.json());
 app.use(cookieParser());
 
@@ -34,12 +33,9 @@ app.use(
     cookie: {
       maxAge: 60000,
     },
-  
+  store:false
   })
 );
-
-
-
 
 app.use(
   cors({
@@ -47,11 +43,10 @@ app.use(
   })
 );
 
+
 if (!fs.existsSync(join(__dirname, "public"))) {
   fs.mkdirSync(join(__dirname, "public"));
 }
-
-
 
 app.disable('x-powered-by')
 app.use(compression({ filter: false }));
@@ -66,9 +61,8 @@ app.use(limiter,(next)=>{
 })
 app.use("/register", register);
 app.use("/login", login);
-// app.use(isAuthenticated); //once user logs unlocks the rest of the routes!
-app.use("/comments", commentsModel);
 app.use("/home", homepage);
+app.use("/comments", commentsModel);
 app.use("/links", linked);
 app.use("/gemini", gemini);
 app.use("/images", gptGenerate); //INCLUDED THIS JUST FOR FUN
@@ -82,7 +76,6 @@ async function connectDB() {
     await mongoose.connect(cluster, {
       useNewUrlParser: true,
     });
-    // mongoose.set("autoIndex",true)
     console.log("Connected to Cluster!");
   } catch (error) {
     console.error("Error connecting to the database:", error);
@@ -92,8 +85,6 @@ async function connectDB() {
 app.use("*", (req, res) => {
   res.sendFile(join(__dirname, "./views/404", "404.html"));
 });
-
-
 
 async function clientBoot() {
   try {

@@ -7,7 +7,7 @@ async function GetFilms(req, res) {
   
   try {
     if (req.session.user) {
-      const videos = await mediaModel.find({ user: req.session.user._id }).populate("user"); //if user logged in,get user specific data!
+      const videos = await mediaModel.find({ _id: req.session.user._id }).populate("user"); //if user logged in,get user specific data!
       res.status(200).json(videos);
     } else {
       const searchTerm = req?.params?.searchTerm;
@@ -88,6 +88,8 @@ async function CreateFilms(req, res) {
 //   }
 // }
 
+const key = process.env.image_key;
+
 async function ScanImage(req, res) {
   const { photo } = req?.body;
 
@@ -96,7 +98,7 @@ async function ScanImage(req, res) {
       "http://api-gpu.youscan.io/api/v2/images/detect",
       {
         headers: {
-          " Authorization": `Basic ABCDEF`,
+          " Authorization": `Basic ${key}`,
           " Content-Type": `application/json`,
         },
       },

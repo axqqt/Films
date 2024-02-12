@@ -8,11 +8,12 @@ router
     if (req.session.user) {
       try {
         const comments = await commentModel
-          .aggregate([{$group:{username:req.session.user.username}}])
-           //still trying to figure out how to get user specific data 🤔
+          .find({ _id: req.session.user._id }) 
+          .populate("users"); 
         return res.status(200).json(comments);
       } catch (err) {
         console.error(err);
+        return res.status(500).json({ error: "Internal Server Error" });
       }
     } else {
       try {
@@ -20,9 +21,11 @@ router
         return res.status(200).json(comments);
       } catch (err) {
         console.error(err);
+        return res.status(500).json({ error: "Internal Server Error" });
       }
     }
-  })
+})
+
 
   router.route("/:id").post(async (req, res) => {
     const id = req?.params?.id;

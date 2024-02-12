@@ -69,7 +69,7 @@ function Movies() {
     // limit
     try {
       setLoading(true);
-      const response = await Axios.get(`${API_URL}/home/${searchTerm}`);
+      const response = await Axios.get(`${API_URL}/home/search`,searchTerm);
       setData(response.data);
     } catch (error) {
       console.error("Error searching:", error);

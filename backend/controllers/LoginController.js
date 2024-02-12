@@ -43,7 +43,7 @@ const Login = async (req, res, next) => {
           { expiresIn: "7d" }
         );
 
-        req.session.user = { username , maxAge:60000,_id:userValidity._id};
+        req.session.user = { username , maxAge:60000,_id:String(userValidity._id)};
 
         return res.status(200).json({
           Alert: `${username} logged in!`,

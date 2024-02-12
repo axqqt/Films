@@ -21,7 +21,7 @@ router
   .post(upload.single("image"), FilmMainController.CreateFilms);
 
 
-router.route("/:searchTerm").get(Search.SearchByTitle);
+router.route("/search").get(Search.SearchByTitle);
 router
   .route("/:id")
   .post(Search.IDWise)

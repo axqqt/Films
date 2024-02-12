@@ -14,7 +14,7 @@ const getFilms = async (req, res) => {
 };
 
 async function SearchByTitle(req, res) {
-  const { searchTerm } = req?.params;
+  const { searchTerm } = req?.body;
   if (!searchTerm) return res.status(400).json({ Alert: "Title not provided" });
 
   try {

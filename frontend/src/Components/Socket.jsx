@@ -16,11 +16,12 @@ const Socket = () => {
   let socketCount = 0;
 
   useEffect(() => {
-    const handleConnect = (err) => {
+    const handleConnect = (err,data) => {
       if (err) throw err;
       socketCount++;
       console.log("Connected to server");
       setIsConnected(true);
+      alert(data);
     };
 
     const handleUserMessage = (message) => {

@@ -87,7 +87,7 @@ export default function App() {
           <Route path="/chats" element={<ChatPage />} />
           <Route path="*" element={<PageNotFound />} />
         </Routes>
-        <Footer></Footer>
+        <Footer/>
       </UserData.Provider>
     </BrowserRouter>
   );
