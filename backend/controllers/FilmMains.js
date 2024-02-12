@@ -5,45 +5,24 @@ const cloudinary = require("cloudinary").v2;
 
 async function GetFilms(req, res) {
   
-  // try {
-  //   if (!req.session.user) {
-  //     return res.status(401).json({ Alert: "Unauthorized" });
-  //   }
-
-  //   const userSpecific = await mediaModel.aggregate([
-  //     {
-  //       $lookup: {
-  //         from: 'users',
-  //         localField: 'title',
-  //         foreignField: '_id',
-  //         as: 'films',
-  //       },
-  //     },
-  //   ]);
-
-  //   if (!userSpecific || userSpecific.length === 0) {
-  //     return res.status(404).json({ Alert: "No films found for the user" });
-  //   } else {
-  //     return res.status(200).json(userSpecific);
-  //   }
-  // } catch (error) {
-  //   console.error(error);
-  //   return res.status(500).json({ error: "Internal Server Error" });
-  // }
-
   try {
-    const searchTerm = req?.params?.searchTerm;
-
-    if (!searchTerm) {
-      const videos = await mediaModel.find();
+    if (req.session.user) {
+      const videos = await mediaModel.find({ user: req.session.user._id }).populate("user"); //if user logged in,get user specific data!
       res.status(200).json(videos);
     } else {
-      const found = await mediaModel.find({ title: searchTerm });
-
-      if (found.length === 0) {
-        return res.status(404).json({ Alert: "Film not found!" });
+      const searchTerm = req?.params?.searchTerm;
+  
+      if (!searchTerm) {
+        const videos = await mediaModel.find();
+        res.status(200).json(videos);
       } else {
-        return res.status(200).json(found);
+        const found = await mediaModel.find({ title: searchTerm });
+  
+        if (found.length === 0) {
+          return res.status(404).json({ Alert: "Film not found!" });
+        } else {
+          return res.status(200).json(found);
+        }
       }
     }
   } catch (error) {
@@ -64,17 +43,15 @@ cloudinary.config({
 async function CreateFilms(req, res) {
   try {
     const { title, description, trailer, alternate, rating } = req?.body;
- 
     const image = req?.file;
 
     if (!title || !trailer || !description) {
       return res.status(400).json({ error: "Title/trailer/Description missing" });
     }
 
-
-   
     // const photo = await cloudinary.uploader.upload(image);
-    
+    // Assuming cloudinary upload is uncommented in your actual code, or you may want to handle file upload accordingly.
+
     const filmExists = await mediaModel.findOne({ title: title });
 
     if (!filmExists) {
@@ -82,7 +59,7 @@ async function CreateFilms(req, res) {
         title,
         description,
         trailer,
-        // photo: photo.url, 
+        // photo: photo.url,
         alternate,
         rating,
       });
@@ -96,6 +73,7 @@ async function CreateFilms(req, res) {
     res.status(500).json({ error: "Internal Server Error" });
   }
 }
+
 
 
 // async function uploadToCloudinary(photo) {
