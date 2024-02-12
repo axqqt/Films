@@ -16,10 +16,9 @@ import Footer from "./Misc/Footer";
 import RingLoader from "react-spinners/RingLoader";
 import GenerateImages from "./Components/GenerateImages";
 import YTSPage from "./Components/YTS";
-
-
 import Comments from "./Components/Comments";
 import "./App.css";
+
 
 export const UserData = createContext();
 
@@ -70,7 +69,7 @@ export default function App() {
           setMovies,
         }}
       >
-        <Navbar></Navbar>
+        <Navbar/>
         <Routes>
           {/**I'll customize the main component for logged and not logged in users! */}
           <Route path="/" element={<Movies />}></Route>

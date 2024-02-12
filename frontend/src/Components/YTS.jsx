@@ -88,6 +88,7 @@ const YTSPage = () => {
               ? `Runtime is ${Math.abs(x.runtime / 60)} hours`
               : ""}
           </h2>
+         
           <p>{x.mpa_rating ? `Rating ${x.mpa_rating}` : ""}</p>
           <p>{x.language}</p>
           <h2>{x.date_uploaded ? `Uploaded on ${x.date_uploaded}` : ""}</h2>
@@ -99,6 +100,10 @@ const YTSPage = () => {
           <h2>
             {x.torrents.quality ? `Qual ${x.torrents.quality}` : <h1></h1>}
           </h2>
+          <button onClick={()=>{
+            localStorage.setItem("favorites",x.title);
+            alert(`Added ${x.title}`)
+          }}>{`Add ${x.title} to your favorites!`}</button>
         </div>
       ))}
     </div>
