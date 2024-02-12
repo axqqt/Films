@@ -35,16 +35,7 @@ async function GetFilms(req, res) {
     const searchTerm = req?.params?.searchTerm;
 
     if (!searchTerm) {
-      const videos = await mediaModel.aggregate([
-        {
-          $lookup: {
-            from: "movies",
-            localField: "_id",
-            foreignField: "title",
-            as: "movies",
-          },
-        },
-      ]);
+      const videos = await mediaModel.find();
       res.status(200).json(videos);
     } else {
       const found = await mediaModel.find({ title: searchTerm });
@@ -76,13 +67,13 @@ async function CreateFilms(req, res) {
  
     const image = req?.file;
 
-    if (!title || !trailer) {
-      return res.status(400).json({ error: "Title or trailer missing" });
+    if (!title || !trailer || !description) {
+      return res.status(400).json({ error: "Title/trailer/Description missing" });
     }
 
 
    
-    const photo = await cloudinary.uploader.upload(image);
+    // const photo = await cloudinary.uploader.upload(image);
     
     const filmExists = await mediaModel.findOne({ title: title });
 
@@ -91,7 +82,7 @@ async function CreateFilms(req, res) {
         title,
         description,
         trailer,
-        photo: photo.url, 
+        // photo: photo.url, 
         alternate,
         rating,
       });

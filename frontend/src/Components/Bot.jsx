@@ -7,6 +7,8 @@ const BotPage = () => {
   const [loading, setLoading] = useState(false);
   const [response, setResponse] = useState([]);
 
+  let promptCounter = 0;
+
   async function sendPrompt(e) {
     e.preventDefault();
     try {
@@ -29,7 +31,7 @@ const BotPage = () => {
         }}
         placeholder="Ask Gemini"
       />
-
+      <h1 >{promptCounter===0?"Hi i'm Velo , How may I help you today? 🤖":""}</h1>
       {loading ? (
         <RingLoader></RingLoader>
       ) : (

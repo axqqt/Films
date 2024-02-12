@@ -14,13 +14,15 @@ const getFilms = async (req, res) => {
 };
 
 async function SearchByTitle(req, res) {
-  const { searchTerm, id } = req?.params;
+  const { searchTerm } = req?.params;
   if (!searchTerm) return res.status(400).json({ Alert: "Title not provided" });
 
   try {
-    const matches = await mediaModel.aggregate([{
-      $match: [{ title: searchTerm }, { _id: String(id) }],
-    }]);
+    // const matches = await mediaModel.aggregate([{
+    //   $match: [{ title: searchTerm }, { _id: String(id) }],
+    // }]);
+
+    const matches = await mediaModel.find({title:String(searchTerm)})
 
     if (!matches || matches.length === 0) {
       return res

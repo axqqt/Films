@@ -12,10 +12,11 @@ function Movies() {
   const { logged, setID, RingLoader, user,loading,setLoading } = useContext(UserData);
   const [data, setData] = useState([]);
   const [limit, setLimit] = useState(5);
-  const [searchTerm, setSearchTerm] = useState("");
+  const [search, setSearchTerm] = useState("");
   const [modifiedTitle, setModifiedTitle] = useState("");
   const [time, setTime] = useState("");
   const [showBot, setShowBot] = useState(false);
+
 
   async function fetchFromBack() {
     try {
@@ -94,13 +95,10 @@ function Movies() {
 
   const viewBot = (e) => {
     e.preventDefault();
-    setShowBot(true);
+    setShowBot(!showBot);
   };
 
-  const closeBot = (e) => {
-    e.preventDefault();
-    setShowBot(false);
-  };
+ 
 
   return (
     <>
@@ -134,7 +132,7 @@ function Movies() {
           >
             View Bot
           </button>
-          {showBot && <BotPage onClose={closeBot} />}
+          {showBot?<BotPage/>:""}
           <div
             className="mx-auto max-w-2xl p-4"
             style={{ paddingBottom: "5%", margin: "5%" }}
@@ -147,13 +145,13 @@ function Movies() {
               ! , {time}
             </h1>
             <form
-            onSubmit={(e) => { e.preventDefault(); handleSearch(searchTerm); }}
+            onSubmit={(e) => { e.preventDefault(); handleSearch(search); }}
               className="flex items-center space-x-2 mb-4"
             >
               <input
                 type="text"
                 placeholder="Search Here..."
-                value={searchTerm}
+                value={search}
                 onChange={(e) => setSearchTerm(e.target.value)}
                 className="p-2 border border-gray-300 flex-1"
               />
@@ -217,7 +215,7 @@ function Movies() {
               ))
             ) : (
               <p className="mt-4 text-lg font-bold">
-                {searchTerm ? "No results found" : "No Trailers Added"}
+                {search ? "No results found" : "No Trailers Added"}
               </p>
             )}
           </div>

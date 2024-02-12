@@ -12,7 +12,7 @@ const AddFilm = () => {
     title: "",
     description: "",
     trailer: "",
-    image: null,
+    // image: null,
     alternate: "",
     rating: 0,
   });
@@ -54,6 +54,7 @@ const AddFilm = () => {
   
       const response = await Axios.post(
         "http://localhost:8000/home",
+        // data
         formData,
         {
           headers: { "Content-Type": "multipart/form-data" },

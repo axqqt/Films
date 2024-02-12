@@ -26,6 +26,7 @@ router
 
   router.route("/:id").post(async (req, res) => {
     const id = req?.params?.id;
+    if(!id ) res.status(400).json({Alert:"ID missing!"})
     const comment = req?.body?.comment;
 
     if (!comment || comment.length < 5) {
