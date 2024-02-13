@@ -31,6 +31,10 @@ async function GetFilms(req, res) {
   }
 }
 
+
+
+
+
 cloudinary.config({
   cloud_name: "dsto9mmt0",
   api_key: "857482966483428",
@@ -42,24 +46,23 @@ cloudinary.config({
 
 async function CreateFilms(req, res) {
   try {
-    const { title, description, trailer, alternate, rating } = req?.body;
-    const image = req?.file;
+    const { title, description, trailer, alternate, rating } = req.body;
+    const { file: image } = req; // Access file object correctly
 
-    if (!title || !trailer || !description) {
-      return res.status(400).json({ error: "Title/trailer/Description missing" });
+    if (!title || !trailer || !description || !image) {
+      return res.status(400).json({ error: "Title, trailer, description, or image missing" });
     }
 
-    // const photo = await cloudinary.uploader.upload(image);
-    // Assuming cloudinary upload is uncommented in your actual code, or you may want to handle file upload accordingly.
+    const photo = await cloudinary.uploader.upload(image.path); // Upload file to Cloudinary
 
-    const filmExists = await mediaModel.findOne({ title: title });
+    const filmExists = await mediaModel.findOne({ title });
 
     if (!filmExists) {
       await mediaModel.create({
         title,
         description,
         trailer,
-        // photo: photo.url,
+        photo: photo.secure_url,
         alternate,
         rating,
       });
