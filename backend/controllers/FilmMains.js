@@ -7,7 +7,7 @@ async function GetFilms(req, res) {
   
   try {
     if (req.session.user) {
-      const videos = await mediaModel.find({ _id: req.session.user._id }).populate("user"); //if user logged in,get user specific data!
+      const videos = await mediaModel.find({ _id: req.session.user._id }).populate("addedBy"); //if user logged in,get user specific data!
       res.status(200).json(videos);
     } else {
       const searchTerm = req?.params?.searchTerm;

@@ -9,7 +9,7 @@ router
       try {
         const comments = await commentModel
           .find({ _id: req.session.user._id }) 
-          .populate("users"); 
+          .populate("by"); //still trying to learn how to conect 2 collections
         return res.status(200).json(comments);
       } catch (err) {
         console.error(err);
