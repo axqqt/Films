@@ -1,4 +1,5 @@
-import { useEffect, useState, useContext } from "react";
+/* eslint-disable no-unused-vars */
+import { useEffect, useState, useContext, Suspense } from "react";
 import { UserData } from "../App";
 import { DeleteUsers } from "./Services/Api";
 
@@ -38,9 +39,8 @@ const DisplayUsers = () => {
 
   return (
     <div>
-      {loading ? (
-        <RingLoader></RingLoader>
-      ) : users && users.length ? (
+      <Suspense fallback={<RingLoader/>}>
+        {users && users.length ? (
         users.map((x) => (
           <div key={x._id}>
             <br></br>
@@ -64,7 +64,7 @@ const DisplayUsers = () => {
         ))
       ) : (
         <h2>No Users Found!</h2>
-      )}
+      )}</Suspense>
     </div>
   );
 };

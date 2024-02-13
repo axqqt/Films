@@ -66,7 +66,7 @@ const AddFilm = () => {
       }
     } catch (err) {
       console.error(err);
-      setStatus(`Error adding film: ${err.message}`);
+      setStatus(`Error while adding , seems to be already added?`);
     } finally {
       setLoading(false);
       resetForm();
@@ -104,8 +104,6 @@ const AddFilm = () => {
           name="alternate"
         />
     <input onChange={handleFileChange} type="file" name="image" />
-
-        {/**Problem exists here! */}
         <span><p>Rating...</p>
         <input
           value={data.rating}

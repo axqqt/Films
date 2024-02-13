@@ -1,7 +1,8 @@
+/* eslint-disable no-unused-vars */
 /* eslint-disable react/prop-types */
 
 import Axios from "axios";
-import { useContext, useEffect } from "react";
+import { Suspense, useContext, useEffect } from "react";
 import { UserData } from "../App";
 
 const DisplayFilm = ({ x }) => {
@@ -29,33 +30,29 @@ const DisplayFilm = ({ x }) => {
     }
   }
 
-  return loading ? (
-    "Loading..."
-  ) : (
-    <div key={x._id}>
-      <h1 className="text-2xl font-bold">{x.title}</h1>
-      <img
-        src={x.alternate || x.photo || "No image available"}
-        height={500}
-        alt={`Image of ${x.title}`}
-        className="mt-2 rounded-md"
-      />
-      <br></br>
-      {x.photo ? <img src={x.photo} alt={`Image of ${x.title}`} /> : ""}
-      <div>
-        <p>{x.rating ? `Rated ${x.rating}/10` : <h1>Unrated!</h1>}</p>
-      </div>
-      <button
-        onClick={(e) => {
-          e.preventDefault();
-          const newRating = x.rating + 1; // Change this logic if necessary
-          updateRating(x._id, newRating);
-        }}
-      >
-        👍🏻
-      </button>
-    </div>
-  );
+  return <Suspense fallback={"Loading..."}> <div key={x._id}>
+  <h1 className="text-2xl font-bold">{x.title}</h1>
+  <img
+    src={x.alternate || x.photo || "No image available"}
+    height={500}
+    alt={`Image of ${x.title}`}
+    className="mt-2 rounded-md"
+  />
+  <br></br>
+  {x.photo ? <img src={x.photo} alt={`Image of ${x.title}`} /> : ""}
+  <div>
+    <p>{x.rating ? `Rated ${x.rating}/10` : <h1>Unrated!</h1>}</p>
+  </div>
+  <button
+    onClick={(e) => {
+      e.preventDefault();
+      const newRating = x.rating + 1; // Change this logic if necessary
+      updateRating(x._id, newRating);
+    }}
+  >
+    👍🏻
+  </button>
+</div></Suspense>
 };
 
 export default DisplayFilm;

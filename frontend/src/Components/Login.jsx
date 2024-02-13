@@ -7,6 +7,9 @@ import { Link } from "react-router-dom";
 import { googleProvider, auth, gitHubAuth } from "./Fire/FireConfig";
 import { signInWithPopup, signOut } from "firebase/auth";
 import { UserData } from "../App";
+// import calculateMetrics from "lib/metrics";
+
+// const getMetrics = cache();
 
 const Login = (props) => {
   const {
@@ -174,7 +177,7 @@ const Login = (props) => {
           name="password"
         />
         <button type="submit" disabled={loading}>
-          {loading ? <RingLoader></RingLoader> : "Login"}
+          {loading ? <RingLoader/>: "Login"}
         </button>
         <button onClick={signUpGoogle}>Sign Up With Google!</button>
         <button onClick={signInGitHub}>Sign Up with GitHub!</button>

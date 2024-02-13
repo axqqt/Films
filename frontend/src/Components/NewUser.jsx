@@ -81,7 +81,7 @@ const NewUser = (props) => {
         {/**File handling part incomplete! */}
         <p>{status ? status : ""}</p>
         <button type="submit" disabled={loading}>
-          {loading ? <RingLoader></RingLoader> : "Create User"}
+          {loading ? <RingLoader/> : "Create User"}
         </button>
       </form>
       <p>

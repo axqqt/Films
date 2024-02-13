@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { useContext, useEffect, useState } from "react";
+import { Suspense, useContext, useEffect, useState } from "react";
 import { UserData } from "../App";
 import RingLoader from "react-spinners/RingLoader";
 import { GetComments } from "./Services/Api";
@@ -41,9 +41,7 @@ const Comments = () => {
   return (
     logged?<div>
     <h1>Comments</h1>
-    {loading ? (
-      <RingLoader />
-    ) : comments && comments.length ? (
+    <Suspense fallback={<RingLoader/>}>{comments && comments.length ? (
       comments.map((x) => (
         <div key={x._id}>
           <p>{x.comment}</p>
@@ -70,7 +68,8 @@ const Comments = () => {
       ))
     ) : (
       "No comments posted!"
-    )}
+    )}</Suspense>
+    
   </div>:<div><h1>Please <Link to="/login">Login</Link> to Continue! </h1></div>
   );
 };

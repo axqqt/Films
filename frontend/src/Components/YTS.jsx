@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable no-unused-vars */
-import { useState, useEffect, useContext } from "react";
+import { useState, useEffect, useContext, Suspense } from "react";
 import { UserData } from "../App";
 import Axios from "axios";
 import { YTSDefault } from "./Services/Api";
@@ -68,9 +68,7 @@ const YTSPage = () => {
     </button>
   </form>
 
-  {loading ? (
-    <RingLoader />
-  ) : movies && movies.length ? (
+  <Suspense fallback={<RingLoader/>}>{movies && movies.length ? (
     <div style={{ color: "black" }}>
       {movies.map((x) => (
         <div key={x.id} style={{ padding: "5%" }}>
@@ -109,7 +107,7 @@ const YTSPage = () => {
     </div>
   ) : (
     <h1>No films found!</h1>
-  )}
+  )}</Suspense>
 </div> : <div>Please <Link to="/login">Login</Link> to continue!</div>
 };
 

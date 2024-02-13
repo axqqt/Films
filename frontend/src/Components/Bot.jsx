@@ -1,4 +1,5 @@
-import { useState } from "react";
+/* eslint-disable no-unused-vars */
+import { Suspense, useState } from "react";
 
 import RingLoader from "react-spinners/RingLoader";
 import { Gemini } from "./Services/Api";
@@ -32,11 +33,10 @@ const BotPage = () => {
         placeholder="Ask Gemini"
       />
       <h1 >{promptCounter===0?"Hi i'm Velo , How may I help you today? 🤖":""}</h1>
-      {loading ? (
-        <RingLoader></RingLoader>
-      ) : (
-        <p>{JSON.stringify(response.generatedText)}</p>
-      )}
+      <Suspense fallback={<RingLoader/>}> <p>{JSON.stringify(response.generatedText)}</p> </Suspense>
+       
+   
+        {/**Getting rid of the \n */}
       <button onClick={sendPrompt}>Enter</button>
     </div>
   );

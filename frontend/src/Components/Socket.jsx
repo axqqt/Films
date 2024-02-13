@@ -73,6 +73,7 @@ const Socket = () => {
           <li key={index}>{message}</li>
         ))}
       </ul>
+     
       <div>
         <h2>System Messages:</h2>
         <ul>

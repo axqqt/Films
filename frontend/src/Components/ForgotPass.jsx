@@ -43,7 +43,7 @@ const ForgotPass = () => {
           placeholder="Enter Updated Password"
         ></input>
         <button disabled={loading}>
-          {loading ? <RingLoader></RingLoader> : "Forgot Password"}
+          {loading ? <RingLoader/> : "Forgot Password"}
         </button>
       </form>
       <p>{status}</p>
