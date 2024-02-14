@@ -33,7 +33,7 @@ const movieSchema = new mongoose.Schema(
     },
     rating: { type: String },
     addedBy: {
-      type: mongoose.Schema.Types.ObjectId,
+      type: String, //ID is type String
       ref: "users",
     },
   },

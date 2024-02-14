@@ -37,7 +37,7 @@
     "stripe": "^14.12.0"
   },
   "scripts": {
-    "start": "nodemon server.js && secondary.js",
+    "start": "nodemon server.js",
     "build": "npm run build",
     "test": "jest"
   },

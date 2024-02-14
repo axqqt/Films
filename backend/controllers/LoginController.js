@@ -33,15 +33,17 @@ const Login = async (req, res, next) => {
 
         const AccessToken = jwt.sign(
           accessTokenPayload,
-          process.env.ACCESS_TOKEN,
+          process.env.access_token,
           { expiresIn: "1h" }
         );
 
         const RefreshToken = jwt.sign(
           { username: userValidity.username },
-          process.env.REFRESH_TOKEN,
+          process.env.refresh_token,
           { expiresIn: "7d" }
         );
+
+        // await req.cookie({username,password,maxAge:60000})
 
         req.session.user = { username , _id:String(userValidity._id), maxAge:60000,};
 

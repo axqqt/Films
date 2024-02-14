@@ -20,7 +20,7 @@ const limiter = require("./limiter");
 const session = require("express-session");
 const gptGenerate = require("./routes/gpt.js");
 const commentsModel = require("./routes/comments.js");
-
+const morgan = require("morgan");
 
 app.use(express.json());
 app.use(cookieParser());
@@ -36,6 +36,14 @@ app.use(
   store:false
   })
 );
+
+// app.use(cookieSession({
+//   name: 'session',
+//   keys: [/* secret keys */],
+
+//   // Cookie Options
+//   maxAge: 24 * 60 * 60 * 1000 // 24 hours
+// }))
 
 app.use(
   cors({
@@ -59,6 +67,7 @@ app.use(helmet());
 app.use(limiter,(next)=>{
     next();
 })
+app.use(morgan("dev"))
 app.use("/register", register);
 app.use("/login", login);
 app.use("/home", homepage);
@@ -100,6 +109,7 @@ clientBoot();
 
 const { createServer } = require("http");
 const { Server } = require("socket.io");
+
 
 const httpServer = createServer(app);
 const io = new Server(httpServer, {

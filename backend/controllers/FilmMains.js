@@ -1,6 +1,6 @@
 const mediaModel = require("../models/media");
 const cloudinary = require("cloudinary").v2;
-
+require("dotenv").config();
 
 
 async function GetFilms(req, res) {
@@ -36,9 +36,9 @@ async function GetFilms(req, res) {
 
 
 cloudinary.config({
-  cloud_name: "dsto9mmt0",
-  api_key: "857482966483428",
-  api_secret: "Vry5wv5flNncSsA3t6km4SQcGnM",
+  cloud_name: process.env.cloudinary_cloud_name,
+  api_key: process.env.cloudinary_api_key,
+  api_secret: process.env.cloudinary_api_secret,
   secure: true,
 });
 
@@ -49,8 +49,8 @@ async function CreateFilms(req, res) {
     const { title, description, trailer, alternate, rating } = req.body;
     const { file: image } = req; // Access file object correctly
 
-    if (!title || !trailer || !description || !image) {
-      return res.status(400).json({ error: "Title, trailer, description, or image missing" });
+    if (!title || !trailer || !description ) {
+      return res.status(400).json({ error: "Title, trailer, description missing" });
     }
 
     const photo = await cloudinary.uploader.upload(image.path); // Upload file to Cloudinary

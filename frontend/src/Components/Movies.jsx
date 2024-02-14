@@ -64,7 +64,7 @@ function Movies() {
     }
   }
 
-  const handleSearch = async ( searchTerm) => {
+  const handleSearch = async (searchTerm) => {
     //bugs exist!
     // limit
     try {

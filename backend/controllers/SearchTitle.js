@@ -15,14 +15,14 @@ const getFilms = async (req, res) => {
 
 async function SearchByTitle(req, res) {
   const { searchTerm } = req?.body;
-  if (!searchTerm) return res.status(400).json({ Alert: "Title not provided" });
+  if (!searchTerm) return res.status(400).json({ Alert: "Title not provided" }); //there's a massive problem here
 
   try {
     // const matches = await mediaModel.aggregate([{
     //   $match: [{ title: searchTerm }, { _id: String(id) }],
     // }]);
 
-    const matches = await mediaModel.find({title:String(searchTerm)})
+    const matches = await mediaModel.aggregate({$match:{title:searchTerm}})
 
     if (!matches || matches.length === 0) {
       return res
