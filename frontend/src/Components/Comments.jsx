@@ -34,6 +34,18 @@ const Comments = () => {
     }
   }
 
+  async function delComment(id) {
+    try {
+      setLoading(true);
+      await Axios.delete(`http://localhost:8000/comments/${id}`);
+    } catch (err) {
+      console.error(err);
+    } finally {
+      setLoading(false);
+    }
+  }
+  
+
   useEffect(() => {
     getComments();
   }, []);
@@ -63,6 +75,7 @@ const Comments = () => {
                 {loading ? "Loading..." : "Add Comment!"}
               </button>
             </form>
+            <button onClick={(e)=>{e.preventDefault();delComment(x._id)}}>Delete Comment</button>
           </div>
         </div>
       ))

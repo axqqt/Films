@@ -63,6 +63,20 @@ router
       console.error(error);
       return res.status(500).json({ Alert: "Internal Server Error" });
     }
+  }).delete(async (req,res)=>{
+    if(req.session.user){
+      const findUser = await commentModel.findOne({username:req.session.user.username})
+      if(!findUser){
+        res.status(400).json({Alert:"Invalid Username!"})
+      }else{
+        const deleted = await findUser.deleteOne();
+        if(!deleted){
+          res.status(403).json({Alert:"Error while deleting!"})
+        }else{
+          res.status(200).json({Alert:"Deleted!"})
+        }
+      }
+    }
   });
   
 

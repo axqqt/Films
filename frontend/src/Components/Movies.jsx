@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import { useEffect, useState, useContext, Suspense } from "react";
 import { UserData } from "../App";
 import Axios from "axios";
@@ -65,11 +66,12 @@ function Movies() {
   }
 
   const handleSearch = async (searchTerm) => {
+ 
     //bugs exist!
     // limit
     try {
       setLoading(true);
-      const response = await Axios.get(`${API_URL}/home/search`,searchTerm);
+      const response = await Axios.post(`${API_URL}/home/search`,searchTerm);
       setData(response.data);
     } catch (error) {
       console.error("Error searching:", error);
@@ -155,16 +157,6 @@ function Movies() {
                 onChange={(e) => setSearchTerm(e.target.value)}
                 className="p-2 border border-gray-300 flex-1"
               />
-              <label className="flex items-center">
-                <span className="mr-2">Enter limit</span>
-                <br />
-                <input
-                  type="number"
-                  onChange={(e) => setLimit(e.target.value)}
-                  value={limit}
-                  className="p-2 border border-gray-300"
-                />
-              </label>
               <button
                 type="submit"
                 disabled={loading}

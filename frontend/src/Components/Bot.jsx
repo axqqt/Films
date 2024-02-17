@@ -32,7 +32,7 @@ const BotPage = () => {
         }}
         placeholder="Ask Gemini"
       />
-      <h1 >{promptCounter===0?"Hi i'm Velo , How may I help you today? 🤖":""}</h1>
+      <h1 >{promptCounter===0?"Hi i'm Velo , How may I help you today? 🤖":"Anything else , I could assist you with?"}</h1>
       <Suspense fallback={<RingLoader/>}> <p>{JSON.stringify(response.generatedText)}</p> </Suspense>
        
    

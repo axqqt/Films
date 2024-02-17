@@ -37,6 +37,15 @@ app.use(
   })
 );
 
+function authenticated(req,res,next){
+    if(req.session.user){
+      console.log(req.session.user)
+    }else{
+      console.log("Not logged in!");
+    }
+    next();
+}
+
 // app.use(cookieSession({
 //   name: 'session',
 //   keys: [/* secret keys */],
@@ -47,7 +56,7 @@ app.use(
 
 app.use(
   cors({
-    origin: ["http://localhost:5173", "http://127.0.0.1:5173"], //react project
+    origin: ["http://localhost:5173", "http://127.0.0.1:5173","https://films-frontend.vercel.app"], //react project
   })
 );
 
@@ -70,6 +79,7 @@ app.use(limiter,(next)=>{
 app.use(morgan("dev"))
 app.use("/register", register);
 app.use("/login", login);
+app.use(authenticated)
 app.use("/home", homepage);
 app.use("/comments", commentsModel);
 app.use("/links", linked);
@@ -109,6 +119,7 @@ clientBoot();
 
 const { createServer } = require("http");
 const { Server } = require("socket.io");
+const { log } = require("console");
 
 
 const httpServer = createServer(app);

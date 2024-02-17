@@ -3,6 +3,15 @@ const cloudinary = require("cloudinary").v2;
 require("dotenv").config();
 
 
+function shuffleArray(array) { //to randomize with each refresh the film shown in the page , like yt algorithm lol
+  for (let i = array.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [array[i], array[j]] = [array[j], array[i]];
+  }
+  return array;
+}
+
+
 async function GetFilms(req, res) {
   
   try {
@@ -10,21 +19,11 @@ async function GetFilms(req, res) {
       const videos = await mediaModel.find({ _id: req.session.user._id }).populate("addedBy"); //if user logged in,get user specific data!
       res.status(200).json(videos);
     } else {
-      const searchTerm = req?.params?.searchTerm;
-  
-      if (!searchTerm) {
         const videos = await mediaModel.find();
-        res.status(200).json(videos);
-      } else {
-        const found = await mediaModel.find({ title: searchTerm });
-  
-        if (found.length === 0) {
-          return res.status(404).json({ Alert: "Film not found!" });
-        } else {
-          return res.status(200).json(found);
-        }
-      }
-    }
+        const shuffledVideos = shuffleArray(videos); //so this will randomize the video sent and will display in random order
+        res.status(200).json(shuffledVideos);
+      } 
+    
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: "Internal Server Error" });

@@ -141,7 +141,7 @@ const Login = (props) => {
           loginChecker++;
           setTimeout(() => {
             navigate("/");
-          }, 3000);
+          }, 1000);
         } else if (response.status === 401) {
           setStatus(response?.data?.response?.data || "Unauthorized");
         } else {

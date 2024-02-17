@@ -3,21 +3,27 @@
 
 import Axios from "axios";
 import { Suspense, useContext, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { UserData } from "../App";
 
 const DisplayFilm = ({ x }) => {
+  const navigator = useNavigate();
   const { loading, setLoading } = useContext(UserData);
 
   useEffect(() => {
     setLoading(false); // Make sure to set loading to false when component mounts
   }, [setLoading]);
 
-  async function updateRating(id, newRating) {
+  let currentRating=0;
+  currentRating+=parseInt(x.rating);
+
+  async function updateRating(id) {
     try {
       setLoading(true);
+      currentRating++;
       const updatedRating = await Axios.put(
         `http://localhost:8000/home/${id}`,
-        { rating: newRating }
+        { rating: currentRating }
       );
       if (updatedRating.status === 200) {
         alert("Updated Likes!");
@@ -45,8 +51,7 @@ const DisplayFilm = ({ x }) => {
   <button
     onClick={(e) => {
       e.preventDefault();
-      const newRating = x.rating + 1; // Change this logic if necessary
-      updateRating(x._id, newRating);
+      updateRating(x._id);
     }}
   >
     👍🏻
