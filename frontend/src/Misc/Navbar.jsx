@@ -14,11 +14,6 @@ const Navbar = () => {
         </Link>
       </li>
       <li>
-        <Link to="/chats" className="text-white hover:text-gray-300">
-          Chat
-        </Link>
-      </li>
-      <li>
         <Link to="/yts" className="text-white hover:text-gray-300">
           View YTS Films!
         </Link>

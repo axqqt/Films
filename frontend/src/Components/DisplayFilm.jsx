@@ -14,21 +14,18 @@ const DisplayFilm = ({ x }) => {
     setLoading(false); // Make sure to set loading to false when component mounts
   }, [setLoading]);
 
-  let currentRating=0;
-  currentRating+=parseInt(x.rating);
+
 
   async function updateRating(id) {
     try {
       setLoading(true);
-      currentRating++;
       const updatedRating = await Axios.put(
         `http://localhost:8000/home/${id}`,
-        { rating: currentRating }
       );
       if (updatedRating.status === 200) {
         alert("Updated Likes!");
+        window.location.reload();
       }
-      navigator("/")
     } catch (err) {
       console.error(err);
     } finally {

@@ -34,9 +34,9 @@ const Login = (props) => {
 
   const LogUser = async (e) => {
     const userPrior = localStorage.getItem("users");
-
+  
     console.log(userPrior);
-   
+  
     e.preventDefault();
     if (!logged) {
       if (status !== "") {
@@ -44,49 +44,43 @@ const Login = (props) => {
       }
       try {
         setLoading(true);
-        if(!userPrior){        
-          const response = await Axios.post(`${endPoint}`, data);
-        if (response.status === 200) {
-          // alert(response.data.Alert);
-          console.log(response.data);
-          setLogged(true);
-          setUser(response.data);
-          navigate("/"); //bugs still exist here 🤔
+        let response;
+        if (!userPrior) {
+          response = await Axios.post(`${endPoint}`, data);
         } else {
-          alert("Invalid Credentials!"); //for now!
-        }}else{
-          const response = await Axios.post(`${endPoint}`, userPrior);
-          if (response.status === 200) {
-            // alert(response.data.Alert);
-            console.log(response.data);
-            setLogged(true);
-            setUser(response.data);
-            localStorage.setItem("user",data)
-            navigate("/"); //bugs still exist here 🤔
-          } else {
-            alert("Invalid Credentials!"); //for now!
-          }
+          response = await Axios.post(`${endPoint}`, userPrior);
         }
-
+  
+        if (response.status === 200) {
+          const responseData = response.data;
+          const { AccessToken, RefreshToken, username } = responseData;
+  
+          localStorage.setItem("accessToken", AccessToken);
+          localStorage.setItem("refreshToken", RefreshToken);
+  
+          setLogged(true);
+          setUser(responseData);
+          navigate("/");
+        } else {
+          alert("Invalid Credentials!");
+        }
       } catch (err) {
         console.error(err);
         setStatus("Username/Password Wrong!");
       } finally {
         setLoading(false);
-          if(loginChecker===1){
-            localStorage.setItem("user",data) //set the data to log back type scenario?
-          }
+        if (loginChecker === 1) {
+          localStorage.setItem("user", data);
+        }
       }
     } else {
       setStatus("User already logged in!");
-      setTimeout(()=>{
-        navigate("/")
-      },1500)
-      
-      
-  
+      setTimeout(() => {
+        navigate("/");
+      }, 1500);
     }
   };
+  
 
   const signUpGoogle = async () => {
     try {

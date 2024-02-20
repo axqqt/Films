@@ -55,6 +55,7 @@ const YTSPage = () => {
       }}
       placeholder="Search for a film"
     />
+    <br/>
     <label>Choose a quality!</label>
     <select value={qual} onChange={handleChange}>
       <option value="All">All</option>

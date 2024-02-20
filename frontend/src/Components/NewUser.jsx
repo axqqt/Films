@@ -5,7 +5,7 @@ import { UserData } from "../App";
 import Axios from "axios";
 
 const NewUser = (props) => {
-  const { setStatus, setLoading, setData, data, loading, status, RingLoader } = useContext(UserData);
+  const { setStatus, setLoading, setData, data, loading, status, RingLoader,logged } = useContext(UserData);
 
  
   // eslint-disable-next-line no-unused-vars
@@ -45,11 +45,13 @@ const NewUser = (props) => {
     }
   };
 
+  
+
   const handleChange = (e) => {
     setData({ ...data, [e.target.name]: e.target.value });
   };
 
-  return (
+  return !logged?(
     <>
       <h1>Welcome to VeloFlix</h1>
       <h1>Register</h1>
@@ -88,7 +90,7 @@ const NewUser = (props) => {
         Already a user? <Link to="/login">Click Here to Login!</Link>
       </p>
     </>
-  );
+  ) : <div><h1>You are already logged in!</h1><p>Click <Link to="/">Here</Link> to go back to the homepage!</p></div>;
 };
 
 export default NewUser;

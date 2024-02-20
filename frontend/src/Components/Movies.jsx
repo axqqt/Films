@@ -5,7 +5,7 @@ import Axios from "axios";
 import { Link } from "react-router-dom";
 import DisplayFilm from "./DisplayFilm";
 import BotPage from "./Bot";
-import { DeleteFilm, GetMain } from "./Services/Api";
+import { DeleteFilm, EditTitle, GetMain } from "./Services/Api";
 
 const API_URL = "http://localhost:8000";
 
@@ -50,7 +50,7 @@ function Movies() {
   async function editTitle(id, modifiedTitle) {
     try {
       setLoading(true);
-      await editTitle(id, modifiedTitle);
+      await EditTitle(id, modifiedTitle);
 
       setData((prevData) =>
         prevData.map((film) =>
@@ -65,21 +65,25 @@ function Movies() {
     }
   }
 
-  const handleSearch = async (searchTerm) => {
- 
-    //bugs exist!
-    // limit
+  const handleSearch = async (e) => {
+    e.preventDefault();
+    if (!search.trim()) {
+      console.error("Search term is empty");
+      return; // exit the function if search term is empty
+    }
     try {
       setLoading(true);
-      const response = await Axios.post(`${API_URL}/home/search`,searchTerm);
-      setData(response.data);
+      const response = await Axios.post(`${API_URL}/home/search`, { searchTerm: search.trim() });
+      if (response.status === 200) {
+        setData(response.data);
+      }
     } catch (error) {
       console.error("Error searching:", error);
     } finally {
       setLoading(false);
     }
   };
-
+  
   const today = new Date();
   const hours = today.getHours();
 
@@ -106,6 +110,7 @@ function Movies() {
     <>
       {/**Mock UI for landing page! */}
       {/**Use veloxal for Username and veloxal123 for password!*/}
+      {/**I don't know how to use tailwind so all this css is gpt generated , my tailwind doesn't work properly! */}
       {!logged ? (
    <div className="flex items-center justify-center h-screen">
    <div className="text-center">
@@ -147,7 +152,7 @@ function Movies() {
               ! , {time}
             </h1>
             <form
-            onSubmit={(e) => { e.preventDefault(); handleSearch(search); }}
+            onSubmit={handleSearch}
               className="flex items-center space-x-2 mb-4"
             >
               <input

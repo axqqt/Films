@@ -3,7 +3,7 @@ require("dotenv").config();
 
 const getFilms = async (req, res) => {
   const { searchTerm } = req?.params;
-  if (!searchTerm) return res.status(400).json({ Alert: "Search Term!" });
+  if (!searchTerm) return res.status(400).json({ Alert: "No Search Term!" });
 
   const data = await mediaModel.findOne({ title: searchTerm });
   if (!data) {
@@ -22,7 +22,7 @@ async function SearchByTitle(req, res) {
     //   $match: [{ title: searchTerm }, { _id: String(id) }],
     // }]);
 
-    const matches = await mediaModel.aggregate({$match:{title:searchTerm}})
+    const matches = await mediaModel.find({title:searchTerm})
 
     if (!matches || matches.length === 0) {
       return res
@@ -90,24 +90,33 @@ async function DeleteItems(req, res) {
 async function UpdateFilm(req, res) {
   try {
     const id = req?.params?.id;
-    const {title,newRating}  = req?.body;
-
-    const filmExists = await mediaModel.findById(id); // Use findById for updating by ID
+    const title = req.body.title;
+  
+    const filmExists = await mediaModel.findById(id); 
     if (!filmExists) {
       return res.status(404).json({ Alert: "Film doesn't exist" });
     }
 
-    if (title) {
-      await mediaModel.findByIdAndUpdate(id, { title: title });
-    } else if (newRating !== undefined) {
-      await mediaModel.findByIdAndUpdate(id, { rating: newRating });
+    let updated;
+    if (!title) {
+      updated = await mediaModel.findByIdAndUpdate(id, { $inc: { rating: 1 } });
+    } else {
+      updated = await mediaModel.findByIdAndUpdate(id, { $set: { title: title }, $inc: { rating: 1 } });
     }
+    
+    
+    if (!updated) {
+      return res.status(400).json({ Alert: "Couldn't update!" });
+    }
+    
+    return res.status(200).json({ Alert: "Rating Updated" });
 
-    return res.status(200).json({ Alert: "Film Updated" });
   } catch (err) {
     console.error(err);
     res.status(500).json({ Alert: "Internal Server Error" });
   }
 }
+
+
 
 module.exports = { SearchByTitle, DeleteItems, UpdateFilm, IDWise, getFilms };

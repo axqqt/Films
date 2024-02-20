@@ -27,7 +27,7 @@ const GenerateImages = () => {
       const response = await Axios.post("http://localhost:8000/images", {image:data});
       setStatus(response.data.Alert);
       setGenerated(response.data);
-    } catch (err) {
+    } catch (err) { 
       console.error(err);
     } finally {
       setLoading(false);

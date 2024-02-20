@@ -76,20 +76,6 @@ async function CreateFilms(req, res) {
   }
 }
 
-
-
-// async function uploadToCloudinary(photo) {
-//   try {
-//     const result = await cloudinary.uploader.upload(
-//       photo.buffer.toString("base64")
-//     );
-//     return result;
-//   } catch (error) {
-//     console.error(error);
-//     throw new Error("Error uploading to Cloudinary");
-//   }
-// }
-
 const key = process.env.image_key;
 
 async function ScanImage(req, res) {

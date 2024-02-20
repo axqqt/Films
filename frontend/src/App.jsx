@@ -83,7 +83,6 @@ export default function App() {
           <Route path="/manage" element={<DisplayUsers />} />
           <Route path="/film/:id" element={<IDWisePage />} />
           <Route path="/forgotpass" element={<ForgotPass />} />
-          <Route path="/chats" element={<ChatPage />} />
           <Route path="*" element={<PageNotFound />} />
         </Routes>
         <Footer/>

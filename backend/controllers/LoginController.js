@@ -45,7 +45,7 @@ const Login = async (req, res, next) => {
 
         // await req.cookie({username,password,maxAge:60000})
 
-        req.session.user = { username , _id:String(userValidity._id), maxAge:60000,};
+        req.session.user = { username , _id:userValidity._id, maxAge:60000,}; //this is not saving!
 
         return res.status(200).json({
           Alert: `${username} logged in!`,

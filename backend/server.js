@@ -117,37 +117,37 @@ async function clientBoot() {
 }
 clientBoot();
 
-const { createServer } = require("http");
-const { Server } = require("socket.io");
-const { log } = require("console");
+// const { createServer } = require("http");
+// const { Server } = require("socket.io");
+// const { log } = require("console");
 
 
-const httpServer = createServer(app);
-const io = new Server(httpServer, {
-  cors: {
-    origin: ["http://localhost:5173", "http://127.0.0.1:5173"], //react proj
-  },
-});
+// const httpServer = createServer(app);
+// const io = new Server(httpServer, {
+//   cors: {
+//     origin: ["http://localhost:5173", "http://127.0.0.1:5173"], //react proj
+//   },
+// });
 
-io.on("connect", (err, socket) => {
-  try {
-    if (err) throw err;
-    socket.on("message", (data) => {
-      io.emit(data);
-    });
+// io.on("connect", (err, socket) => {
+//   try {
+//     if (err) throw err;
+//     socket.on("message", (data) => {
+//       io.emit(data);
+//     });
 
-    socket.on("remove", (data) => {
-      io.emit("remove", data);
-    });
+//     socket.on("remove", (data) => {
+//       io.emit("remove", data);
+//     });
 
-    socket.on("join", (data) => {
-      socket.join(data);
-    });
-  } catch (err) {
-    console.log(err);
-  }
-});
+//     socket.on("join", (data) => {
+//       socket.join(data);
+//     });
+//   } catch (err) {
+//     console.log(err);
+//   }
+// });
 
-httpServer.listen(4000, () => {
-  console.log("Server is listening on port 4000");
-});
+// httpServer.listen(4000, () => {
+//   console.log("Server is listening on port 4000");
+// });
