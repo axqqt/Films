@@ -16,7 +16,7 @@
     "@fontsource/roboto": "^5.0.8",
     "@headlessui/react": "^1.7.18",
     "@mui/icons-material": "^5.15.2",
-    "@mui/material": "^5.15.4",
+    "@mui/material": "^5.15.10",
     "@mui/styled-engine-sc": "^6.0.0-alpha.10",
     "@react-ui-org/react-ui": "^0.54.0",
     "@reduxjs/toolkit": "^2.0.1",

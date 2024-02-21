@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 
+
 const Navbar = () => {
   return (
     <ul className="flex space-x-4 bg-gray-800 p-4">

@@ -3,7 +3,7 @@ import Axios from "axios";
 import { useParams } from "react-router-dom";
 import { UserData } from "../App";
 
-const API_URL = "http://localhost:8000";
+const API_URL = "http://localhost:8000/home";
 
 const IDWisePage = () => {
   const { status, setStatus, RingLoader } = useContext(UserData);
@@ -14,7 +14,7 @@ const IDWisePage = () => {
 
   const handleSearchID = async () => {
     try {
-      const response = await Axios.post(`${API_URL}/home/${urlId}`);
+      const response = await Axios.post(`${API_URL}/${urlId}`);
       setMovie(response.data);
       setStatus(response.data.Alert);
     } catch (error) {

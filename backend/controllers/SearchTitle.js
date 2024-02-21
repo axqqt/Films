@@ -14,15 +14,11 @@ const getFilms = async (req, res) => {
 };
 
 async function SearchByTitle(req, res) {
-  const { searchTerm } = req?.body;
+  const {searchTerm} = req?.body;
   if (!searchTerm) return res.status(400).json({ Alert: "Title not provided" }); //there's a massive problem here
 
   try {
-    // const matches = await mediaModel.aggregate([{
-    //   $match: [{ title: searchTerm }, { _id: String(id) }],
-    // }]);
-
-    const matches = await mediaModel.find({title:searchTerm})
+    const matches = await mediaModel.aggregate([{$match:{title:searchTerm}}])
 
     if (!matches || matches.length === 0) {
       return res
@@ -40,7 +36,6 @@ async function SearchByTitle(req, res) {
 async function IDWise(req, res) {
   const id = req?.params?.id;
   if (!id) return res.status(400).json({ Alert: "No ID Provided" });
-
   const foundByID = await mediaModel.findOne({ _id: String(id) });
 
   if (!foundByID) {
@@ -99,24 +94,27 @@ async function UpdateFilm(req, res) {
 
     let updated;
     if (!title) {
-      updated = await mediaModel.findByIdAndUpdate(id, { $inc: { rating: 1 } });
+      updated = await mediaModel.findByIdAndUpdate(id,  { $inc: { rating: 1 } }, { new: true } );
+      if (!updated) {
+        return res.status(400).json({ Alert: "Couldn't update!" });
+      }else{
+           return res.status(200).json({ Alert: "Rating Updated" });
+      }
     } else {
       updated = await mediaModel.findByIdAndUpdate(id, { $set: { title: title }, $inc: { rating: 1 } });
+      if (!updated) {
+        return res.status(400).json({ Alert: "Couldn't update!" });
+      }else{
+        return res.status(200).json({ Alert: "Rating Updated" });
+      }
     }
     
-    
-    if (!updated) {
-      return res.status(400).json({ Alert: "Couldn't update!" });
-    }
-    
-    return res.status(200).json({ Alert: "Rating Updated" });
+
 
   } catch (err) {
     console.error(err);
     res.status(500).json({ Alert: "Internal Server Error" });
   }
 }
-
-
 
 module.exports = { SearchByTitle, DeleteItems, UpdateFilm, IDWise, getFilms };

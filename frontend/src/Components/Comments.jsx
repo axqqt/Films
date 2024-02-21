@@ -9,6 +9,11 @@ const Comments = () => {
   const { loading, setLoading,logged } = useContext(UserData);
   const [comments, setComments] = useState([]);
   const [msg, setMsg] = useState("");
+  const theID = comments.filter((x)=>x._id);
+
+
+
+
   async function getComments() {
     try {
       setLoading(true);
@@ -46,6 +51,8 @@ const Comments = () => {
   }
   
 
+
+
   useEffect(() => {
     getComments();
   }, []);
@@ -53,15 +60,11 @@ const Comments = () => {
   return (
     logged?<div>
     <h1>Comments</h1>
-    <Suspense fallback={<RingLoader/>}>{comments && comments.length ? (
-      comments.map((x) => (
-        <div key={x._id}>
-          <p>{x.comment}</p>
-          <div>
+    <div>
             <form
               onSubmit={(e) => {
                 e.preventDefault();
-                addComment(x._id);
+                addComment(theID);
               }}
             >
               <input
@@ -75,8 +78,13 @@ const Comments = () => {
                 {loading ? "Loading..." : "Add Comment!"}
               </button>
             </form>
-            <button onClick={(e)=>{e.preventDefault();delComment(x._id)}}>Delete Comment</button>
+            <button onClick={(e)=>{e.preventDefault();delComment(theID)}}>Delete Comment</button>
           </div>
+    <Suspense fallback={<RingLoader/>}>{comments && comments.length ? (
+      
+      comments.map((x) => (
+        <div key={x._id}>
+          <p>{x.comments}</p>
         </div>
       ))
     ) : (

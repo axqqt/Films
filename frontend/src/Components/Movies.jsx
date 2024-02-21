@@ -1,3 +1,4 @@
+/* eslint-disable react/no-unknown-property */
 /* eslint-disable no-unused-vars */
 import { useEffect, useState, useContext, Suspense } from "react";
 import { UserData } from "../App";
@@ -5,6 +6,7 @@ import Axios from "axios";
 import { Link } from "react-router-dom";
 import DisplayFilm from "./DisplayFilm";
 import BotPage from "./Bot";
+import { Container, Typography, Button, TextField } from "@mui/material";
 import { DeleteFilm, EditTitle, GetMain } from "./Services/Api";
 
 const API_URL = "http://localhost:8000";
@@ -56,7 +58,7 @@ function Movies() {
         prevData.map((film) =>
           film._id === id ? { ...film, title: modifiedTitle } : film
         )
-      );
+      ); 
     } catch (error) {
       console.error("Error editing title:", error);
     } finally {
@@ -108,114 +110,78 @@ function Movies() {
 
   return (
     <>
-      {/**Mock UI for landing page! */}
-      {/**Use veloxal for Username and veloxal123 for password!*/}
-      {/**I don't know how to use tailwind so all this css is gpt generated , my tailwind doesn't work properly! */}
       {!logged ? (
-   <div className="flex items-center justify-center h-screen">
-   <div className="text-center">
-     <h1 className="text-4xl font-bold mb-4">Welcome to VeloFlix! 🍿</h1>
-     <p className="text-lg mb-4">
-       Explore a world of movies and trailers. Join VeloFlix for a
-       personalized experience.
-     </p>
-     <button className="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-700">
-       <Link to="/login">Login</Link>
-     </button>
-     <p className="mt-4">
-       Dont have an account?
-       <br/>
-       <Link to="/newuser" className="text-blue-500 hover:underline">
-         Register here
-       </Link>
-     </p>
-   </div>
- </div>
+        <Container sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '100vh' }}>
+          <div sx={{ textAlign: 'center' }}>
+            <Typography variant="h3" fontWeight="bold" mb={4}>Welcome to VeloFlix! 🍿</Typography>
+            <Typography variant="body1" mb={4}>
+              Explore a world of movies and trailers. Join VeloFlix for a personalized experience.
+            </Typography>
+            <Button variant="contained" color="primary" component={Link} to="/login" sx={{ mr: 2 }}>
+              Login
+            </Button>
+            <Typography variant="body1" mt={4}>
+              Dont have an account?{" "}
+              <Link to="/newuser" style={{ color: "blue", textDecoration: "underline" }}>
+                Register here
+              </Link>
+            </Typography>
+          </div>
+        </Container>
       ) : (
         <div>
-          <button
-            onClick={viewBot}
-            className="bg-blue-500 text-white p-2 hover:bg-blue-700"
-          >
-            {showBot?"Close!":"Show Bot 🤖"}
-          </button>
-          {showBot?<BotPage/>:""}
-          <div
-            className="mx-auto max-w-2xl p-4"
-            style={{ paddingBottom: "5%", margin: "5%" }}
-          >
-            {user?.photoURL ? <img src={user.photoURL}></img> : ""}
-            <h1 className="text-3xl font-bold mb-4">
-              {logged
-                ? `Welcome back  ${user.displayName || user.username}`
-                : `Welcome Guest`}
-              ! , {time}
-            </h1>
-            <form
-            onSubmit={handleSearch}
-              className="flex items-center space-x-2 mb-4"
-            >
-              <input
+          <Button variant="contained" color="primary" onClick={viewBot} sx={{ mb: 2 }}>
+            {showBot ? "Close!" : "Show Bot 🤖"}
+          </Button>
+          {showBot && <BotPage />}
+          <Container maxWidth="md" sx={{ mx: "auto", p: 4 }}>
+            {user?.photoURL && <img src={user.photoURL} alt="User" />}
+            <Typography variant="h4" fontWeight="bold" mb={4}>
+              {logged ? `Welcome back ${user.displayName || user.username}` : `Welcome Guest`}! , {time}
+            </Typography>
+            <form onSubmit={handleSearch} style={{ display: "flex", alignItems: "center", marginBottom: "1rem" }}>
+              <TextField
                 type="text"
                 placeholder="Search Here..."
                 value={search}
                 onChange={(e) => setSearchTerm(e.target.value)}
-                className="p-2 border border-gray-300 flex-1"
+                variant="outlined"
+                fullWidth
+                sx={{ mr: 2 }}
               />
-              <button
-                type="submit"
-                disabled={loading}
-                className="p-2 bg-blue-500 text-white hover:bg-blue-700"
-              >
+              <Button type="submit" disabled={loading} variant="contained" color="primary">
                 Search
-              </button>
+              </Button>
             </form>
-            <br></br>
-            <Suspense fallback={<RingLoader/>}>{
-               data && data.length ? (
-                data.map((x) => (
-                  <div key={x._id} className="data-headlessui-state">
-                    <DisplayFilm x={x} />
-                    <Link
-                      to={`film/${x._id}`}
-                      onClick={() => {
-                        if (setID !== "") {
-                          setID("");
-                        }
-                        setID(x._id);
-                      }}
-                      className="text-blue-500 hover:underline block mt-2"
-                    >
-                      Click to View
-                    </Link>
-                    <div className="mt-2 flex items-center space-x-2">
-                      <button
-                        onClick={() => deleteFilm(x._id)}
-                        className="p-2 bg-red-500 text-white hover:bg-red-700"
-                      >
-                        Delete Film
-                      </button>
-                      <input
-                        onChange={(e) => setModifiedTitle(e.target.value)}
-                        placeholder="Update Film Title"
-                        className="p-2 border border-gray-300"
-                      />
-                      <button
-                        onClick={() => editTitle(x._id, modifiedTitle)}
-                        className="p-2 bg-green-500 text-white hover:bg-green-700"
-                      >
-                        Make changes
-                      </button>
-                    </div>
+            {data && data.length ? (
+              data.map((x) => (
+                <div key={x._id}>
+                  <DisplayFilm x={x} />
+                  <Link to={`film/${x._id}`} style={{ color: "blue", textDecoration: "underline", display: "block", marginTop: "0.5rem" }}>
+                    Click to View
+                  </Link>
+                  <div style={{ display: "flex", alignItems: "center", marginTop: "0.5rem" }}>
+                    <Button onClick={() => deleteFilm(x._id)} variant="contained" color="error" sx={{ mr: 2 }}>
+                      Delete Film
+                    </Button>
+                    <TextField
+                      onChange={(e) => setModifiedTitle(e.target.value)}
+                      placeholder="Update Film Title"
+                      variant="outlined"
+                      sx={{ mr: 2 }}
+                    />
+                    <Button onClick={() => editTitle(x._id, modifiedTitle)} variant="contained" color="success">
+                      Make changes
+                    </Button>
                   </div>
-                ))
-              ) : (
-                <p className="mt-4 text-lg font-bold">
-                  {search ? "No results found" : "No Trailers Added"}
-                </p>
-              )
-            }</Suspense>
-          </div>
+                </div>
+              ))
+            ) : (
+              <Typography variant="h5" fontWeight="bold" mt={4}>
+                {search ? "No results found" : "No Trailers Added"}
+              </Typography>
+            )}
+          </Container>
         </div>
       )}
     </>

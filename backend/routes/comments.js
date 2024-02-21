@@ -1,15 +1,15 @@
 const express = require("express");
 const router = express.Router();
-const commentModel = require("../models/comments");
+const userModel = require("../models/media");
 
 router
   .route("/")
   .get(async (req, res) => {
     if (req.session.user) {
       try {
-        const comments = await commentModel
-          .find({ _id: req.session.user._id }) 
-          .populate("by"); //still trying to learn how to conect 2 collections
+        const comments = await userModel
+          .find({ comments }) 
+          .populate("by"); 
         return res.status(200).json(comments);
       } catch (err) {
         console.error(err);
@@ -17,7 +17,7 @@ router
       }
     } else {
       try {
-        const comments = await commentModel.find();
+        const comments = await userModel.find();
         return res.status(200).json(comments);
       } catch (err) {
         console.error(err);
@@ -39,10 +39,10 @@ router
     }
 
     try {
-      const exists = await commentModel.findOne({ comment, by: id });
+      const exists = await userModel.findOne({ comment, by: id });
 
       if (!exists) {
-        const newComment = await commentModel.create({
+        const newComment = await userModel.create({
           comment,
           by: id,
         });
@@ -65,7 +65,7 @@ router
     }
   }).delete(async (req,res)=>{
     if(req.session.user){
-      const findUser = await commentModel.findOne({username:req.session.user.username})
+      const findUser = await userModel.findOne({username:req.session.user.username})
       if(!findUser){
         res.status(400).json({Alert:"Invalid Username!"})
       }else{

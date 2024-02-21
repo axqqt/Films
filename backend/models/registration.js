@@ -21,6 +21,11 @@ const userSchema = new mongoose.Schema(
       trim: true,
       min: 5,
     },
+    comment: {
+      type: String,
+      default: "",
+      trim: true,
+    },
     photo: {
       type: String,
     },

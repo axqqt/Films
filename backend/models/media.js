@@ -22,7 +22,7 @@ const movieSchema = new mongoose.Schema(
       min: 5,
     },
     comments:{
-      type:Object,  
+      type:String,  
     },
     photo: {
       type: String,

@@ -84,18 +84,21 @@ const AddFilm = () => {
           onChange={handleChange}
           placeholder="Enter Title"
           name="title"
+          required
         />
         <input
           value={data.description}
           onChange={handleChange}
           name="description"
           placeholder="Write your description"
+          required
         />
         <input
           value={data.trailer}
           onChange={handleChange}
           placeholder="Enter trailer"
           name="trailer"
+          required
         />
         <input
           value={data.alternate}
@@ -110,6 +113,8 @@ const AddFilm = () => {
           onChange={handleChange}
           type="number"
           name="rating"
+          min={1}
+          max={10}
           placeholder="Enter rating"
         /></span>
         
