@@ -19,7 +19,7 @@ const DisplayFilm = ({ x }) => {
   async function updateRating(id) {
     try {
       setLoading(true);
-      const updatedRating = await Axios.put(
+      const updatedRating = await Axios.patch(
         `http://localhost:8000/home/${id}`,
       );
       if (updatedRating.status === 200) {
@@ -34,7 +34,7 @@ const DisplayFilm = ({ x }) => {
   }
 
   return <Suspense fallback={"Loading..."}> <div key={x._id} style={{margin:"5%",padding:"5%"}}>
-  <h1 className="text-2xl font-bold">{x.title}</h1>
+  <h1 className="text-2xl font-bold">{x.title.toUpperCase()}</h1>
   <img
     src={x?.alternate? x.alternate : ""}
     height={500}

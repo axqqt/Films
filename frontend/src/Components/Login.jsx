@@ -87,8 +87,11 @@ const Login = (props) => {
       const response = await signInWithPopup(auth, googleProvider);
 
       if (response) {
-        setLogged(true);
-        setStatus("Google sign-in successful");
+        setLogged(true);  setStatus("Google sign-in successful");
+        setTimeout(()=>{
+          setStatus("")
+        },2000)
+      
         setUser(auth?.currentUser);
         navigate("/");
       } else {
@@ -105,8 +108,11 @@ const Login = (props) => {
       const response = await signInWithPopup(auth, gitHubAuth);
 
       if (response) {
-        setLogged(true);
-        setStatus("GitHub sign-in successful");
+        setLogged(true);  setStatus("GitHub sign-in successful");
+        setTimeout(()=>{
+          setStatus("")
+        },2000)
+    
         setUser(auth?.currentUser);
         navigate("/");
       } else {
@@ -153,8 +159,9 @@ const Login = (props) => {
   };
 
   return !logged?(
-    <div style={{ padding: "5%", justifyContent: "space-evenly" }}>
+    <div style={{  justifyContent: "space-evenly" }}>
       <h1>Login Page</h1>
+      {/**Use veloxal for the username and velo123 for the password */}
       <form onSubmit={LogUser}>
         <input
           type="text"

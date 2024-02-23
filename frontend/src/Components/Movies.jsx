@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable react/no-unknown-property */
 /* eslint-disable no-unused-vars */
 import { useEffect, useState, useContext, Suspense } from "react";
@@ -12,7 +13,7 @@ import { DeleteFilm, EditTitle, GetMain } from "./Services/Api";
 const API_URL = "http://localhost:8000";
 
 function Movies() {
-  const { logged, setID, RingLoader, user,loading,setLoading } = useContext(UserData);
+  const { logged, setID, RingLoader, user,loading,setLoading,setStatus,status } = useContext(UserData);
   const [data, setData] = useState([]);
   const [limit, setLimit] = useState(5);
   const [search, setSearchTerm] = useState("");
@@ -52,13 +53,16 @@ function Movies() {
   async function editTitle(id, modifiedTitle) {
     try {
       setLoading(true);
-      await EditTitle(id, modifiedTitle);
+      const {data} = await EditTitle(id, modifiedTitle);
+      if(data.status===200){
+        window.location.reload();
+      }
 
-      setData((prevData) =>
-        prevData.map((film) =>
-          film._id === id ? { ...film, title: modifiedTitle } : film
-        )
-      ); 
+      // setData((prevData) =>
+      //   prevData.map((film) =>
+      //     film._id === id ? { ...film, title: modifiedTitle } : film
+      //   )
+      // ); 
     } catch (error) {
       console.error("Error editing title:", error);
     } finally {
@@ -69,21 +73,31 @@ function Movies() {
 
   const handleSearch = async (e) => {
     e.preventDefault();
+    setData([]);
     if (!search.trim()) {
       console.error("Search term is empty");
       return; // exit the function if search term is empty
     }
     try {
       setLoading(true);
-      const response = await Axios.post(`${API_URL}/home/search`, { searchTerm: search.trim() });
+      const response = await Axios.post(`${API_URL}/home/search`, { searchTerm: search });
       if (response.status === 200) {
         setData(response.data);
+      }else if(response.status===400){
+        setStatus("You haven't searched for anything!")
+      }else{
+        setStatus("Error!")
       }
+
     } catch (error) {
       console.error("Error searching:", error);
     } finally {
       setLoading(false);
+      if(search===""){
+        fetchFromBack();
+       }
     }
+
   };
   
   const today = new Date();
@@ -164,16 +178,21 @@ function Movies() {
                     <Button onClick={() => deleteFilm(x._id)} variant="contained" color="error" sx={{ mr: 2 }}>
                       Delete Film
                     </Button>
-                    <TextField
+                    <form onSubmit={(e)=>{
+                      e.preventDefault(),editTitle(x._id, modifiedTitle)
+                    }}>                    
+                      <TextField
                       onChange={(e) => setModifiedTitle(e.target.value)}
                       placeholder="Update Film Title"
                       variant="outlined"
                       sx={{ mr: 2 }}
                     />
-                    <Button onClick={() => editTitle(x._id, modifiedTitle)} variant="contained" color="success">
+                    <Button type="submit" variant="contained" color="success">
                       Make changes
                     </Button>
+                    </form>
                   </div>
+                  <p>{status}</p>
                 </div>
               ))
             ) : (

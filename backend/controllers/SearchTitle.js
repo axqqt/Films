@@ -1,7 +1,7 @@
 const mediaModel = require("../models/media");
 require("dotenv").config();
 
-const getFilms = async (req, res) => {
+const GetFilms = async (req, res) => {
   const { searchTerm } = req?.params;
   if (!searchTerm) return res.status(400).json({ Alert: "No Search Term!" });
 
@@ -15,15 +15,15 @@ const getFilms = async (req, res) => {
 
 async function SearchByTitle(req, res) {
   const {searchTerm} = req?.body;
-  if (!searchTerm) return res.status(400).json({ Alert: "Title not provided" }); //there's a massive problem here
+  if (!searchTerm) return res.status(400).json({ Alert: "Search term not provided" });  //There's a huge issue here!
 
   try {
-    const matches = await mediaModel.aggregate([{$match:{title:searchTerm}}])
+    const matches = await mediaModel.findOne({title: searchTerm});
 
     if (!matches || matches.length === 0) {
       return res
         .status(404)
-        .json({ Alert: "No matching films found or ID does not match" });
+        .json({ Alert: "No matching films found" }); 
     } else {
       res.status(200).json(matches);
     }
@@ -85,31 +85,14 @@ async function DeleteItems(req, res) {
 async function UpdateFilm(req, res) {
   try {
     const id = req?.params?.id;
-    const title = req.body.title;
+    const title = req?.body?.title;
   
     const filmExists = await mediaModel.findById(id); 
     if (!filmExists) {
       return res.status(404).json({ Alert: "Film doesn't exist" });
+    }else{
+      await filmExists.updateOne({title})
     }
-
-    let updated;
-    if (!title) {
-      updated = await mediaModel.findByIdAndUpdate(id,  { $inc: { rating: 1 } }, { new: true } );
-      if (!updated) {
-        return res.status(400).json({ Alert: "Couldn't update!" });
-      }else{
-           return res.status(200).json({ Alert: "Rating Updated" });
-      }
-    } else {
-      updated = await mediaModel.findByIdAndUpdate(id, { $set: { title: title }, $inc: { rating: 1 } });
-      if (!updated) {
-        return res.status(400).json({ Alert: "Couldn't update!" });
-      }else{
-        return res.status(200).json({ Alert: "Rating Updated" });
-      }
-    }
-    
-
 
   } catch (err) {
     console.error(err);
@@ -117,4 +100,19 @@ async function UpdateFilm(req, res) {
   }
 }
 
-module.exports = { SearchByTitle, DeleteItems, UpdateFilm, IDWise, getFilms };
+async function Upvote(req,res){
+  const id = req?.params?.id;
+  if(!id) res.status(400).json({Alert:"Please send the ID"})
+  try{
+    const data = await mediaModel.findById(id)
+    if(!data){
+      res.status(404).json({Alert:"Invalid ID"})
+    }else{
+      await data.updateOne({$inc:{rating:1}})
+    }
+  }catch(err){
+    console.error(err);
+  }
+}
+
+module.exports = { SearchByTitle, DeleteItems, UpdateFilm, IDWise, GetFilms,Upvote };

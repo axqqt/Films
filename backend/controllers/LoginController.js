@@ -6,14 +6,12 @@ const Login = async (req, res, next) => {
   console.log("\n");
   
   console.log(req.session);
-  if (!req?.session?.user) {
-    try {
-      const { username, password } = req?.body;
+  try {
+    if (!req.session.user) {
+      const { username, password } = req.body;
 
       if (!username || !password)
-        return res
-          .status(400)
-          .json({ alert: `Username or password not provided` });
+        return res.status(400).json({ alert: `Username or password not provided` });
 
       const userValidity = await userController.findOne({ username }).exec();
 
@@ -43,9 +41,7 @@ const Login = async (req, res, next) => {
           { expiresIn: "7d" }
         );
 
-        // await req.cookie({username,password,maxAge:60000})
-
-        req.session.user = { username , _id:userValidity._id, maxAge:60000,}; //this is not saving!
+        req.session.user = { username , _id: userValidity._id, maxAge: 60000 };
 
         return res.status(200).json({
           Alert: `${username} logged in!`,
@@ -54,14 +50,12 @@ const Login = async (req, res, next) => {
           username,
         });
       }
-    } catch (err) {
-      console.error(err);
-      return res.status(500).json({ error: "Internal Server Error" });
+    } else {
+      return res.status(400).json({ Alert: `${req.session.user.username} already logged in!` });
     }
-  } else {
-    return res
-      .status(400)
-      .json({ Alert: `${req.session.user.username} already logged in!` });
+  } catch (err) {
+    console.error(err);
+    return res.status(500).json({ error: "Internal Server Error" });
   }
 };
 

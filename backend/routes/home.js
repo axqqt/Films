@@ -26,7 +26,8 @@ router
   .route("/:id")
   .post(Search.IDWise)
   .delete(Search.DeleteItems)
-  .put(Search.UpdateFilm);
+  .put(Search.UpdateFilm)
+  .patch(Search.Upvote);
 
 router.route("/:searchTerm").get(Search.SearchByTitle);
 

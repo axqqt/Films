@@ -42,9 +42,10 @@ const YTSPage = () => {
     }
   }
 
-  useEffect(() => {
+  useEffect(()=>{
     fetchFilms();
-  }, []);
+  },[])
+
 
   return logged && user?   <div style={{ padding: "5%" }}> {/**Only logged users can access! */}
   <h1>YTS Page!</h1>
