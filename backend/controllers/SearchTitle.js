@@ -14,16 +14,16 @@ const GetFilms = async (req, res) => {
 };
 
 async function SearchByTitle(req, res) {
-  const {searchTerm} = req?.body;
-  if (!searchTerm) return res.status(400).json({ Alert: "Search term not provided" });  //There's a huge issue here!
+  const { searchTerm } = req?.body;
+  if (!searchTerm) {
+    return res.status(400).json({ Alert: "Search term not provided" });
+  }
 
   try {
-    const matches = await mediaModel.findOne({title: searchTerm});
+    const matches = await mediaModel.find({ title: { $regex: searchTerm, $options: 'i' } });
 
-    if (!matches || matches.length === 0) {
-      return res
-        .status(404)
-        .json({ Alert: "No matching films found" }); 
+    if (matches.length === 0) {
+      return res.status(404).json({ Alert: "No matching films found" });
     } else {
       res.status(200).json(matches);
     }
@@ -32,6 +32,7 @@ async function SearchByTitle(req, res) {
     res.status(500).json({ Alert: "Internal Server Error" });
   }
 }
+
 
 async function IDWise(req, res) {
   const id = req?.params?.id;
@@ -45,27 +46,7 @@ async function IDWise(req, res) {
   }
 }
 
-async function SearchByTitle(req, res) {
-  const { title, id } = req?.params;
-  if (!title) return res.status(400).json({ Alert: "Title not provided" });
 
-  try {
-    const matches = await mediaModel.find({
-      $or: [{ title: title }, { _id: String(id) }],
-    });
-
-    if (!matches || matches.length === 0) {
-      return res
-        .status(404)
-        .json({ Alert: "No matching films found or ID does not match" });
-    } else {
-      res.status(200).json(matches);
-    }
-  } catch (error) {
-    console.error("Error searching by title:", error);
-    res.status(500).json({ Alert: "Internal Server Error" });
-  }
-}
 
 async function DeleteItems(req, res) {
   try {

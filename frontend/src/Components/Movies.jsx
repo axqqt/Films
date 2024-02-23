@@ -85,6 +85,8 @@ function Movies() {
         setData(response.data);
       }else if(response.status===400){
         setStatus("You haven't searched for anything!")
+      }else if(response.status===404){
+        setStatus("No results found!")
       }else{
         setStatus("Error!")
       }
