@@ -29,7 +29,7 @@ router
 
   router.route("/:id").post(async (req, res) => {
     const id = req?.params?.id;
-    if(!id ) res.status(400).json({Alert:"ID missing!"})
+    if(!id) res.status(400).json({Alert:"ID missing!"})
     const comment = req?.body?.comment;
 
     if (!comment || comment.length < 5) {
@@ -39,7 +39,7 @@ router
     }
 
     try {
-      const exists = await userModel.findOne({ comment, by: id });
+      const exists = await userModel.findOne({$and:{ comment, by: id }});
 
       if (!exists) {
         const newComment = await userModel.create({
@@ -64,12 +64,13 @@ router
       return res.status(500).json({ Alert: "Internal Server Error" });
     }
   }).delete(async (req,res)=>{
+    const id = req. params.id;
     if(req.session.user){
       const findUser = await userModel.findOne({username:req.session.user.username})
       if(!findUser){
         res.status(400).json({Alert:"Invalid Username!"})
       }else{
-        const deleted = await findUser.deleteOne();
+        const deleted = await findUser.deleteOne({_id:String(id)});
         if(!deleted){
           res.status(403).json({Alert:"Error while deleting!"})
         }else{

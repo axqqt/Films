@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import Axios from "axios";
 const API_URL = "http://localhost:8000";
 
@@ -73,6 +74,27 @@ export async function GetComments() {
     console.error(err);
   }
 }
+
+export async function AddComments(id,msg) {
+  try {
+    const comments = await Axios.get(`${API_URL}/comments/${id}`, {
+      comment: msg,
+    });
+    return comments.data;
+  } catch (err) {
+    console.error(err);
+  }
+}
+
+export async function DelComments(id) {
+  try {
+    const comments = await Axios.get(`${API_URL}/comments/${id}`);
+    return comments.data;
+  } catch (err) {
+    console.error(err);
+  }
+}
+
 
 export async function YTSDefault() {
   try {

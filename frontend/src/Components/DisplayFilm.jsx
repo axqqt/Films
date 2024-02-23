@@ -23,7 +23,7 @@ const DisplayFilm = ({ x }) => {
         `http://localhost:8000/home/${id}`,
       );
       if (updatedRating.status === 200) {
-        alert("Updated Likes!");
+        alert("Updated Likes!"); //why is it not doing this??????????????????
         window.location.reload();
       }
     } catch (err) {
@@ -33,15 +33,16 @@ const DisplayFilm = ({ x }) => {
     }
   }
 
-  return <Suspense fallback={"Loading..."}> <div key={x._id} style={{margin:"5%",padding:"5%"}}>
+  return <Suspense fallback={"Loading..."}> <div key={x._id} style={{margin:"5%",paddingBottom:"5%"}}>
   <h1 className="text-2xl font-bold">{x.title.toUpperCase()}</h1>
   <img
+  style={{width:"fit"}}
     src={x?.alternate? x.alternate : ""}
     height={500}
     className="mt-2 rounded-md"
   />
   <br></br>
-  {x.photo ? <img src={x.photo}   /> : ""}
+  {x.photo ? <img height={500} src={x.photo}   /> : ""}
   <div>
     <p>{x.rating ? `Rated ${x.rating}/10` : <h1>Unrated!</h1>}</p>
   </div>
