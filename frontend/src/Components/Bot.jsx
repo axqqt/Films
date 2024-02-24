@@ -15,7 +15,11 @@ const BotPage = () => {
     try {
       setLoading(true);
       const promptResponse = await Gemini(data);
-      setResponse(promptResponse);
+      if(promptResponse.status===200){
+           setResponse(promptResponse);
+           promptCounter++;
+      }
+   
     } catch (err) {
       console.error(err);
     } finally {

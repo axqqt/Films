@@ -8,7 +8,7 @@ import LandingPage from "./Components/Landing";
 import { createContext,  useState } from "react";
 import Login from "./Components/Login";
 import ForgotPass from "./Components/ForgotPass";
-import ChatPage from "./Components/Socket";
+// import ChatPage from "./Components/Socket";
 import IDWisePage from "./Components/IDWise";
 import Navbar from "./Misc/Navbar";
 import PageNotFound from "./Components/404";

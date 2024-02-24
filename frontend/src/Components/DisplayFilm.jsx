@@ -34,7 +34,7 @@ const DisplayFilm = ({ x }) => {
   }
 
   return <Suspense fallback={"Loading..."}> <div key={x._id} style={{margin:"5%",paddingBottom:"5%"}}>
-  <h1 className="text-2xl font-bold">{x.title.toUpperCase()}</h1>
+  <h1 className="text-2xl font-bold">{x.title}</h1>
   <img
   style={{width:"fit"}}
     src={x?.alternate? x.alternate : ""}
