@@ -12,7 +12,6 @@ const userSpecific = async (req,res)=>{ //user logged in?
   }else{
     res.status(200).json(results);
   }
-
 }
 
 
@@ -105,6 +104,31 @@ const updatePassword = async (req, res) => {
 };
 
 
+const followed = async (req,res)=>{
+  const userId = req.body.id;
+  if(!userId) res.status(400).json({Alert:"No ID Sent!"});
+ 
+   const results = await userSchema.findById(userId);
+   if(!results || results.length===0){
+     res.status(404).json({Alert:"No users found!"})
+   }else{
+    await results.updateOne({following:{$inc:1}})
+     res.status(200).json(`Following updated!`);
+   }
+}
+
+const unfollowed = async (req,res)=>{
+  const userId = req.body.id;
+  if(!userId) res.status(400).json({Alert:"No ID Sent!"});
+ 
+   const results = await userSchema.findById(userId);
+   if(!results || results.length===0){
+     res.status(404).json({Alert:"No users found!"})
+   }else{
+    await results.updateOne({following:{$inc:-1}})
+     res.status(200).json(`Following updated!`);
+   }
+}
 
 
 
@@ -112,4 +136,7 @@ const updatePassword = async (req, res) => {
 
 
 
-module.exports = { CreateUser, GetUsers, deleteUser, updatePassword,userSpecific };
+
+
+
+module.exports = { CreateUser, GetUsers, deleteUser, updatePassword,userSpecific,followed,unfollowed };

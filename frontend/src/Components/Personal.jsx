@@ -6,12 +6,14 @@ import DefaultLogin from "./DefaultLogin";
 
 const Personal = () => {
 
+    const base = "http://localhost:8000/users/specific"
+
     const {user,logged} = useContext(UserData)
     const [userData,setUserData]  = useState([])
 
     async function fetchUserData() {
         try{
-            const {data} = await Axios.get("http://localhost:8000/user/specific",{id:user.id});
+            const {data} = await Axios.post(base,{id:user.id});
             setUserData(data);
 
         }catch(err){
@@ -29,7 +31,7 @@ const Personal = () => {
     return logged ? (
         <div>
           <h1>Personal</h1>
-          <div>
+          {/* <div>
             {userData && userData.length ? (
               userData.map((userDataItem, index) => (
                 <div key={userDataItem._id || index}>
@@ -41,7 +43,8 @@ const Personal = () => {
             ) : (
               <h1>No User Data found!</h1>
             )}
-          </div>
+          </div> */}
+          {JSON.stringify(userData)}
         </div>
       ) : (
         <DefaultLogin />

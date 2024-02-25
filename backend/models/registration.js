@@ -29,6 +29,14 @@ const userSchema = new mongoose.Schema(
     photo: {
       type: String,
     },
+    followers:{
+      type:Number,
+      default:0,
+    },
+    following:{
+      type:Number,
+      default:0,
+    }
   },
   { timestamps: true }
 );
