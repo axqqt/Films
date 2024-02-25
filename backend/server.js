@@ -95,6 +95,8 @@ async function connectDB() {
     await mongoose.connect(cluster, {
       useNewUrlParser: true,
     });
+
+
     console.log("Connected to Cluster!");
   } catch (error) {
     console.error("Error connecting to the database:", error);

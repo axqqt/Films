@@ -72,8 +72,8 @@ const Comments = () => {
                 type="text"
                 placeholder="Enter Message..."
               ></input>
-              <button type="submit">
-                {loading ? "Loading..." : "Add Comment!"}
+              <button type="submit" disabled={loading}>
+                Add Comment
               </button>
             </form>
             <button onClick={(e)=>{e.preventDefault();delComment(theID)}}>Delete Comment</button>
@@ -82,13 +82,13 @@ const Comments = () => {
       
       comments.map((x) => (
         <div key={x._id}>
-          <p>{x.comment}</p>
+          <h1>{x.title}</h1>
         </div>
       ))
     ) : (
       "No comments posted yet!"
     )}</Suspense>
-    
+      <p>{JSON.stringify(comments)}</p>
   </div>:<div><h1>Please <Link to="/login">Login</Link> to Continue! </h1></div>
   );
 };

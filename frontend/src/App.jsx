@@ -29,7 +29,7 @@ export default function App() {
     mail: "",
     photo: "",
   });
-  const [user, setUser] = useState("");
+  const [user, setUser] = useState({});
   const [logged, setLogged] = useState(false);
   const [loading, setLoading] = useState(false);
   const [status, setStatus] = useState("");
@@ -48,26 +48,32 @@ export default function App() {
     speedMultiplier={1}
   />;
 
+
+  const theData = {
+    
+      logged,
+      setLogged,
+      status,
+      user,
+      setUser,
+      setStatus,
+      loading,
+      setLoading,
+      setID,
+      id,
+      data,
+      setData,
+      RingLoader,
+      movies,
+      setMovies,
+   
+  }
+
+
   return (
     <BrowserRouter>
       <UserData.Provider
-        value={{
-          logged,
-          setLogged,
-          status,
-          user,
-          setUser,
-          setStatus,
-          loading,
-          setLoading,
-          setID,
-          id,
-          data,
-          setData,
-          RingLoader,
-          movies,
-          setMovies,
-        }}
+        value={theData}
       >
         <Navbar/>
         <Routes>

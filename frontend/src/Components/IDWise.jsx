@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { useEffect, useState, useContext } from "react";
 import Axios from "axios";
 import { useParams } from "react-router-dom";
@@ -14,9 +15,9 @@ const IDWisePage = () => {
 
   const handleSearchID = async () => {
     try {
-      const response = await Axios.post(`${API_URL}/${urlId}`);
-      setMovie(response.data);
-      setStatus(response.data.Alert);
+      const {data} = await Axios.post(`${API_URL}/${urlId}`);
+      setMovie(data);
+      setStatus(data.Alert);
     } catch (error) {
       console.error("Error searching:", error);
       setStatus(error.response?.data?.Alert || "An error occurred");

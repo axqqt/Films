@@ -53,11 +53,12 @@ const Login = (props) => {
   
         if (response.status === 200) {
           const responseData = response.data;
-          const { AccessToken, RefreshToken, username } = responseData;
+          console.log(responseData);
+          const { AccessToken, RefreshToken } = responseData;
   
           localStorage.setItem("accessToken", AccessToken);
           localStorage.setItem("refreshToken", RefreshToken);
-  
+          loginChecker++;
           setLogged(true);
           setUser(responseData);
           navigate("/");
@@ -181,14 +182,14 @@ const Login = (props) => {
           {loading ? <RingLoader/>: "Login"}
         </button>
         <button onClick={signUpGoogle}>Sign Up With Google!</button>
-        <button onClick={signInGitHub}>Sign Up with GitHub!</button>
-        <br></br>
+        {/* <button onClick={signInGitHub}>Sign Up with GitHub!</button> */} {/**I haven't enabled to login with github in firebase */}
+        <br/>
         <button onClick={handleLogout}>Log Out!</button>
         <h1>{status}</h1>
       </form>
-      <br></br>
+      <br/>
       <Link to="/newuser">Not a user yet? Click Here 😊</Link>
-      <br></br>
+      <br/>
       <Link to="/forgotpass">Forgot your password? Click Here</Link>
     </div>
   ):<div><h1>You are already logged in!</h1><p>Click <Link to="/">Here</Link> to go back to the homepage! OR <button onClick={handleLogout}>Logout!</button></p></div>

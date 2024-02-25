@@ -15,6 +15,11 @@ const Navbar = () => {
         </Link>
       </li>
       <li>
+        <Link to="/generate" className="text-white hover:text-gray-300">
+          Generate Images
+        </Link>
+      </li>
+      <li>
         <Link to="/yts" className="text-white hover:text-gray-300">
           View YTS Films!
         </Link>

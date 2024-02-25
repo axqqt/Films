@@ -8,7 +8,7 @@ const generateImages = async (req, res) => {
   if (!image)
     return res
       .status(400)
-      .json({ Alert: "Image/Quantity/Resolution Missing!" });
+      .json({ Alert: "Image Missing!" });
 
   try {
     const response = await Axios.post(

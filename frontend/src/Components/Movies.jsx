@@ -137,7 +137,7 @@ function Movies() {
               Login
             </Button>
             <Typography variant="body1" mt={4}>
-              Dont have an account?{" "}
+              Dont have an account?
               <Link to="/newuser" style={{ color: "blue", textDecoration: "underline" }}>
                 Register here
               </Link>

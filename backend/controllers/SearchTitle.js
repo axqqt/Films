@@ -16,7 +16,8 @@ const GetFilms = async (req, res) => {
 async function SearchByTitle(req, res) {
   const { searchTerm } = req?.body;
   if (!searchTerm) {
-    return res.status(400).json({ Alert: "Search term not provided" });
+    const data = await mediaModel.find();
+    res.status(200).json(data);
   }
 
   try {
@@ -96,4 +97,19 @@ async function Upvote(req,res){
   }
 }
 
-module.exports = { SearchByTitle, DeleteItems, UpdateFilm, IDWise, GetFilms,Upvote };
+async function Downvote(req,res){
+  const id = req?.params?.id;
+  if(!id) res.status(400).json({Alert:"Please send the ID"})
+  try{
+    const data = await mediaModel.findById(id)
+    if(!data){
+      res.status(404).json({Alert:"Invalid ID"})
+    }else{
+      await data.updateOne({$inc:{rating:-1}})
+    }
+  }catch(err){
+    console.error(err);
+  }
+}
+
+module.exports = { SearchByTitle, DeleteItems, UpdateFilm, IDWise, GetFilms,Upvote  , Downvote};

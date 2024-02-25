@@ -4,6 +4,7 @@ import { useState, useEffect, useContext, Suspense } from "react";
 import { UserData } from "../App";
 import Axios from "axios";
 import { YTSDefault } from "./Services/Api";
+import DefaultLogin from '../Components/DefaultLogin'
 import { Link } from "react-router-dom";
 
 const YTSPage = () => {
@@ -110,7 +111,7 @@ const YTSPage = () => {
   ) : (
     <h1>No films found!</h1>
   )}</Suspense>
-</div> : <div>Please <Link to="/login">Login</Link> to continue!</div>
+</div> : <DefaultLogin/>
 };
 
 export default YTSPage;

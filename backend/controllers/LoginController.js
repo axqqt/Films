@@ -1,6 +1,7 @@
 const userController = require("../models/registration");
 const HashPasswordx = require("../security/hashing");
 const jwt = require("jsonwebtoken");
+const {StatusCodes} = require("http-status-codes")
 
 const Login = async (req, res, next) => {
   console.log("\n");
@@ -11,7 +12,7 @@ const Login = async (req, res, next) => {
       const { username, password } = req.body;
 
       if (!username || !password)
-        return res.status(400).json({ alert: `Username or password not provided` });
+        return res.status(StatusCodes.BAD_REQUEST).json({ alert: `Username or password not provided` });
 
       const userValidity = await userController.findOne({ username }).exec();
 
@@ -22,7 +23,7 @@ const Login = async (req, res, next) => {
         const passwordMatch = secure.compare(password, userValidity.password);
 
         if (!passwordMatch)
-          return res.status(401).json({ alert: "Invalid password" });
+          return res.status(StatusCodes.UNAUTHORIZED).json({ alert: "Invalid password" });
 
         const accessTokenPayload = {
           username: userValidity.username,
@@ -43,15 +44,16 @@ const Login = async (req, res, next) => {
 
         req.session.user = { username , _id: userValidity._id, maxAge: 60000 };
 
-        return res.status(200).json({
+        return res.status(StatusCodes.OK).json({
           Alert: `${username} logged in!`,
           AccessToken,
           RefreshToken,
           username,
+          id:userValidity._id
         });
       }
     } else {
-      return res.status(400).json({ Alert: `${req.session.user.username} already logged in!` });
+      return res.status(StatusCodes.BAD_REQUEST).json({ Alert: `${req.session.user.username} already logged in!` });
     }
   } catch (err) {
     console.error(err);

@@ -12,10 +12,12 @@ const AddFilm = () => {
     title: "",
     description: "",
     trailer: "",
-    // image: null,
+    image:null,
     alternate: "",
     rating: 0,
   });
+
+  
 
   const handleChange = (e) => {
     setData((prevData) => ({ ...prevData, [e.target.name]: e.target.value }));

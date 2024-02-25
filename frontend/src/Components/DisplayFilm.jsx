@@ -6,6 +6,8 @@ import { Suspense, useContext, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { UserData } from "../App";
 
+
+
 const DisplayFilm = ({ x }) => {
   const navigator = useNavigate();
   const { loading, setLoading } = useContext(UserData);
@@ -33,6 +35,24 @@ const DisplayFilm = ({ x }) => {
     }
   }
 
+  async function DownVote(id) {
+    try {
+      setLoading(true);
+      const updatedRating = await Axios.put(
+        `http://localhost:8000/home/downvote/${id}`,
+      );
+      if (updatedRating.status === 200) {
+        alert("Downvoted Film!"); //why is it not doing this??????????????????
+        window.location.reload();
+      }
+    } catch (err) {
+      console.error(err);
+    } finally {
+      setLoading(false);
+    }
+  }
+
+
   return <Suspense fallback={"Loading..."}> <div key={x._id} style={{margin:"5%",paddingBottom:"5%"}}>
   <h1 className="text-2xl font-bold">{x.title}</h1>
   <img
@@ -53,6 +73,14 @@ const DisplayFilm = ({ x }) => {
     }}
   >
     👍🏻
+  </button>
+  <button
+    onClick={(e) => {
+      e.preventDefault();
+      DownVote(x._id); {/**Downvoting feature */}
+    }}
+  >
+    👎🏻
   </button>
 </div></Suspense>
 };
