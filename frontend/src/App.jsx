@@ -18,6 +18,7 @@ import GenerateImages from "./Components/GenerateImages";
 import YTSPage from "./Components/YTS";
 import Comments from "./Components/Comments";
 import "./App.css";
+import Personal from "./Components/Personal";
 
 
 export const UserData = createContext();
@@ -89,6 +90,7 @@ export default function App() {
           <Route path="/manage" element={<DisplayUsers />} />
           <Route path="/film/:id" element={<IDWisePage />} />
           <Route path="/forgotpass" element={<ForgotPass />} />
+          <Route path="/profile" element={<Personal/>}></Route>
           <Route path="*" element={<PageNotFound />} />
         </Routes>
         <Footer/>

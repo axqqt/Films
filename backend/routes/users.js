@@ -20,7 +20,8 @@ const apiKey = process.env.api_key;
 
 router.route("/").get(userController.GetUsers).post(userController.CreateUser);
 
-router.route("/:id").get(userController.userSpecific).delete(userController.deleteUser);
+router.route("/:id").delete(userController.deleteUser);
+router.get("/specific").get(userController.userSpecific)
 
 router.route("/forgot").post(userController.updatePassword);
 

@@ -3,17 +3,16 @@ const HashPassword = require("../security/hashing");
 
 
 const userSpecific = async (req,res)=>{ //user logged in?
-  const username = req?.session?.user?.username
-  if(!username ){
-    return res.status(400).json({Alert:"No user logged in!"})
+ const userId = req.body.id;
+ if(!userId) res.status(400).json({Alert:"No ID Sent!"});
+
+  const results = await userSchema.findById(userId);
+  if(!results || results.length===0){
+    res.status(404).json({Alert:"No users found!"})
   }else{
-    const userValidity = await userSchema.findOne({username:username})
-    if(!userValidity){
-      return res.status(403).json({Alert:`${username} is invalid!`})
-    }else{
-      return res.status(200).json(userValidity)
-    }
+    res.status(200).json(results);
   }
+
 }
 
 

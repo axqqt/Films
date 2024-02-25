@@ -70,7 +70,7 @@ app.use(compression({ filter: false }));
 app.use(express.static("public", { maxAge: 31536000 }));
 app.use(bodyParser.urlencoded({ extended: true }));
 
-
+const userData = require("./routes/users.js")
 
 app.use(helmet());
 app.use(limiter,(next)=>{
@@ -84,6 +84,7 @@ app.use("/home", homepage);
 app.use("/comments", commentsModel);
 app.use("/links", linked);
 app.use("/gemini", gemini);
+app.use("/users",userData);
 app.use("/images", gptGenerate); //INCLUDED THIS JUST FOR FUN
 
 app.get("/", (req, res) => {

@@ -1,6 +1,6 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable react/prop-types */
-import { useState, useRef, useContext } from "react";
+import { useState, useRef, useContext, useMemo } from "react";
 import { useNavigate } from "react-router-dom";
 import Axios from "axios";
 import { Link } from "react-router-dom";
@@ -31,6 +31,7 @@ const Login = (props) => {
   const navigate = useNavigate();
 
   let loginChecker = 0;
+  // const calculation = useMemo(() => LogUser());
 
   const LogUser = async (e) => {
     const userPrior = localStorage.getItem("users");

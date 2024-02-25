@@ -1,7 +1,8 @@
+/* eslint-disable no-fallthrough */
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable react/no-unknown-property */
 /* eslint-disable no-unused-vars */
-import { useEffect, useState, useContext, Suspense } from "react";
+import { useEffect, useState, useContext, Suspense, useReducer } from "react";
 import { UserData } from "../App";
 import Axios from "axios";
 import { Link } from "react-router-dom";
@@ -9,6 +10,7 @@ import DisplayFilm from "./DisplayFilm";
 import BotPage from "./Bot";
 import { Container, Typography, Button, TextField } from "@mui/material";
 import { DeleteFilm, EditTitle, GetMain } from "./Services/Api";
+import { Slide } from 'react-slideshow-image';
 
 const API_URL = "http://localhost:8000";
 
@@ -120,9 +122,11 @@ function Movies() {
   const viewBot = (e) => {
     e.preventDefault();
     setShowBot(!showBot);
-  };
+  };  
 
- 
+
+
+
 
   return (
     <>
