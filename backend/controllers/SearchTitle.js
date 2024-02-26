@@ -112,4 +112,18 @@ async function Downvote(req,res){
   }
 }
 
-module.exports = { SearchByTitle, DeleteItems, UpdateFilm, IDWise, GetFilms,Upvote  , Downvote};
+async function addComments (req,res){
+  const id = req.params.id
+  const newComment = req.body.newComment;
+  if(!id) res.status(400).json({Alert:"No ID Provided!"});
+
+const valid =  await mediaModel.findById(id);
+  if(!valid) {
+    res.status(404).json({Alert:"ID Not found!"})
+  }else{
+   valid.comments.push(newComment)
+   res.status(200).json({Alert:`Comment ${newComment} added!`})
+  }
+}
+
+module.exports = { SearchByTitle, DeleteItems, UpdateFilm, IDWise, GetFilms,Upvote  , Downvote , addComments};

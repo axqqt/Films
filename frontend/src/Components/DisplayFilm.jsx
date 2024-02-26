@@ -66,6 +66,7 @@ const DisplayFilm = ({ x }) => {
   <div>
     <p>{x.rating ? `Rated ${x.rating}/10` : <h1>Unrated!</h1>}</p>
   </div>
+  <div><h1>Comments</h1><p>{x.comments}</p></div>
   <button
     onClick={(e) => {
       e.preventDefault();

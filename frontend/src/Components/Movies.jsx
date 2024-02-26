@@ -9,7 +9,7 @@ import { Link } from "react-router-dom";
 import DisplayFilm from "./DisplayFilm";
 import BotPage from "./Bot";
 import { Container, Typography, Button, TextField } from "@mui/material";
-import { DeleteFilm, EditTitle, GetMain } from "./Services/Api";
+import { AddComments, DeleteFilm, EditTitle, GetMain } from "./Services/Api";
 import { Slide } from 'react-slideshow-image';
 
 const API_URL = "http://localhost:8000";
@@ -17,7 +17,8 @@ const API_URL = "http://localhost:8000";
 function Movies() {
   const { logged, setID, RingLoader, user,loading,setLoading,setStatus,status } = useContext(UserData);
   const [data, setData] = useState([]);
-  const [limit, setLimit] = useState(5);
+  // const [limit, setLimit] = useState(5);
+  const [comment,setComment] = useState('')
   const [search, setSearchTerm] = useState("");
   const [modifiedTitle, setModifiedTitle] = useState("");
   const [time, setTime] = useState("");
@@ -47,6 +48,18 @@ function Movies() {
       setData((prevData) => prevData.filter((film) => film._id !== id));
     } catch (error) {
       console.error("Error deleting film:", error);
+    } finally {
+      setLoading(false);
+    }
+  }
+
+
+  async function addComment(id,msg) {
+    try {
+      setLoading(true);
+      await AddComments(id,msg)
+    } catch (err) {
+      console.error(err);
     } finally {
       setLoading(false);
     }
@@ -176,6 +189,7 @@ function Movies() {
             {data && data.length ? (
               data.map((x) => (
                 <div key={x._id}>
+                  <form onSubmit={(e)=>{e.preventDefault();addComment(comment)}}><TextField onChange={(e)=>{setComment(e.target.value)}} placeholder="Enter comment..." minLength={5} type="text"></TextField><Button disabled={loading} style={{color:"black"}}>Add Comment!</Button></form>
                   <DisplayFilm x={x} />
                   <Link to={`film/${x._id}`} style={{ color: "blue", textDecoration: "underline", display: "block", marginTop: "0.5rem" }}>
                     Click to View

@@ -28,6 +28,7 @@ router
   .delete(Search.DeleteItems)
   .put(Search.UpdateFilm)
   .patch(Search.Upvote);
+  router.route("/comment/:id").put(Search.addComments)
 
   router.route("/downvote/:id").put(Search.Downvote)
 

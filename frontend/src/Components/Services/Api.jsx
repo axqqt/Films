@@ -77,7 +77,7 @@ export async function GetComments() {
 
 export async function AddComments(id,msg) {
   try {
-    const comments = await Axios.get(`${API_URL}/comments/${id}`, {
+    const comments = await Axios.get(`${API_URL}/home/comment/${id}`, {
       comment: msg,
     });
     return comments.data;
