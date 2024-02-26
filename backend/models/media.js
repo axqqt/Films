@@ -21,6 +21,10 @@ const movieSchema = new mongoose.Schema(
       trim: true,
       min: 5,
     },
+    category:{
+      type:String,
+      default:"All"
+    },
     comments:{
       type:Array,default:[]  
     },

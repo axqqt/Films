@@ -21,7 +21,7 @@ const apiKey = process.env.api_key;
 router.route("/").get(userController.GetUsers).post(userController.CreateUser);
 
 router.route("/:id").delete(userController.deleteUser);
-router.get("/specific").post(userController.userSpecific)
+router.route("/specific").post(userController.userSpecific)
 router.route("/forgot").post(userController.updatePassword);
 router.route("/social").put(userController.followed).post(userController.unfollowed)
 

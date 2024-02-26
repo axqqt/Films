@@ -2,7 +2,7 @@
 /* eslint-disable react/prop-types */
 
 import Axios from "axios";
-import { Suspense, useContext, useEffect } from "react";
+import { Suspense, useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { UserData } from "../App";
 
@@ -24,10 +24,11 @@ const DisplayFilm = ({ x }) => {
       const updatedRating = await Axios.patch(
         `http://localhost:8000/home/${id}`,
       );
-      if (updatedRating.status === 200) {
-        alert("Updated Likes!"); //why is it not doing this??????????????????
-        window.location.reload();
-      }
+      window.location.reload();
+      // if (updatedRating.status === 200) {
+      //   alert("Updated Likes!"); //why is it not doing this??????????????????
+      //   window.location.reload();
+      // }
     } catch (err) {
       console.error(err);
     } finally {
@@ -41,10 +42,11 @@ const DisplayFilm = ({ x }) => {
       const updatedRating = await Axios.put(
         `http://localhost:8000/home/downvote/${id}`,
       );
-      if (updatedRating.status === 200) {
-        alert("Downvoted Film!"); //why is it not doing this??????????????????
-        window.location.reload();
-      }
+      window.location.reload();
+      // if (updatedRating.status === 200) {
+      //   alert("Downvoted Film!"); //why is it not doing this??????????????????
+      //   window.location.reload();
+      // }
     } catch (err) {
       console.error(err);
     } finally {
@@ -53,7 +55,9 @@ const DisplayFilm = ({ x }) => {
   }
 
 
+
   return <Suspense fallback={"Loading..."}> <div key={x._id} style={{margin:"5%",paddingBottom:"5%"}}>
+  
   <h1 className="text-2xl font-bold">{x.title}</h1>
   <img
   style={{width:"fit"}}
@@ -66,7 +70,7 @@ const DisplayFilm = ({ x }) => {
   <div>
     <p>{x.rating ? `Rated ${x.rating}/10` : <h1>Unrated!</h1>}</p>
   </div>
-  <div><h1>Comments</h1><p>{x.comments}</p></div>
+  {/* <div>{x.comments? <div><h1>Comments</h1>{JSON.stringify(x.comments)}</div> : "No comments posted yet!" }</div> */}
   <button
     onClick={(e) => {
       e.preventDefault();

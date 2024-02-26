@@ -23,13 +23,19 @@ function Movies() {
   const [modifiedTitle, setModifiedTitle] = useState("");
   const [time, setTime] = useState("");
   const [showBot, setShowBot] = useState(false);
+  const [drop,setDrop] = useState("All")
+  
 
 
   async function fetchFromBack() {
     try {
       setLoading(true);
-      const response = await GetMain();
-      setData(response);
+      if(drop==="All"){
+              const response = await GetMain();  
+              setData(response);
+      }else{
+        alert(drop);
+      }
     } catch (error) {
       console.error("Error fetching data:", error);
     } finally {
@@ -186,10 +192,10 @@ function Movies() {
                 Search
               </Button>
             </form>
+            <select onChange={(e)=>{setDrop(e.target.value)}}><option value={"All"}>All</option><option value={"Horror"}>Horror</option></select>
             {data && data.length ? (
               data.map((x) => (
                 <div key={x._id}>
-                  <form onSubmit={(e)=>{e.preventDefault();addComment(comment)}}><TextField onChange={(e)=>{setComment(e.target.value)}} placeholder="Enter comment..." minLength={5} type="text"></TextField><Button disabled={loading} style={{color:"black"}}>Add Comment!</Button></form>
                   <DisplayFilm x={x} />
                   <Link to={`film/${x._id}`} style={{ color: "blue", textDecoration: "underline", display: "block", marginTop: "0.5rem" }}>
                     Click to View
@@ -211,6 +217,7 @@ function Movies() {
                       Make changes
                     </Button>
                     </form>
+                    <form onSubmit={(e)=>{e.preventDefault();addComment(comment)}}><TextField onChange={(e)=>{setComment(e.target.value)}} placeholder="Enter comment..." minLength={5} type="text"></TextField><Button disabled={loading} style={{color:"black"}}>Add Comment!</Button></form>
                   </div>
                   <p>{status}</p>
                 </div>
