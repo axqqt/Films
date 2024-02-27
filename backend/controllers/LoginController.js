@@ -49,7 +49,8 @@ const Login = async (req, res, next) => {
           AccessToken,
           RefreshToken,
           username,
-          id:userValidity._id
+          id:userValidity._id,
+          session:req.session.user
         });
       }
     } else {
@@ -59,6 +60,7 @@ const Login = async (req, res, next) => {
     console.error(err);
     return res.status(500).json({ error: "Internal Server Error" });
   }
+  
 };
 
 const status = (req, res) => {
@@ -86,17 +88,17 @@ const logout = (req, res) => {
       req.session.destroy((err) => {
         if (err) {
           console.error("Error destroying session:", err);
-          res.status(500).send("Internal Server Error");
+          return res.status(500).send("Internal Server Error");
         } else {
-          res.status(200).send("Logout successful");
+          return res.status(200).send("Logout successful");
         }
       });
     } else {
-      res.status(401).send("No user logged in!");
+      return res.status(401).send("No user logged in!");
     }
   } catch (err) {
     console.error(err);
-    res.status(500).send("Internal Server Error");
+    return res.status(500).send("Internal Server Error");
   }
 };
 

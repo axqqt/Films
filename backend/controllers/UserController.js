@@ -14,9 +14,6 @@ const userSpecific = async (req,res)=>{ //user logged in?
    }
  }
  
- 
-
-
 async function GetUsers(req, res, next) {
   try {
     const users = await userSchema.find().sort("createdAt");
@@ -108,27 +105,27 @@ const updatePassword = async (req, res) => {
 
 const followed = async (req,res)=>{
   const userId = req.body.id;
-  if(!userId) res.status(400).json({Alert:"No ID Sent!"});
+  if(!userId) return res.status(400).json({Alert:"No ID Sent!"});
  
    const results = await userSchema.findById(userId);
    if(!results || results.length===0){
-     res.status(404).json({Alert:"No users found!"})
+    return res.status(404).json({Alert:"No users found!"})
    }else{
     await results.updateOne({following:{$inc:1}})
-     res.status(200).json(`Following updated!`);
+    return res.status(200).json(`Following updated!`);
    }
 }
 
 const unfollowed = async (req,res)=>{
   const userId = req.body.id;
-  if(!userId) res.status(400).json({Alert:"No ID Sent!"});
+  if(!userId) return res.status(400).json({Alert:"No ID Sent!"});
  
    const results = await userSchema.findById(userId);
    if(!results || results.length===0){
-     res.status(404).json({Alert:"No users found!"})
+    return res.status(404).json({Alert:"No users found!"})
    }else{
     await results.updateOne({following:{$inc:-1}})
-     res.status(200).json(`Following updated!`);
+    return res.status(200).json(`Following updated!`);
    }
 }
 

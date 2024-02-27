@@ -7,9 +7,9 @@ const GetFilms = async (req, res) => {
 
   const data = await mediaModel.findOne({ title: searchTerm });
   if (!data) {
-    res.status(400).json({ Alert: "No Film Found!" });
+    return res.status(400).json({ Alert: "No Film Found!" });
   } else {
-    res.status(200).json(data);
+    return res.status(200).json(data);
   }
 };
 
@@ -17,7 +17,7 @@ async function SearchByTitle(req, res) {
   const { searchTerm } = req?.body;
   if (!searchTerm) {
     const data = await mediaModel.find();
-    res.status(200).json(data);
+    return res.status(200).json(data);
   }
 
   try {
@@ -26,11 +26,11 @@ async function SearchByTitle(req, res) {
     if (matches.length === 0) {
       return res.status(404).json({ Alert: "No matching films found" });
     } else {
-      res.status(200).json(matches);
+      return res.status(200).json(matches);
     }
   } catch (error) {
     console.error("Error searching by title:", error);
-    res.status(500).json({ Alert: "Internal Server Error" });
+    return res.status(500).json({ Alert: "Internal Server Error" });
   }
 }
 
@@ -78,17 +78,17 @@ async function UpdateFilm(req, res) {
 
   } catch (err) {
     console.error(err);
-    res.status(500).json({ Alert: "Internal Server Error" });
+    return res.status(500).json({ Alert: "Internal Server Error" });
   }
 }
 
 async function Upvote(req,res){
   const id = req?.params?.id;
-  if(!id) res.status(400).json({Alert:"Please send the ID"})
+  if(!id) return res.status(400).json({Alert:"Please send the ID"})
   try{
     const data = await mediaModel.findById(id)
     if(!data){
-      res.status(404).json({Alert:"Invalid ID"})
+      return res.status(404).json({Alert:"Invalid ID"})
     }else{
       await data.updateOne({$inc:{rating:1}})
     }
@@ -99,11 +99,11 @@ async function Upvote(req,res){
 
 async function Downvote(req,res){
   const id = req?.params?.id;
-  if(!id) res.status(400).json({Alert:"Please send the ID"})
+  if(!id) return res.status(400).json({Alert:"Please send the ID"})
   try{
     const data = await mediaModel.findById(id)
     if(!data){
-      res.status(404).json({Alert:"Invalid ID"})
+      return res.status(404).json({Alert:"Invalid ID"})
     }else{
       await data.updateOne({$inc:{rating:-1}})
     }
@@ -115,15 +115,17 @@ async function Downvote(req,res){
 async function addComments (req,res){
   const id = req.params.id
   const newComment = req.body.newComment;
-  if(!id) res.status(400).json({Alert:"No ID Provided!"});
+  if(!id) return res.status(400).json({Alert:"No ID Provided!"});
 
 const valid =  await mediaModel.findById(id);
   if(!valid) {
-    res.status(404).json({Alert:"ID Not found!"})
+    return res.status(404).json({Alert:"ID Not found!"})
   }else{
    valid.comments.push(newComment)
-   res.status(200).json({Alert:`Comment ${newComment} added!`})
+   return res.status(200).json({Alert:`Comment ${newComment} added!`})
   }
 }
+
+
 
 module.exports = { SearchByTitle, DeleteItems, UpdateFilm, IDWise, GetFilms,Upvote  , Downvote , addComments};

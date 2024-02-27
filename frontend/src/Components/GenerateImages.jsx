@@ -87,7 +87,7 @@ const GenerateImages = () => {
         </button>
       </form>   
       <h1>{counter===0 ? "Let me know what u want to Generate 🎨" : "Anything else in mind?"}</h1>
-      {generated && generated.length ? (
+      {generated && generated.length && !loading ? (
         generated.map((x, index) => (
           <div key={x.id || index}>
             <img src={x.image_url} alt={`Image of ${data.image}`} height={500}/>

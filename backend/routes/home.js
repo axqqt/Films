@@ -32,6 +32,7 @@ router
 
   router.route("/downvote/:id").put(Search.Downvote)
 
+
 router.route("/:searchTerm").get(Search.SearchByTitle);
 
 module.exports = router;

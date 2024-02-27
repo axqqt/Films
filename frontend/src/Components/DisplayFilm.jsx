@@ -66,6 +66,7 @@ const DisplayFilm = ({ x }) => {
     className="mt-2 rounded-md"
   />
   <br></br>
+  <p>{x.comments}</p>
   {x.photo ? <img height={500} src={x.photo}   /> : ""}
   <div>
     <p>{x.rating ? `Rated ${x.rating}/10` : <h1>Unrated!</h1>}</p>
