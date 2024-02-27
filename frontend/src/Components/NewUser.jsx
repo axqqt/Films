@@ -4,12 +4,11 @@ import { useContext } from "react";
 import { UserData } from "../App";
 import Axios from "axios";
 
-const NewUser = (props) => {
-  const { setStatus, setLoading, setData, data, loading, status, RingLoader,logged } = useContext(UserData);
+const NewUser = () => {
+  const { setStatus, setLoading, setData, data, loading, status, RingLoader,logged,setLogged } = useContext(UserData);
 
  
-  // eslint-disable-next-line no-unused-vars
-  const { setLogged, setUser } = props;
+
 
   const createUser = async (e) => {
     e.preventDefault();
@@ -17,16 +16,19 @@ const NewUser = (props) => {
       setStatus("");
     }
 
-    const { username, password, mail, photo } = data;
+    const { username, password, mail, image } = data;
+
+    const formData = new FormData();
+    formData.append("username",username);
+    formData.append("password",password);
+    formData.append("mail",mail);
+    formData.append("image",image);
 
     try {
       setLoading(true);
       const response = await Axios.post("http://localhost:8000/register", {
-        username,
-        password,
-        mail,
-        photo,
-      });
+      formData
+      },{headers:{"Content-Type":"multipart/form-data"}});
 
       if (response.status === 201) {
         setStatus(`${username} Created`);
@@ -74,12 +76,12 @@ const NewUser = (props) => {
           placeholder="Enter mail"
           name="mail"
         />
-        {/* <input
+        <input
           onChange={handleChange}
           placeholder="Enter Photo"
-          name="photo"
+          name="image"
           type="file"
-        />{" "} */}
+        />
         {/**File handling part incomplete! */}
         <p>{status ? status : ""}</p>
         <button type="submit" disabled={loading}>

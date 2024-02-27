@@ -38,4 +38,33 @@ const generateImages = async (req, res) => {
   }
 };
 
-module.exports = { generateImages };
+const diffusionKey = process.env.diffusion;
+
+const stableDiffusion = async(req,res)=>{
+  const {Default,Negative} = req.body;
+  if(!Default) return res.status(400).json({Alert:"The default prompt is a MUST!"})
+  try{
+    const request = await Axios.post("https://stablediffusionapi.com/api/v4/dreambooth",{headers: 'Content-Type: application/json'},{ "key": `${diffusionKey}`,
+    "model_id": "crystal-clear-xlv1",
+    "prompt": Default,
+    "negative_prompt": Negative,
+    "width": "512",
+    "height": "512",
+    "samples": "1",
+    "num_inference_steps": "30",
+    "seed": null,
+    "guidance_scale": 7.5,
+    "webhook": null,
+    "track_id": null});
+
+    if(request && request.length){
+      res.status(200).json(request);
+    }else{
+      res.status(404).json({Alert:"No data received!"})
+    }
+  }catch(err){
+    console.error(err);
+  }
+}
+
+module.exports = { generateImages,stableDiffusion };

@@ -1,9 +1,18 @@
 const express = require("express");
 const router = express.Router();
 const userController = require("../controllers/UserController");
-const Axios = require("axios");
-require("dotenv").config();
-const apiKey = process.env.api_key;
+const multer = require("multer");
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, './uploads');
+  },
+  filename: function (req, file, cb) {
+    cb(null, file.originalname); 
+  }
+});
+
+const upload = multer({ storage: storage });
+
 
 // checkSchema({
 //   username: {
@@ -18,33 +27,11 @@ const apiKey = process.env.api_key;
 //   },
 // });
 
-router.route("/").get(userController.GetUsers).post(userController.CreateUser);
+router.route("/").get(userController.GetUsers).post( upload.single("image"),userController.CreateUser);
 
 router.route("/:id").delete(userController.deleteUser);
-router.route("/specific").post(userController.userSpecific)
+router.route("/specific").post(userController.userSpecific).put(userController.increaseFollowers)
 router.route("/forgot").post(userController.updatePassword);
 router.route("/social").put(userController.followed).post(userController.unfollowed)
-
-router.get("/arg", async (req, res, next) => { //JUST INCLUDED THIS FOR FUN
-  const { arg } = req?.body;
-
-  try {
-    const response = await Axios.get(
-      `https://api.api-ninjas.com/v1/animals?name=${encodeURIComponent(
-        String(arg)
-      )}`,
-      {
-        headers: {
-          "X-Api-Key": apiKey,
-        },
-      }
-    );
-
-    return res.status(200).json(response.data);
-  } catch (e) {
-    console.error(e);
-    return res.status(500).json({ error: e.message });
-  }
-});
 
 module.exports = router;

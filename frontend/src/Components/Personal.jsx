@@ -1,8 +1,10 @@
+/* eslint-disable no-unused-vars */
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useContext, useEffect, useState } from "react";
 import { UserData } from "../App";
 import Axios from "axios";
 import DefaultLogin from "./DefaultLogin";
+
 
 const Personal = () => {
   const BASE = "http://localhost:8000/users/specific";
@@ -19,6 +21,19 @@ const Personal = () => {
       console.error(err);
       setError("Error fetching user data");
     } finally {
+      setLoading(false);
+    }
+  }
+
+  async function increaseFollowers(){
+    try{
+      setLoading(true);
+     await Axios.put(BASE,{id:user.id}).then(result=>alert("Increased followers!"));
+      window.location.reload();
+      
+    }catch(err){
+      console.error(err);
+    }finally{
       setLoading(false);
     }
   }
@@ -44,7 +59,7 @@ const Personal = () => {
             <div style={{textAlign:"center"}}>
              <img
   src={userData.photo || emptyPfp}
-  alt={`Image of ${userData.username}`}
+  alt={`Image of ${userData.username || user.photoURL}`}
   style={{
     borderRadius: '50%', 
     width: '150px', 
@@ -52,11 +67,10 @@ const Personal = () => {
     objectFit: 'cover', 
   }}
 />
-
-              <h1> {userData.username}</h1>
+              <h1> {userData.username || user.username}</h1>
               <p>Followers : {userData.followers}</p>
               <p>Following : {userData.following}</p>
-            
+            <button onClick={(e)=>{e.preventDefault();increaseFollowers(userData._id)}}>Follow!</button>
             </div>
           ) : (
             <h1>No User Data found!</h1>

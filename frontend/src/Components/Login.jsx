@@ -49,7 +49,7 @@ const Login = (props) => {
         if (!userPrior) {
           response = await Axios.post(`${endPoint}`, data);
         } else {
-          response = await Axios.post(`${endPoint}`, userPrior);
+          response = await Axios.post(`${endPoint}`, JSON.parse(userPrior));
         }
   
         if (response.status === 200) {

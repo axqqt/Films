@@ -14,7 +14,7 @@ export async function Gemini(data) {
   return result.data;
 }
 
-export async function ForgotPass(data) {
+export async function ForgotPassword(data) {
   const r = await Axios.post(`${API_URL}/register/forgot`, {
     data,
   });

@@ -1,6 +1,6 @@
 /* eslint-disable no-unused-vars */
 import { UserData } from "../App";
-import { useContext, useRef, useState } from "react";
+import { useContext, useReducer, useRef, useState } from "react";
 import Axios from "axios";
 import RingLoader from "react-spinners/RingLoader";
 import DefaultLogin from "./DefaultLogin";
@@ -47,6 +47,7 @@ const GenerateImages = () => {
       resRef.current.value = "";
     }
   };
+
 
   const handleChange = (e) => {
     setData({ ...data, [e.target.name]: e.target.value });

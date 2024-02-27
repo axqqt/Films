@@ -6,7 +6,7 @@ import { Gemini } from "./Services/Api";
 const BotPage = () => {
   const [data, setData] = useState("");
   const [loading, setLoading] = useState(false);
-  const [response, setResponse] = useState([]);
+  const [response, setResponse] = useState({});
 
   let promptCounter = 0;
 
@@ -37,9 +37,7 @@ const BotPage = () => {
         placeholder="Ask Gemini"
       />
       <h1 >{promptCounter===0?"Hi i'm Velo , How may I help you today? 🤖":"Anything else , I could assist you with?"}</h1>
-      <Suspense fallback={<RingLoader/>}> <p>{JSON.stringify(response.generatedText)}</p> </Suspense>
-       
-   
+      <Suspense fallback={<RingLoader/>}> <p>{(response.generatedText)}</p> </Suspense>
         {/**Getting rid of the \n */}
       <button onClick={sendPrompt}>Enter</button>
     </div>

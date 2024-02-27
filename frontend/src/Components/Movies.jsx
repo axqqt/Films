@@ -217,7 +217,7 @@ function Movies() {
                       Make changes
                     </Button>
                     </form>
-                    <form onSubmit={(e)=>{e.preventDefault();addComment(comment)}}><TextField onChange={(e)=>{setComment(e.target.value)}} placeholder="Enter comment..." minLength={5} type="text"></TextField><Button disabled={loading} style={{color:"black"}}>Add Comment!</Button></form>
+                    <form onSubmit={(e)=>{e.preventDefault();addComment(x._id,comment)}}><TextField onChange={(e)=>{setComment(e.target.value)}} placeholder="Enter comment..." minLength={5} type="text"></TextField><Button disabled={loading} style={{color:"black"}}>Add Comment!</Button></form>
                   </div>
                   <p>{status}</p>
                 </div>

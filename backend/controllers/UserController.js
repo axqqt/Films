@@ -13,6 +13,31 @@ const userSpecific = async (req,res)=>{ //user logged in?
      res.status(200).json(results);
    }
  }
+
+ const increaseFollowers = async (req, res) => {
+  // Check if user ID is sent in the request body
+  const userId = req.body.id;
+  if (!userId) return res.status(400).json({ Alert: "No ID Sent!" });
+
+  try {
+    const user = await userSchema.findById(userId);
+    if (!user) {
+      return res.status(404).json({ Alert: "No user found!" });
+    }
+
+  
+    await userSchema.findByIdAndUpdate(userId, { $inc: { followers: 1 } });
+    const updatedUser = await userSchema.findById(userId);
+
+   
+    res.status(200).json(updatedUser);
+  } catch (error) {
+    console.error("Error:", error);
+    res.status(500).json({ Alert: "Internal Server Error" });
+  }
+};
+
+ 
  
 async function GetUsers(req, res, next) {
   try {
@@ -29,6 +54,7 @@ async function GetUsers(req, res, next) {
 async function CreateUser(req, res) {
   try {
     const { username, password, mail, photo } = req?.body;
+    const {file:img} = req;
 
     if (!username || !password || !mail)
       return res
@@ -46,7 +72,7 @@ async function CreateUser(req, res) {
         username,
         password: encrypted,
         mail,
-        photo,
+        photo:img,
       });
       return res.status(201).json({ Alert: `${username} Saved` });
     } else {
@@ -138,4 +164,4 @@ const unfollowed = async (req,res)=>{
 
 
 
-module.exports = { CreateUser, GetUsers, deleteUser, updatePassword,userSpecific,followed,unfollowed };
+module.exports = { CreateUser, GetUsers, deleteUser, updatePassword,userSpecific,followed,unfollowed, increaseFollowers};

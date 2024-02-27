@@ -1,15 +1,18 @@
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { UserData } from "../App";
+import {ForgotPassword} from "./Services/Api"
 
 const ForgotPass = () => {
-  const { status, setStatus, loading, setLoading, data, setData, RingLoader } = useContext(UserData);
-
+  const { status, setStatus, loading, setLoading,   RingLoader } = useContext(UserData);
+  const [data,setData]  =useState({
+    mail:"",password:""
+  })
 
   const ForgotPass = async (e) => {
     e.preventDefault();
     try {
       setLoading(true);
-      const r = await ForgotPass(data);
+      const r = await ForgotPassword(data);
       if (r.status === 200) {
         setStatus("Password Reset! 👍🏻");
         setTimeout(() => {

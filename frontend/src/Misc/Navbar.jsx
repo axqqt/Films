@@ -11,12 +11,7 @@ const Navbar = () => {
         <Link to="/" className="text-white hover:text-gray-300">
           Home
         </Link>
-      </li>
-      <li>
-        <Link to="/comments" className="text-white hover:text-gray-300">
-          Comments
-        </Link>
-      </li>
+        </li>
       <li>
         <Link to="/generate" className="text-white hover:text-gray-300">
           Generate Images
@@ -44,11 +39,7 @@ const Navbar = () => {
       Home
     </Link>
   </li>
-  <li>
-    <Link to="/comments" className="text-white hover:text-gray-300">
-      Comments
-    </Link>
-  </li>
+ 
   <li>
     <Link to="/generate" className="text-white hover:text-gray-300">
       Generate Images

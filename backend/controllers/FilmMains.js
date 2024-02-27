@@ -76,27 +76,7 @@ async function CreateFilms(req, res) {
   }
 }
 
-const key = process.env.image_key;
 
-async function ScanImage(req, res) {
-  const { photo } = req?.body;
 
-  try {
-    const scanned = await Axios.post(
-      "http://api-gpu.youscan.io/api/v2/images/detect",
-      {
-        headers: {
-          " Authorization": `Basic ${key}`,
-          " Content-Type": `application/json`,
-        },
-      },
-      photo
-    );
-    return res.status(scanned.status).json(scanned);
-  } catch (err) {
-    console.error(err);
-    return res.status(err.status).json(err.message);
-  }
-}
 
-module.exports = { GetFilms, CreateFilms, ScanImage };
+module.exports = { GetFilms, CreateFilms};

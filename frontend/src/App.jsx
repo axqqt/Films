@@ -4,7 +4,6 @@ import Movies from "./Components/Movies";
 import AddFilm from "./Components/AddFilm";
 import NewUser from "./Components/NewUser";
 import DisplayUsers from "./Components/DisplayUsers";
-import LandingPage from "./Components/Landing";
 import { createContext,  useState } from "react";
 import Login from "./Components/Login";
 import ForgotPass from "./Components/ForgotPass";
@@ -16,9 +15,10 @@ import Footer from "./Misc/Footer";
 import RingLoader from "react-spinners/RingLoader";
 import GenerateImages from "./Components/GenerateImages";
 import YTSPage from "./Components/YTS";
-import Comments from "./Components/Comments";
 import "./App.css";
 import Personal from "./Components/Personal";
+import StableDiffusion from "./Components/StableDiffusion";
+
 
 
 export const UserData = createContext();
@@ -28,6 +28,7 @@ export default function App() {
     username: "",
     password: "",
     mail: "",
+    image:null,
     photo: "",
   });
   const [user, setUser] = useState({});
@@ -82,10 +83,9 @@ export default function App() {
           <Route path="/" element={<Movies />}></Route>
           <Route path="/newuser" element={<NewUser />} />
           <Route path="/login" element={<Login />} />
-          <Route path="/comments" element={<Comments />}></Route>  
           <Route path="/yts" element={<YTSPage />}></Route>
-          <Route path="/generate" element={<GenerateImages />}></Route>
-          <Route path="/home" element={<LandingPage />} />
+          <Route path="/generate" element={<GenerateImages />}/>
+          <Route path="/diffusion" element={<StableDiffusion />}/>
           <Route path="/addfilm" element={<AddFilm />} />
           <Route path="/manage" element={<DisplayUsers />} />
           <Route path="/film/:id" element={<IDWisePage />} />
