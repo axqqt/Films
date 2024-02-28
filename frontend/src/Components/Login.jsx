@@ -163,6 +163,7 @@ const Login = (props) => {
   return !logged?(
     <div style={{  justifyContent: "space-evenly" }}>
       <h1>Login Page</h1>
+      <p>Use Credentials veloxal for username and velo123 as password!</p>
       {/**Use veloxal for the username and velo123 for the password */}
       <form onSubmit={LogUser}>
         <input
