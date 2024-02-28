@@ -8,7 +8,7 @@ import DefaultLogin from '../Components/DefaultLogin'
 import { Link } from "react-router-dom";
 
 const YTSPage = () => {
-  const { movies, setMovies, loading, setLoading, RingLoader,logged,user } = useContext(UserData);
+  const { movies, setMovies, loading, setLoading, RingLoader,logged,user,favs,setFavs } = useContext(UserData);
   const [movie, setMovie] = useState("");
   const [qual, setQual] = useState("All");
 
@@ -43,6 +43,24 @@ const YTSPage = () => {
     }
   }
 
+  const myFavorites = async (filmData, ) => {
+    const history= localStorage.getItem("favs")
+    if(history){
+     const parsedData = await JSON.parse(history);
+     alert('loaded back your favorites!')
+     setFavs(parsedData);
+    }
+    if (user) {
+        setFavs([...favs, filmData]);
+        localStorage.setItem("favs",favs);
+        alert(`Your favorites now -> ${JSON.stringify([...favs, filmData])}`);
+    } else {
+        alert("You are not logged in!");
+    }
+}
+
+  
+
   useEffect(()=>{
     fetchFilms();
   },[])
@@ -64,53 +82,43 @@ const YTSPage = () => {
       <option value="480p">480p</option>
       <option value="720p">720p</option>
       <option value="1080p">1080p</option>
-      <option value="2160p">2160p</option>
+      <option value="2160p">4K</option>
     </select>
     <button type="submit" disabled={loading}>
       Search for film!
     </button>
   </form>
-
-  <Suspense fallback={<RingLoader/>}>{movies && movies.length ? (
+  <Suspense fallback={<RingLoader />}>
+  {movies && movies.length ? (
     <div style={{ color: "black" }}>
       {movies.map((x) => (
         <div key={x.id} style={{ padding: "5%" }}>
           <h1>{x.title}</h1>
-          <img src={x.large_cover_image} alt={`Image of ${x.title}`} />
-          <img
-            src={x.background_image_original}
-            alt={`Background image of ${x.title}`}
-          />
+          {x.large_cover_image && <img src={x.large_cover_image} alt={`Image of ${x.title}`} />}
+          {x.background_image_original && <img src={x.background_image_original} alt={`Background image of ${x.title}`} />}
           <p>{x.description_full || ""}</p>
-          <p>{x.rating ? `Rated ${x.rating}/10` : ""}</p>
-          <p>{x.year ? `Released in ${x.year}` : ""}</p>
-          <h2>
-            {x.runtime
-              ? `Runtime is ${Math.abs(x.runtime / 60)} hours`
-              : ""}
-          </h2>
-         
-          <p>{x.mpa_rating ? `Rating ${x.mpa_rating}` : ""}</p>
+          {x.rating ?  <p>{`Rated ${x.rating}/10`}</p> : ""}
+          {x.year && <p>{`Released in ${x.year}`}</p>}
+          {x.runtime && <h2>{`Runtime is ${Math.abs(x.runtime / 60)} hours`}</h2>}
+          {x.mpa_rating && <p>{`Rating ${x.mpa_rating}`}</p>}
           <p>{x.language}</p>
-          <h2>{x.date_uploaded ? `Uploaded on ${x.date_uploaded}` : ""}</h2>
+          {x.date_uploaded && <h2>{`Uploaded on ${x.date_uploaded}`}</h2>}
           {x.url && (
             <a href={x.url}>
               <h1> Click here to view {x.title}</h1>
             </a>
           )}
-          <h2>
-            {x.torrents.quality ? `Qual ${x.torrents.quality}` : <h1></h1>}
-          </h2>
-          <button onClick={()=>{
-            localStorage.setItem("favorites",x.title);
-            alert(`Added ${x.title}`)
+          {x.torrents && x.torrents.quality && <h2>{`Qual ${x.torrents.quality}`}</h2>}
+          <button onClick={() => {
+            myFavorites(x.title)
           }}>{`Add ${x.title} to your favorites!`}</button>
         </div>
       ))}
     </div>
   ) : (
     <h1>No films found!</h1>
-  )}</Suspense>
+  )}
+</Suspense>
 </div> : <DefaultLogin/>
 };
 

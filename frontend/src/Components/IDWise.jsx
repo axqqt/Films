@@ -3,11 +3,12 @@ import { useEffect, useState, useContext } from "react";
 import Axios from "axios";
 import { useParams } from "react-router-dom";
 import { UserData } from "../App";
+import DefaultLogin from "./DefaultLogin";
 
 const API_URL = "http://localhost:8000/home";
 
 const IDWisePage = () => {
-  const { status, setStatus, RingLoader } = useContext(UserData);
+  const { status, setStatus, RingLoader,logged } = useContext(UserData);
   const [movie, setMovie] = useState({});
   const [loading, setLoading] = useState(true);
 
@@ -45,7 +46,7 @@ const IDWisePage = () => {
     handleSearchID();
   }, []);
 
-  return (
+  return logged? (
     <div style={{ margin: "5%" }}>
       {loading ? (
         <RingLoader></RingLoader>
@@ -55,6 +56,7 @@ const IDWisePage = () => {
           <img
             src={movie.photo || movie.alternate}
             alt={`Image of ${movie.title}`}
+            height={400}
           ></img>
           <br></br>
           <p>{movie.description}</p>
@@ -69,7 +71,7 @@ const IDWisePage = () => {
       )}
       <p>{status}</p>
     </div>
-  );
+  ):<DefaultLogin/>;
 };
 
 export default IDWisePage;

@@ -106,6 +106,7 @@ const Personal = () => {
               <p>Followers : {userData.followers}</p>
               <p>Following : {userData.following}</p>
             <button onClick={(e)=>{e.preventDefault();increaseFollowers(userData._id)}}>Follow!</button>
+            <br/>
             <button onClick={(e)=>{e.preventDefault();handleLogout()}}>Log Out!</button>
             </div>
           ) : (

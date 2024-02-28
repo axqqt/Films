@@ -15,7 +15,7 @@ import { Slide } from 'react-slideshow-image';
 const API_URL = "http://localhost:8000";
 
 function Movies() {
-  const { logged, setID, RingLoader, user,loading,setLoading,setStatus,status } = useContext(UserData);
+  const { logged, setID, RingLoader, user,loading,setLoading,setStatus,status,favs,setFavs } = useContext(UserData);
   const [data, setData] = useState([]);
   // const [limit, setLimit] = useState(5);
   const [comment,setComment] = useState('')
@@ -144,7 +144,21 @@ function Movies() {
   };  
 
 
-
+  const myFavorites = async (filmData) => {
+    const history= localStorage.getItem("favs")
+    if(history){
+     const parsedData = await JSON.parse(history);
+     alert('loaded back your favorites!')
+     setFavs(parsedData);
+    }
+    if (user) {
+        setFavs([...favs, filmData]);
+        localStorage.setItem("favs",favs);
+        alert(`Your favorites now -> ${JSON.stringify([...favs, filmData])}`);
+    } else {
+        alert("You are not logged in!");
+    }
+}
 
 
   return (
@@ -192,7 +206,7 @@ function Movies() {
                 Search
               </Button>
             </form>
-            <select onChange={(e)=>{setDrop(e.target.value)}}><option value={"All"}>All</option><option value={"Horror"}>Horror</option></select>
+            {/* <select onChange={(e)=>{setDrop(e.target.value)}}><option value={"All"}>All</option><option value={"Horror"}>Horror</option></select> */}
             {data && data.length ? (
               data.map((x) => (
                 <div key={x._id}>
@@ -219,6 +233,9 @@ function Movies() {
                     </form>
                     <form onSubmit={(e)=>{e.preventDefault();addComment(x._id,comment)}}><TextField onChange={(e)=>{setComment(e.target.value)}} placeholder="Enter comment..." minLength={5} type="text"></TextField><Button disabled={loading} style={{color:"black"}}>Add Comment!</Button></form>
                   </div>
+                  <Button type="submit" onClick={(e)=>{e.preventDefault();myFavorites(x.title)}}>
+                    Add To Favorites!
+                    </Button>
                   <p>{status}</p>
                 </div>
               ))

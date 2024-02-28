@@ -33,6 +33,11 @@ const Navbar = () => {
         </Link>
       </li>
       <li>
+        <Link to="/favs" className="text-white hover:text-gray-300">
+          My Favorites
+        </Link>
+      </li>
+      <li>
         <Link to="/addfilm" className="text-white hover:text-gray-300">
           Add Film
         </Link>

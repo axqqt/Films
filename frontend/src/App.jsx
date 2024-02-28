@@ -18,6 +18,7 @@ import YTSPage from "./Components/YTS";
 import "./App.css";
 import Personal from "./Components/Personal";
 import StableDiffusion from "./Components/StableDiffusion";
+import Favs from "./Components/Favs";
 
 
 
@@ -37,7 +38,7 @@ export default function App() {
   const [status, setStatus] = useState("");
   const [id, setID] = useState("");
   const [movies, setMovies] = useState([]);
-
+  const[favs,setFavs] = useState([]);
 
 
   //I didn't find the need to useCallback since i'm not passing any functions down as props through the contextAPI
@@ -68,7 +69,7 @@ export default function App() {
       RingLoader,
       movies,
       setMovies,
-   
+      favs,setFavs
   }
 
 
@@ -87,6 +88,7 @@ export default function App() {
           <Route path="/generate" element={<GenerateImages />}/>
           <Route path="/diffusion" element={<StableDiffusion />}/>
           <Route path="/addfilm" element={<AddFilm />} />
+          <Route path="/favs" element={<Favs />} />
           <Route path="/manage" element={<DisplayUsers />} />
           <Route path="/film/:id" element={<IDWisePage />} />
           <Route path="/forgotpass" element={<ForgotPass />} />
