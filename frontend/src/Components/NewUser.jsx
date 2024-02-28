@@ -7,9 +7,6 @@ import Axios from "axios";
 const NewUser = () => {
   const { setStatus, setLoading, setData, data, loading, status, RingLoader,logged,setLogged } = useContext(UserData);
 
- 
-
-
   const createUser = async (e) => {
     e.preventDefault();
     if (setStatus !== "") {
@@ -26,7 +23,7 @@ const NewUser = () => {
 
     try {
       setLoading(true);
-      const response = await Axios.post("http://localhost:8000/register", {
+      const response = await Axios.post("http://localhost:8000/register" || "https://films-backend.vercel.app/register", {
       formData
       },{headers:{"Content-Type":"multipart/form-data"}});
 

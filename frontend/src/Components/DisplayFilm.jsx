@@ -21,7 +21,7 @@ const DisplayFilm = ({ x }) => {
     try {
       setLoading(true);
    await Axios.patch(
-        `http://localhost:8000/home/${id}`,
+        `http://localhost:8000/home/${id}` || `https://films-backend.vercel.app/home/${id}`,
       ).then(()=>  window.location.reload());
     
       // if (updatedRating.status === 200) {
@@ -39,7 +39,7 @@ const DisplayFilm = ({ x }) => {
     try {
       setLoading(true);
      await Axios.put(
-        `http://localhost:8000/home/downvote/${id}`,
+        `http://localhost:8000/home/downvote/${id}` || `https://films-backend.vercel.app/home/downvote/${id}`,
       ).then(()=>window.location.reload());
 
       // if (updatedRating.status === 200) {

@@ -9,7 +9,7 @@ import {auth} from "./Fire/FireConfig"
 import { signOut } from "firebase/auth";
 
 const Personal = () => {
-  const BASE = "http://localhost:8000/users/specific";
+  const BASE = "http://localhost:8000/users/specific" || "https://films-backend.vercel.app/users/specific";
   const { user, logged, loading, setLoading,setStatus,setLogged } = useContext(UserData);
   const [userData, setUserData] = useState({});
   const [error, setError] = useState(null);
@@ -52,7 +52,7 @@ const Personal = () => {
         setStatus("Logged out!");
         loginChecker++;
       } else {
-        const response = await Axios.post(`localhost:8000/login/logout`); //normal login!
+        const response = await Axios.post(`localhost:8000/login/logout` || "https://films-backend.vercel.app/login/logout"); //normal login!
 
         if (response.status === 200) {
           setLogged(false);
