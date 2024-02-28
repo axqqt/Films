@@ -15,6 +15,7 @@ const AddFilm = () => {
     image:null,
     alternate: "",
     rating: 0,
+    category:""
   });
 
   
@@ -36,6 +37,7 @@ const AddFilm = () => {
       image: null,
       alternate: "",
       rating: 0,
+      category:""
     });
   };
 
@@ -50,6 +52,7 @@ const AddFilm = () => {
       formData.append("trailer", data.trailer);
       formData.append("alternate", data.alternate);
       formData.append("rating", data.rating);
+      formData.append("category", data.category);
       if (data.image) { // Check if a file is selected
         formData.append("image", data.image);
       }
@@ -108,6 +111,12 @@ const AddFilm = () => {
           placeholder="Enter alternate image by address"
           name="alternate"
         />
+          {/* <input
+          value={data.category}
+          onChange={handleChange}
+          placeholder="Enter alternate image by address"
+          name="alternate"
+        /> */}{/**This needs to be a select type field */}
     <input onChange={handleFileChange} type="file" name="image" />
         <span><p>Rating...</p>
         <input

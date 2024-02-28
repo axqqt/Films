@@ -1,16 +1,19 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable react-hooks/exhaustive-deps */
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useState} from "react";
+import {useNavigate } from 'react-router-dom'
 import { UserData } from "../App";
 import Axios from "axios";
 import DefaultLogin from "./DefaultLogin";
-
+import {auth} from "./Fire/FireConfig"
+import { signOut } from "firebase/auth";
 
 const Personal = () => {
   const BASE = "http://localhost:8000/users/specific";
-  const { user, logged, loading, setLoading } = useContext(UserData);
+  const { user, logged, loading, setLoading,setStatus,setLogged, } = useContext(UserData);
   const [userData, setUserData] = useState({});
   const [error, setError] = useState(null);
+  const navigate = useNavigate();
 
   async function fetchUserData() {
     setLoading(true);
@@ -37,6 +40,38 @@ const Personal = () => {
       setLoading(false);
     }
   }
+
+  let loginChecker = 0;
+
+  const handleLogout = async () => {
+    try {
+      if (auth && auth?.currentUser) {
+        //for firebase
+        await signOut(auth);
+        setLogged(false);
+        setStatus("Logged out!");
+        loginChecker++;
+      } else {
+        const response = await Axios.post(`localhost:8000/login/logout`); //normal login!
+
+        if (response.status === 200) {
+          setLogged(false);
+          setStatus("Logged out!");
+          loginChecker++;
+          setTimeout(() => {
+            navigate("/");
+          }, 1000);
+        } else if (response.status === 401) {
+          setStatus(response?.data?.response?.data || "Unauthorized");
+        } else {
+          setStatus("Server issue!");
+        }
+      }
+    } catch (error) {
+      console.error("Logout error:", error);
+      setStatus("Error during logout");
+    }
+  };
 
   useEffect(() => {
     if (logged) {
@@ -71,6 +106,7 @@ const Personal = () => {
               <p>Followers : {userData.followers}</p>
               <p>Following : {userData.following}</p>
             <button onClick={(e)=>{e.preventDefault();increaseFollowers(userData._id)}}>Follow!</button>
+            <button onClick={(e)=>{e.preventDefault();handleLogout()}}>Log Out!</button>
             </div>
           ) : (
             <h1>No User Data found!</h1>

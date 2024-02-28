@@ -38,10 +38,11 @@ const movieSchema = new mongoose.Schema(
     alternate: {
       type: String,
     },
-    rating: { type: Number,min:0 },
+    rating: { type: Number,min:0,max:10 },
     addedBy: {
       type: String, //ID is type String
       ref: "users",
+      required:true,
     },
   },
   { timestamps: true }

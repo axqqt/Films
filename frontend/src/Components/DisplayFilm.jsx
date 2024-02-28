@@ -9,7 +9,6 @@ import { UserData } from "../App";
 
 
 const DisplayFilm = ({ x }) => {
-  const navigator = useNavigate();
   const { loading, setLoading } = useContext(UserData);
 
   useEffect(() => {
@@ -21,10 +20,10 @@ const DisplayFilm = ({ x }) => {
   async function updateRating(id) {
     try {
       setLoading(true);
-      const updatedRating = await Axios.patch(
+   await Axios.patch(
         `http://localhost:8000/home/${id}`,
-      );
-      window.location.reload();
+      ).then(()=>  window.location.reload());
+    
       // if (updatedRating.status === 200) {
       //   alert("Updated Likes!"); //why is it not doing this??????????????????
       //   window.location.reload();
@@ -39,10 +38,10 @@ const DisplayFilm = ({ x }) => {
   async function DownVote(id) {
     try {
       setLoading(true);
-      const updatedRating = await Axios.put(
+     await Axios.put(
         `http://localhost:8000/home/downvote/${id}`,
-      );
-      window.location.reload();
+      ).then(()=>window.location.reload());
+
       // if (updatedRating.status === 200) {
       //   alert("Downvoted Film!"); //why is it not doing this??????????????????
       //   window.location.reload();

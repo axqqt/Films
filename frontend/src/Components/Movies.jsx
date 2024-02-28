@@ -34,7 +34,7 @@ function Movies() {
               const response = await GetMain();  
               setData(response);
       }else{
-        alert(drop);
+        alert(drop); //for now
       }
     } catch (error) {
       console.error("Error fetching data:", error);
@@ -198,7 +198,7 @@ function Movies() {
                 <div key={x._id}>
                   <DisplayFilm x={x} />
                   <Link to={`film/${x._id}`} style={{ color: "blue", textDecoration: "underline", display: "block", marginTop: "0.5rem" }}>
-                    Click to View
+                    {`Click to View ${x.title}`}
                   </Link>
                   <div style={{ display: "flex", alignItems: "center", marginTop: "0.5rem" }}>
                     <Button onClick={() => deleteFilm(x._id)} variant="contained" color="error" sx={{ mr: 2 }}>

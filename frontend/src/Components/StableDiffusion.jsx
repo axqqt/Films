@@ -31,7 +31,7 @@ const StableDiffusion = () => {
 
   return (
     <div>
-        <h1>StableDiffusion</h1>
+        <h1>Stable Diffusion</h1>
         <form onSubmit={stablePrompt}>
             <input onChange={handleChange} name='Default' placeholder='Enter Default Prompt!' required/>
             <input onChange={handleChange} name='Negative' placeholder='Enter Negative Prompt!' />

@@ -18,6 +18,11 @@ const Navbar = () => {
         </Link>
       </li>
       <li>
+        <Link to="/diffusion" className="text-white hover:text-gray-300">
+          Stable Diffusion
+        </Link>
+      </li>
+      <li>
         <Link to="/yts" className="text-white hover:text-gray-300">
           View YTS Films!
         </Link>
@@ -35,22 +40,6 @@ const Navbar = () => {
     </ul>
   ) :    <ul className="flex space-x-4 bg-gray-800 p-4">
   <li>
-    <Link to="/" className="text-white hover:text-gray-300">
-      Home
-    </Link>
-  </li>
- 
-  <li>
-    <Link to="/generate" className="text-white hover:text-gray-300">
-      Generate Images
-    </Link>
-  </li>
-  <li>
-    <Link to="/yts" className="text-white hover:text-gray-300">
-      View YTS Films!
-    </Link>
-  </li>
-  <li>
     <Link to="/newuser" className="text-white hover:text-gray-300">
       Register
     </Link>
@@ -58,11 +47,6 @@ const Navbar = () => {
   <li>
     <Link to="/login" className="text-white hover:text-gray-300">
       Login
-    </Link>
-  </li>
-  <li>
-    <Link to="/addfilm" className="text-white hover:text-gray-300">
-      Add Film
     </Link>
   </li>
 </ul> ;
