@@ -188,7 +188,17 @@ function Movies() {
           </Button>
           {showBot && <BotPage />}
           <Container maxWidth="md" sx={{ mx: "auto", p: 4 }}>
-            {user?.photoURL && <img src={user.photoURL} alt="User" />}
+            {user?.photoURL && <img
+  src={user.photoURL}
+  alt="User"
+  style={{
+    width: "100px",
+    height: "100px",
+    borderRadius: "20%", 
+    objectFit: "cover", 
+    border: "2px solid #fff", 
+  }}
+/>}
             <Typography variant="h4" fontWeight="bold" mb={4}>
               {logged ? `Welcome back ${user.displayName || user.username}` : `Welcome Guest`}! , {time}
             </Typography>

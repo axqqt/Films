@@ -53,8 +53,9 @@ async function GetUsers(req, res, next) {
 
 async function CreateUser(req, res) {
   try {
-    const { username, password, mail, photo } = req?.body;
+    const { username, password, mail } = req?.body;
     const {file:img} = req;
+    console.log(req.body)
 
     if (!username || !password || !mail)
       return res

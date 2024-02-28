@@ -28,7 +28,6 @@ const upload = multer({ storage: storage });
 // });
 
 router.route("/").get(userController.GetUsers).post( upload.single("image"),userController.CreateUser);
-
 router.route("/:id").delete(userController.deleteUser);
 router.route("/specific").post(userController.userSpecific).put(userController.increaseFollowers)
 router.route("/forgot").post(userController.updatePassword);

@@ -10,7 +10,7 @@ import { signOut } from "firebase/auth";
 
 const Personal = () => {
   const BASE = "http://localhost:8000/users/specific";
-  const { user, logged, loading, setLoading,setStatus,setLogged, } = useContext(UserData);
+  const { user, logged, loading, setLoading,setStatus,setLogged } = useContext(UserData);
   const [userData, setUserData] = useState({});
   const [error, setError] = useState(null);
   const navigate = useNavigate();

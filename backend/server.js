@@ -21,6 +21,7 @@ const session = require("express-session");
 const gptGenerate = require("./routes/gpt.js");
 const commentsModel = require("./routes/comments.js");
 const morgan = require("morgan");
+const paymentRoute = require('./routes/payments.js')
 
 app.use(express.json());
 app.use(cookieParser());
@@ -85,6 +86,7 @@ app.use("/comments", commentsModel);
 app.use("/links", linked);
 app.use("/gemini", gemini);
 app.use("/users",userData);
+app.use("/payments",paymentRoute)
 app.use("/images", gptGenerate); //INCLUDED THIS JUST FOR FUN
 
 app.get("/", (req, res) => {
