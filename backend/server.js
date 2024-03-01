@@ -49,13 +49,6 @@ function authenticated(req,res,next){
     next();
 }
 
-// app.use(cookieSession({
-//   name: 'session',
-//   keys: [/* secret keys */],
-
-//   // Cookie Options
-//   maxAge: 24 * 60 * 60 * 1000 // 24 hours
-// }))
 
 app.use(
   cors({
@@ -82,7 +75,7 @@ app.use(limiter,(next)=>{
 app.use(morgan("dev"))
 app.use("/register", register);
 app.use("/login", login);
-app.use(authenticated)
+// app.use(authenticated)
 app.use("/home", homepage);
 app.use("/comments", commentsModel);
 app.use("/links", linked);
@@ -91,6 +84,7 @@ app.use("/users",userData);
 app.use("/payments",paymentRoute)
 app.use("/tube",youtube)
 app.use("/images", gptGenerate); //INCLUDED THIS JUST FOR FUN
+
 
 app.get("/", (req, res) => {
   res.send("<h1>Hey Docker! 🐳👋🏻</h1>");

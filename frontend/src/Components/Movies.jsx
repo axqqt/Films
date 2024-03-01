@@ -2,7 +2,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable react/no-unknown-property */
 /* eslint-disable no-unused-vars */
-import { useEffect, useState, useContext, Suspense, useReducer } from "react";
+import { useEffect, useState, useContext, Suspense, useReducer, useCallback } from "react";
 import { UserData } from "../App";
 import Axios from "axios";
 import { Link } from "react-router-dom";
@@ -15,7 +15,7 @@ import { Slide } from 'react-slideshow-image';
 const API_URL = "http://localhost:8000" || "https://films-backend.vercel.app";
 
 function Movies() {
-  const { logged, setID, RingLoader, user,loading,setLoading,setStatus,status,favs,setFavs } = useContext(UserData);
+  const { logged,  user,loading,setLoading,setStatus,status,favs,setFavs } = useContext(UserData);
   const [data, setData] = useState([]);
   const [comment,setComment] = useState('')
   const [search, setSearchTerm] = useState("");
@@ -23,7 +23,6 @@ function Movies() {
   const [time, setTime] = useState("");
   const [showBot, setShowBot] = useState(false);
 
-  
 
 
   async function fetchFromBack() {
@@ -44,17 +43,38 @@ function Movies() {
     fetchFromBack();
   }, []);
 
-  async function deleteFilm(id) {
+  const del = async (id) => {
     try {
       setLoading(true);
       await DeleteFilm(id);
-      setData((prevData) => prevData.filter((film) => film._id !== id));
+      dispatch({ type: 'DELETE', payload: { id } });
     } catch (error) {
       console.error("Error deleting film:", error);
     } finally {
       setLoading(false);
     }
   }
+
+  async function deleteFilm(id) {
+    try {
+      setLoading(true);
+      await DeleteFilm(id);
+    } catch (error) {
+      console.error("Error deleting film:", error);
+    } finally {
+      setLoading(false);
+    }
+    del();
+  }
+
+  function reducer(state,action){ //testing reducer
+    switch(action.type){
+      case "DELETE":
+        return state.filter((film) => film._id !== action.payload.id);
+    }
+  }
+
+  const [state,dispatch]  =useReducer(reducer,data)
 
   async function addComment(id, msg) {
     try {
@@ -98,7 +118,7 @@ function Movies() {
     setData([]);
     if (!search.trim()) {
       console.error("Search term is empty");
-      return; // exit the function if search term is empty
+      return; 
     }
     try {
       setLoading(true);
@@ -155,27 +175,24 @@ function Movies() {
     if (user) {
         setFavs([...favs, filmData]);
         localStorage.setItem("favs",favs);
-        alert(`Your favorites now -> ${JSON.stringify([...favs, filmData])}`);
     } else {
         alert("You are not logged in!");
     }
 }
 
 const userProfileStyle ={
-  
     width: "100px",
     height: "100px",
     borderRadius: "20%", 
     objectFit: "cover", 
-    border: "2px solid #fff", 
- 
+    border: "2px solid #fff",  
 }
 
 
   return (
     <>
       {!logged ? (
-        <Container sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '100vh' }}>
+        <Container sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '100vh' }}>      
           <div sx={{ textAlign: 'center' }}>
             <Typography variant="h3" fontWeight="bold" mb={4}>Welcome to VeloFlix! 🍿</Typography>
             <Typography variant="body1" mb={4}>
@@ -229,7 +246,7 @@ const userProfileStyle ={
                     {`Click to View ${x.title}`}
                   </Link>
                   <div style={{ display: "flex", alignItems: "center", marginTop: "0.5rem" }}>
-                    <Button onClick={() => deleteFilm(x._id)} variant="contained" color="error" sx={{ mr: 2 }}>
+                    <Button onClick={(e) => (e.preventDefault(),deleteFilm(x._id))} variant="contained" color="error" sx={{ mr: 2 }}>
                       Delete Film
                     </Button>
                     <form onSubmit={(e)=>{

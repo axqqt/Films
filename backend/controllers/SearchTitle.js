@@ -38,7 +38,7 @@ async function SearchByTitle(req, res) {
 async function IDWise(req, res) {
   const id = req?.params?.id;
   if (!id) return res.status(400).json({ Alert: "No ID Provided" });
-  const foundByID = await mediaModel.findOne({ _id: String(id) });
+  const foundByID = await mediaModel.findById(id);
 
   if (!foundByID) {
     return res.status(404).json({ Alert: "Film doesn't exist" });
@@ -52,7 +52,7 @@ async function IDWise(req, res) {
 async function DeleteItems(req, res) {
   try {
     const id = req?.params?.id;
-    const filmExists = await mediaModel.findOne({ _id: String(id) });
+    const filmExists = await mediaModel.findById(id);
     if (!filmExists) {
       return res.status(404).json({ Alert: "Film doesn't exist" });
     } else {

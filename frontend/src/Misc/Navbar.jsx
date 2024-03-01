@@ -6,8 +6,8 @@ import { UserData } from "../App";
 
 
 const Navbar = () => {
-  const { logged } = useContext(UserData);
-  return logged ? (
+  const { logged,loading , user} = useContext(UserData);
+  return logged && user && !loading? (
     <ul >
       <li>
         <Link to="/" className="text-white hover:text-gray-300">

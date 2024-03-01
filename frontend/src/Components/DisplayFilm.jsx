@@ -15,8 +15,7 @@ const DisplayFilm = ({ x }) => {
       setLoading(true);
    await Axios.patch(
         `http://localhost:8000/home/${id}` || `https://films-backend.vercel.app/home/${id}`,
-      ).then(()=>  window.location.reload()); //UGHHH WHY IS IT NOT DOING THIS IMQAWIOENIUOANSDIUN
-    
+      ).then(()=>window.location.reload()); //UGHHH WHY IS IT NOT DOING THIS IMQAWIOENIUOANSDIUN
      
     } catch (err) {
       console.error(err);
@@ -31,9 +30,6 @@ const DisplayFilm = ({ x }) => {
      await Axios.put(
         `http://localhost:8000/home/downvote/${id}` || `https://films-backend.vercel.app/home/downvote/${id}`,
       ).then(()=>window.location.reload()); //OR THISS ASIUNUIJQWNEUINASUDNA
-
-   
-   
     } catch (err) {
       console.error(err);
     } finally {
@@ -43,7 +39,7 @@ const DisplayFilm = ({ x }) => {
 
 
 
-  return <Suspense fallback={"Loading..."}> <div key={x._id} style={{margin:"5%",paddingBottom:"5%"}}>
+  return <Suspense fallback={loading}> <div key={x._id} style={{margin:"5%",paddingBottom:"5%"}}>
   
   <h1 className="text-2xl font-bold">{x.title}</h1>
   <img

@@ -40,7 +40,7 @@ export default function App() {
   const [id, setID] = useState("");
   const [movies, setMovies] = useState([]);
   const[favs,setFavs] = useState([]);
-
+ 
 
   //I didn't find the need to useCallback since i'm not passing any functions down as props through the contextAPI
 

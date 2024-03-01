@@ -10,7 +10,7 @@ const Favs = () => {
     if (history) {
       const parsedData = await JSON.parse(history);
       console.log(`The users favorites are ${JSON.stringify(parsedData)}`);
-      setFavs({ ...favs, parsedData });
+      setFavs([...favs,parsedData]);
     }
     if (user) {
       setFavs([...favs, filmData]);

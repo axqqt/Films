@@ -6,7 +6,7 @@ import { Gemini } from "./Services/Api";
 const BotPage = () => {
   const [data, setData] = useState("");
   const [loading, setLoading] = useState(false);
-  const [response, setResponse] = useState({});
+  const [response, setResponse] = useState([]);
 
   let promptCounter = 0;
 
@@ -30,16 +30,16 @@ const BotPage = () => {
   return (
     <div style={{ margin: "5%" }}>
       <h1>Gemini</h1>
+      <form onSubmit={sendPrompt}>      
       <input
         onChange={(e) => {
           setData(e.target.value);
         }}
         placeholder="Ask Gemini"
       />
+      <button type="submit">Enter</button></form>
       <h1 >{promptCounter===0?"Hi i'm Velo , How may I help you today? 🤖":"Anything else , I could assist you with?"}</h1>
-      <Suspense fallback={<RingLoader/>}> <p>{(response.generatedText)}</p> </Suspense>
-        {/**Getting rid of the \n */}
-      <button onClick={sendPrompt}>Enter</button>
+      <Suspense fallback={loading}> <p>{response.map((x,index)=><h1 key={index}>{x}</h1>)}</p> </Suspense>
     </div>
   );
 };

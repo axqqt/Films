@@ -81,7 +81,7 @@ const Personal = () => {
 
   const emptyPfp = "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png";
 
-  return logged ? (
+  return logged && user && !loading? (
     <div style={{fontSize:32}}>
       <h1>Personal</h1>
       {loading ? (

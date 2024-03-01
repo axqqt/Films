@@ -14,15 +14,9 @@ function shuffleArray(array) { //to randomize with each refresh the film shown i
 
 async function GetFilms(req, res) {
   try {
-    if (req.session.user) {
-      const videos = await mediaModel.find({ _id: req.session.user._id }); //if user logged in,get user specific data!
-      res.status(200).json(videos);
-    } else {
-        const videos = await mediaModel.find();
+    const videos = await mediaModel.find();
         const shuffledVideos = shuffleArray(videos); //so this will randomize the video sent and will display in random order
         res.status(200).json(shuffledVideos);
-      } 
-    
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: "Internal Server Error" });

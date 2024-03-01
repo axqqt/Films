@@ -55,7 +55,7 @@ const NewUser = () => {
   };
   
 
-  return !logged?(
+  return !logged && !loading?(
     <>
       <h1>Welcome to VeloFlix</h1>
       <h1>Register</h1>

@@ -157,12 +157,4 @@ const unfollowed = async (req,res)=>{
 }
 
 
-
-
-
-
-
-
-
-
 module.exports = { CreateUser, GetUsers, deleteUser, updatePassword,userSpecific,followed,unfollowed, increaseFollowers};
