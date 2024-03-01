@@ -49,7 +49,7 @@ const IDWisePage = () => {
   return logged? (
     <div style={{ margin: "5%" }}>
       {loading ? (
-        <RingLoader></RingLoader>
+        <RingLoader/>
       ) : movie && Object.keys(movie).length ? (
         <div>
           <h1>{movie.title}</h1>

@@ -17,25 +17,22 @@ const API_URL = "http://localhost:8000" || "https://films-backend.vercel.app";
 function Movies() {
   const { logged, setID, RingLoader, user,loading,setLoading,setStatus,status,favs,setFavs } = useContext(UserData);
   const [data, setData] = useState([]);
-  // const [limit, setLimit] = useState(5);
   const [comment,setComment] = useState('')
   const [search, setSearchTerm] = useState("");
   const [modifiedTitle, setModifiedTitle] = useState("");
   const [time, setTime] = useState("");
   const [showBot, setShowBot] = useState(false);
-  const [drop,setDrop] = useState("All")
+
   
 
 
   async function fetchFromBack() {
     try {
       setLoading(true);
-      if(drop==="All"){
-              const response = await GetMain();  
-              setData(response);
-      }else{
-        alert(drop); //for now
-      }
+      
+      const response = await GetMain();  
+      setData(response);
+     
     } catch (error) {
       console.error("Error fetching data:", error);
     } finally {
@@ -59,17 +56,21 @@ function Movies() {
     }
   }
 
-
-  async function addComment(id,msg) {
+  async function addComment(id, msg) {
     try {
       setLoading(true);
-      await AddComments(id,msg)
+      await AddComments(id, msg);
+      setData((prevData) => ({
+        ...prevData,
+        comments: [...prevData.comments, { id: id, message: msg }],
+      }));
     } catch (err) {
       console.error(err);
     } finally {
       setLoading(false);
     }
   }
+  
 
   async function editTitle(id, modifiedTitle) {
     try {
@@ -79,11 +80,11 @@ function Movies() {
         window.location.reload();
       }
 
-      // setData((prevData) =>
-      //   prevData.map((film) =>
-      //     film._id === id ? { ...film, title: modifiedTitle } : film
-      //   )
-      // ); 
+      setData((prevData) =>
+        prevData.map((film) =>
+          film._id === id ? { ...film, title: modifiedTitle } : film
+        )
+      ); 
     } catch (error) {
       console.error("Error editing title:", error);
     } finally {
@@ -160,6 +161,16 @@ function Movies() {
     }
 }
 
+const userProfileStyle ={
+  
+    width: "100px",
+    height: "100px",
+    borderRadius: "20%", 
+    objectFit: "cover", 
+    border: "2px solid #fff", 
+ 
+}
+
 
   return (
     <>
@@ -188,17 +199,11 @@ function Movies() {
           </Button>
           {showBot && <BotPage />}
           <Container maxWidth="md" sx={{ mx: "auto", p: 4 }}>
-            {user?.photoURL && <img
-  src={user.photoURL}
-  alt="User"
-  style={{
-    width: "100px",
-    height: "100px",
-    borderRadius: "20%", 
-    objectFit: "cover", 
-    border: "2px solid #fff", 
-  }}
-/>}
+            {user?.photoURL || user.photo && <img
+            src={user.photoURL || user.photo}
+            alt="User"
+            style={userProfileStyle}
+          />}
             <Typography variant="h4" fontWeight="bold" mb={4}>
               {logged ? `Welcome back ${user.displayName || user.username}` : `Welcome Guest`}! , {time}
             </Typography>
@@ -216,7 +221,6 @@ function Movies() {
                 Search
               </Button>
             </form>
-            {/* <select onChange={(e)=>{setDrop(e.target.value)}}><option value={"All"}>All</option><option value={"Horror"}>Horror</option></select> */}
             {data && data.length ? (
               data.map((x) => (
                 <div key={x._id}>

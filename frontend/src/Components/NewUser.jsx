@@ -50,6 +50,11 @@ const NewUser = () => {
     setData({ ...data, [e.target.name]: e.target.value });
   };
 
+  const handleFileChange = (e) => {
+    setData({ ...data, image: e.target.files[0] });
+  };
+  
+
   return !logged?(
     <>
       <h1>Welcome to VeloFlix</h1>
@@ -74,11 +79,11 @@ const NewUser = () => {
           name="mail"
         />
         <input
-          onChange={handleChange}
-          placeholder="Enter Photo"
-          name="image"
-          type="file"
-        />
+        onChange={handleFileChange}
+        placeholder="Enter Photo"
+        name="image"
+        type="file"
+      />
         {/**File handling part incomplete! */}
         <p>{status ? status : ""}</p>
         <button type="submit" disabled={loading}>

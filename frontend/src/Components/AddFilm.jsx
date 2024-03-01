@@ -59,7 +59,6 @@ const AddFilm = () => {
   
       const response = await Axios.post(
         "http://localhost:8000/home" || "https://films-backend.vercel.app/home",
-        // data
         formData,
         {
           headers: { "Content-Type": "multipart/form-data" },
@@ -111,12 +110,6 @@ const AddFilm = () => {
           placeholder="Enter alternate image by address"
           name="alternate"
         />
-          {/* <input
-          value={data.category}
-          onChange={handleChange}
-          placeholder="Enter alternate image by address"
-          name="alternate"
-        /> */}{/**This needs to be a select type field */}
     <input onChange={handleFileChange} type="file" name="image" />
         <span><p>Rating...</p>
         <input
@@ -128,7 +121,6 @@ const AddFilm = () => {
           max={10}
           placeholder="Enter rating"
         /></span>
-        
         <button type="submit" disabled={loading}>
           {loading ? <RingLoader></RingLoader> : "Add Film"}
         </button>

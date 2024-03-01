@@ -9,7 +9,7 @@ export async function GetMain() {
 
 export async function Gemini(data) {
   const result = await Axios.post(`${API_URL}/gemini`, {
-    data: data,
+   data,
   });
   return result.data;
 }

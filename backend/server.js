@@ -22,19 +22,21 @@ const gptGenerate = require("./routes/gpt.js");
 const commentsModel = require("./routes/comments.js");
 const morgan = require("morgan");
 const paymentRoute = require('./routes/payments.js')
-
+const youtube = require("./routes/yt.js")
 app.use(express.json());
 app.use(cookieParser());
+// const MongoStore = require('connect-mongo');
+// // const sessionStore = new MongoStore({client:cluster,collectionName:"sessions"})
 
 app.use(
   session({
     secret: "password123",
     resave: false,
-    saveUninitialized: true,
+    saveUninitialized: true,   
     cookie: {
       maxAge: 60000,
     },
-  store:false
+  store:false,
   })
 );
 
@@ -87,6 +89,7 @@ app.use("/links", linked);
 app.use("/gemini", gemini);
 app.use("/users",userData);
 app.use("/payments",paymentRoute)
+app.use("/tube",youtube)
 app.use("/images", gptGenerate); //INCLUDED THIS JUST FOR FUN
 
 app.get("/", (req, res) => {
@@ -121,38 +124,3 @@ async function clientBoot() {
   }
 }
 clientBoot();
-
-// const { createServer } = require("http");
-// const { Server } = require("socket.io");
-// const { log } = require("console");
-
-
-// const httpServer = createServer(app);
-// const io = new Server(httpServer, {
-//   cors: {
-//     origin: ["http://localhost:5173", "http://127.0.0.1:5173"], //react proj
-//   },
-// });
-
-// io.on("connect", (err, socket) => {
-//   try {
-//     if (err) throw err;
-//     socket.on("message", (data) => {
-//       io.emit(data);
-//     });
-
-//     socket.on("remove", (data) => {
-//       io.emit("remove", data);
-//     });
-
-//     socket.on("join", (data) => {
-//       socket.join(data);
-//     });
-//   } catch (err) {
-//     console.log(err);
-//   }
-// });
-
-// httpServer.listen(4000, () => {
-//   console.log("Server is listening on port 4000");
-// });

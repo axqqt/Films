@@ -14,7 +14,12 @@ router.route("/").post(async (req,res)=>{
     }},{
         "grant_type":credentials
     })
-    res.status(200).json(transaction)
+    if(!transaction){
+        return res.status(400).json({Alert:"error while processing transaction!"})
+    }else{
+        res.status(200).json(transaction)
+    }
+   
 })
 
 module.exports = router;

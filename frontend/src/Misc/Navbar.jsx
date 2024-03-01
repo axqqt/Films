@@ -15,6 +15,11 @@ const Navbar = () => {
         </Link>
       </li>
       <li>
+        <Link to="/youtube" className="text-white hover:text-gray-300">
+          YouTube
+        </Link>
+      </li>
+      <li>
         <Link to="/generate" className="text-white hover:text-gray-300">
           Generate Images
         </Link>

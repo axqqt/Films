@@ -21,7 +21,6 @@ async function GeminiCall(req, res) {
     }
 
     const text = response.text();
-
     if (text.length !== 0) {
       return res.status(200).json({ generatedText: text });
     } else {

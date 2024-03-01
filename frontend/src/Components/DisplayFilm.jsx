@@ -3,31 +3,21 @@
 
 import Axios from "axios";
 import { Suspense, useContext, useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
 import { UserData } from "../App";
 
 
 
 const DisplayFilm = ({ x }) => {
-  const { loading, setLoading } = useContext(UserData);
-
-  useEffect(() => {
-    setLoading(false); // Make sure to set loading to false when component mounts
-  }, [setLoading]);
-
-
+  const { loading, setLoading,setData } = useContext(UserData);
 
   async function updateRating(id) {
     try {
       setLoading(true);
    await Axios.patch(
         `http://localhost:8000/home/${id}` || `https://films-backend.vercel.app/home/${id}`,
-      ).then(()=>  window.location.reload());
+      ).then(()=>  window.location.reload()); //UGHHH WHY IS IT NOT DOING THIS IMQAWIOENIUOANSDIUN
     
-      // if (updatedRating.status === 200) {
-      //   alert("Updated Likes!"); //why is it not doing this??????????????????
-      //   window.location.reload();
-      // }
+     
     } catch (err) {
       console.error(err);
     } finally {
@@ -40,12 +30,10 @@ const DisplayFilm = ({ x }) => {
       setLoading(true);
      await Axios.put(
         `http://localhost:8000/home/downvote/${id}` || `https://films-backend.vercel.app/home/downvote/${id}`,
-      ).then(()=>window.location.reload());
+      ).then(()=>window.location.reload()); //OR THISS ASIUNUIJQWNEUINASUDNA
 
-      // if (updatedRating.status === 200) {
-      //   alert("Downvoted Film!"); //why is it not doing this??????????????????
-      //   window.location.reload();
-      // }
+   
+   
     } catch (err) {
       console.error(err);
     } finally {
@@ -70,7 +58,6 @@ const DisplayFilm = ({ x }) => {
   <div>
     <p>{x.rating ? `Rated ${x.rating}/10` : <h1>Unrated!</h1>}</p>
   </div>
-  {/* <div>{x.comments? <div><h1>Comments</h1>{JSON.stringify(x.comments)}</div> : "No comments posted yet!" }</div> */}
   <button
     onClick={(e) => {
       e.preventDefault();

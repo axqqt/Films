@@ -31,7 +31,6 @@ const Login = (props) => {
   const navigate = useNavigate();
 
   let loginChecker = 0;
-  // const calculation = useMemo(() => LogUser());
 
   const LogUser = async (e) => {
     const userPrior = localStorage.getItem("users");
@@ -67,7 +66,7 @@ const Login = (props) => {
           alert("Invalid Credentials!");
         }
       } catch (err) {
-        console.error(err);
+        console.error(err.message);
         setStatus("Username/Password Wrong!");
       } finally {
         setLoading(false);
@@ -172,6 +171,7 @@ const Login = (props) => {
           onChange={handleChange}
           placeholder="Enter Username"
           name="username"
+          required
         />
         <input
           ref={passwordField}
@@ -179,6 +179,8 @@ const Login = (props) => {
           onChange={handleChange}
           placeholder="Enter password"
           name="password"
+          required
+          minLength={5}
         />
         <button type="submit" disabled={loading}>
           {loading ? <RingLoader/>: "Login"}

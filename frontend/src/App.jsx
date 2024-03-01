@@ -1,5 +1,5 @@
 /* eslint-disable no-unused-vars */
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
 import Movies from "./Components/Movies";
 import AddFilm from "./Components/AddFilm";
 import NewUser from "./Components/NewUser";
@@ -19,6 +19,7 @@ import "./App.css";
 import Personal from "./Components/Personal";
 import StableDiffusion from "./Components/StableDiffusion";
 import Favs from "./Components/Favs";
+import YouTube from "./Components/YouTube";
 
 
 
@@ -78,13 +79,14 @@ export default function App() {
       <UserData.Provider
         value={theData}
       >
+           <Link to={"https://github.com/DulranSam/Films"}>Click here to view the repository!</Link>
         <Navbar/>
         <Routes>
-          {/**I'll customize the main component for logged and not logged in users! */}
           <Route path="/" element={<Movies />}></Route>
           <Route path="/newuser" element={<NewUser />} />
           <Route path="/login" element={<Login />} />
           <Route path="/yts" element={<YTSPage />}></Route>
+          <Route path="/youtube" element={<YouTube />}></Route>
           <Route path="/generate" element={<GenerateImages />}/>
           <Route path="/diffusion" element={<StableDiffusion />}/>
           <Route path="/addfilm" element={<AddFilm />} />

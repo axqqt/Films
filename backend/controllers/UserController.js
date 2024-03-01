@@ -54,7 +54,7 @@ async function GetUsers(req, res, next) {
 async function CreateUser(req, res) {
   try {
     const { username, password, mail } = req?.body;
-    const {file:img} = req;
+    const {file:image} = req;
     console.log(req.body)
 
     if (!username || !password || !mail)
@@ -73,7 +73,7 @@ async function CreateUser(req, res) {
         username,
         password: encrypted,
         mail,
-        photo:img,
+        photo:image,
       });
       return res.status(201).json({ Alert: `${username} Saved` });
     } else {

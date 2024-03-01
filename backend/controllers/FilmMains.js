@@ -13,7 +13,6 @@ function shuffleArray(array) { //to randomize with each refresh the film shown i
 
 
 async function GetFilms(req, res) {
-  
   try {
     if (req.session.user) {
       const videos = await mediaModel.find({ _id: req.session.user._id }); //if user logged in,get user specific data!
