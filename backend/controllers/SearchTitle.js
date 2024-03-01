@@ -14,7 +14,7 @@ const GetFilms = async (req, res) => {
 };
 
 async function SearchByTitle(req, res) {
-  const { searchTerm } = req?.body;
+  const  searchTerm  = req?.body.searchTerm;
   if (!searchTerm) {
     const data = await mediaModel.find();
     return res.status(200).json(data);

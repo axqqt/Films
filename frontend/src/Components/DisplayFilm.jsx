@@ -8,7 +8,7 @@ import { UserData } from "../App";
 
 
 const DisplayFilm = ({ x }) => {
-  const { loading, setLoading,setData } = useContext(UserData);
+  const { loading, setLoading } = useContext(UserData);
 
   async function updateRating(id) {
     try {
@@ -39,8 +39,8 @@ const DisplayFilm = ({ x }) => {
 
 
 
-  return <Suspense fallback={loading}> <div key={x._id} style={{margin:"5%",paddingBottom:"5%"}}>
-  
+  return <Suspense fallback={loading}> 
+  <div key={x._id} style={{margin:"5%",paddingBottom:"5%"}}>
   <h1 className="text-2xl font-bold">{x.title}</h1>
   <img
   style={{width:"fit"}}

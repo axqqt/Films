@@ -13,7 +13,6 @@ const Login = async (req, res, next) => {
 
       if (!username || !password)
         return res.status(StatusCodes.BAD_REQUEST).json({ alert: `Username or password not provided` });
-
       const userValidity = await userController.findOne({ username }).exec();
 
       if (!userValidity) {

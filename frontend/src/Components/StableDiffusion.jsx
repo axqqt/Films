@@ -5,18 +5,17 @@ import {UserData} from "../App"
 
 const StableDiffusion = () => {
 
-    const {loading,setLoading}  = useContext(UserData)
+    const {loading,setLoading,status,setStatus}  = useContext(UserData)
     const [prompts,setPrompts]= useState({
         Default:"",
         Negative:""
-    }) 
+    })
 
     async function stablePrompt(e){
         e.preventDefault();
         try{
             setLoading(true);
-            await Axios.post("http://localhost:8000/images/stable" || "https://films-backend.vercel.app/images/stable",{prompts}).then(response=>console.log(response))
-            
+            await Axios.post("http://localhost:8000/images/stable" || "https://films-backend.vercel.app/images/stable",{prompts}).then(response=>setStatus(response.data))  
         }catch(err){
             console.error(err);
         }finally{
@@ -38,6 +37,7 @@ const StableDiffusion = () => {
             <br/>
             <button type='submit' placeholder='Create!' disabled={loading}>Create!</button>
             </form>
+            <p>{status}</p> {/**It's not displaying that here */}
             </div>
   )
 }

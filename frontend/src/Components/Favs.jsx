@@ -1,9 +1,10 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useContext, useEffect } from "react";
 import { UserData } from "../App";
+import DefaultLogin from "./DefaultLogin";
 
 const Favs = () => {
-  const { setFavs, user, favs } = useContext(UserData);
+  const { setFavs, user, favs , logged,loading } = useContext(UserData);
 
   const myFavorites = async (filmData) => {
     const history = localStorage.getItem("favs");
@@ -24,16 +25,16 @@ const Favs = () => {
     myFavorites();
   }, []);
 
-  return (
+  return logged && user && !loading ? (
     <div>
       <h1>My Favorites!</h1>
       {favs && favs.length ? (
-        JSON.stringify(favs)
+        JSON.stringify(favs) 
       ) : (
-        <h1>No Favorites Added!</h1>
+        <h1>No Favorites Added!</h1> 
       )}
     </div>
-  );
+  ) : <DefaultLogin/>;
 };
 
 export default Favs;

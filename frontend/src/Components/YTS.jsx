@@ -93,14 +93,14 @@ const YTSPage = () => {
   {movies && movies.length && !loading ? (
     <div style={{ color: "black" }}>
       {movies.map((x) => (
-        <div key={x.id} style={{ padding: "5%" }}>
+        <div key={x.id} style={{ marginBottom: '20px', padding: '20px', border: '10px solid purple', borderRadius: '5px' }}>
           <h1>{x.title}</h1>
           {x.large_cover_image && <img src={x.large_cover_image} alt={`Image of ${x.title}`} />}
           {x.background_image_original && <img src={x.background_image_original} alt={`Background image of ${x.title}`} />}
           <p>{x.description_full || ""}</p>
           {x.rating ?  <p>{`Rated ${x.rating}/10`}</p> : ""}
           {x.year && <p>{`Released in ${x.year}`}</p>}
-          {x.runtime && <h2>{`Runtime is ${Math.abs(x.runtime / 60)} hours`}</h2>}
+          {x.runtime && <h2>{`Runtime is ${Math.round(x.runtime / 60)} hours`}</h2>}
           {x.mpa_rating && <p>{`Rating ${x.mpa_rating}`}</p>}
           <p>{x.language}</p>
           {x.date_uploaded && <h2>{`Uploaded on ${x.date_uploaded}`}</h2>}

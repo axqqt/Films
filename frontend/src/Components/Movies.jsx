@@ -25,6 +25,7 @@ function Movies() {
 
 
 
+
   async function fetchFromBack() {
     try {
       setLoading(true);
@@ -165,16 +166,17 @@ function Movies() {
   };  
 
 
-  const myFavorites = async (filmData) => {
+  const myFavorites = async (filmData) => { //this takes the title of the film
     const history= localStorage.getItem("favs")
     if(history){
      const parsedData = await JSON.parse(history);
      alert('loaded back your favorites!')
-     setFavs(parsedData);
+     setFavs([...favs,parsedData]);
     }
     if (user) {
         setFavs([...favs, filmData]);
         localStorage.setItem("favs",favs);
+        setStatus(`Added ${filmData}`)
     } else {
         alert("You are not logged in!");
     }
@@ -210,8 +212,9 @@ const userProfileStyle ={
           </div>
         </Container>
       ) : (
-        <div>
-          <Button variant="contained" color="primary" onClick={viewBot} sx={{ mb: 2 }}>
+        <>
+         <Suspense fallback={loading}> 
+         <Button variant="contained" color="primary" onClick={viewBot} sx={{ mb: 2 }}>
             {showBot ? "Close!" : "Show Bot 🤖"}
           </Button>
           {showBot && <BotPage />}
@@ -262,7 +265,7 @@ const userProfileStyle ={
                       Make changes
                     </Button>
                     </form>
-                    <form onSubmit={(e)=>{e.preventDefault();addComment(x._id,comment)}}><TextField onChange={(e)=>{setComment(e.target.value)}} placeholder="Enter comment..." minLength={5} type="text"></TextField><Button disabled={loading} style={{color:"black"}}>Add Comment!</Button></form>
+                    <form onSubmit={(e)=>{e.preventDefault();addComment(x._id,comment)}}><TextField onChange={(e)=>{setComment(e.target.value)}} placeholder="Enter comment..." minLength={5} type="text"></TextField><Button disabled={loading} style={{color:"black"}} type="submit">Add Comment!</Button></form>
                   </div>
                   <Button type="submit" onClick={(e)=>{e.preventDefault();myFavorites(x.title)}}>
                     Add To Favorites!
@@ -275,8 +278,8 @@ const userProfileStyle ={
                 {search ? "No results found" : "No Trailers Added"}
               </Typography>
             )}
-          </Container>
-        </div>
+          </Container></Suspense>
+        </>
       )}
     </>
   );
