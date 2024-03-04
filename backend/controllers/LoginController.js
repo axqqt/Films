@@ -49,7 +49,6 @@ const Login = async (req, res, next) => {
           RefreshToken,
           username,
           id:userValidity._id,
-          session:req.session.user
         });
       }
     } else {
