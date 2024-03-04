@@ -24,44 +24,25 @@ const Login = (props) => {
   const usernameField = useRef();
   const passwordField = useRef();
 
-  const endPoint =
-    "http://localhost:8000/login" || "https://films-backend.vercel.app/login";
+  const endPoint = "http://localhost:8000/login"; // Adjust this based on your backend URL
   const navigate = useNavigate();
 
-  let loginChecker = 0;
-
   const LogUser = async (e) => {
-    const userPrior = localStorage.getItem("users");
-
-    console.log(userPrior);
-
     e.preventDefault();
     if (!logged) {
-      if (status !== "") {
-        setStatus("");
-      }
       try {
         setLoading(true);
-        let response;
-        if (!userPrior) {
-          response = await Axios.post(`${endPoint}`, data);
-        } else {
-          response = await Axios.post(`${endPoint}`, JSON.parse(userPrior));
-        }
-
-        if (response.data.status === 200) {
+        const response = await Axios.post(endPoint, data);
+        if (response.status === 200) {
           const responseData = response.data;
-          console.log(responseData);
           const { AccessToken, RefreshToken } = responseData;
-
           localStorage.setItem("accessToken", AccessToken);
           localStorage.setItem("refreshToken", RefreshToken);
-          loginChecker++;
           setLogged(true);
           setUser(responseData);
           navigate("/");
         } else {
-          alert("Invalid Credentials!");
+          setStatus("Invalid Credentials!");
         }
       } catch (err) {
         console.error(err.message);
@@ -72,9 +53,6 @@ const Login = (props) => {
         }
       } finally {
         setLoading(false);
-        if (loginChecker === 1) {
-          localStorage.setItem("user", data);
-        }
       }
     } else {
       setStatus("User already logged in!");
@@ -87,14 +65,12 @@ const Login = (props) => {
   const signUpGoogle = async () => {
     try {
       const response = await signInWithPopup(auth, googleProvider);
-
       if (response) {
         setLogged(true);
         setStatus("Google sign-in successful");
         setTimeout(() => {
           setStatus("");
         }, 2000);
-
         setUser(auth?.currentUser);
         navigate("/");
       } else {
@@ -106,36 +82,16 @@ const Login = (props) => {
     }
   };
 
- 
-
   const handleLogout = async () => {
-    const response = await Axios.post(`${endPoint}/logout`); //normal login!
     try {
-      if (auth && auth?.currentUser) {
-        //for firebase
-        await signOut(auth);
-        setLogged(false);
-        setStatus("Logged out!");
-        loginChecker++;
-      } else {
-        if (response.status === 200) {
-          setLogged(false);
-          setStatus("Logged out!");
-          loginChecker++;
-          setTimeout(() => {
-            navigate("/");
-          }, 1000);
-        }
-      }
+      await signOut(auth);
+      setLogged(false);
+      setStatus("Logged out!");
+      setTimeout(() => {
+        navigate("/");
+      }, 1000);
     } catch (error) {
       console.error("Logout error:", error);
-      if (error.response.status === 401) {
-        setStatus("Unauthorized");
-      } else if (error.response.status === 400) {
-        setStatus("Username already taken!");
-      } else {
-        setStatus("Server issue!");
-      }
       setStatus("Error during logout");
     }
   };
@@ -170,7 +126,6 @@ const Login = (props) => {
           {loading ? <RingLoader /> : "Login"}
         </button>
         <button onClick={signUpGoogle}>Sign Up With Google!</button>
-        {/**I haven't enabled to login with github in firebase */}
         <br />
         <button onClick={handleLogout}>Log Out!</button>
         <h1>{status}</h1>
