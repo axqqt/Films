@@ -68,7 +68,7 @@ const AddFilm = () => {
       }
     } catch (err) {
       console.error(err);
-      if (err.data.status === 400) {
+      if (err.response.status === 400) {
         setStatus(`Error while adding , seems to be already added?`);
       }
     } finally {

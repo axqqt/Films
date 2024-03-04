@@ -121,9 +121,9 @@ function Movies() {
       }
     } catch (error) {
       console.error("Error searching:", error);
-     if(error.data.status===400){
+     if(error.response.status===400){
         setStatus("You haven't searched for anything!")
-      }else if(error.data.status===404){
+      }else if(error.response.status===404){
         setStatus("No results found!")
       }else{
         setStatus("Error!")

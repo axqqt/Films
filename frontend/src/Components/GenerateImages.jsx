@@ -35,6 +35,7 @@ const GenerateImages = () => {
       }
     } catch (err) { 
       console.error(err);
+      
     } finally {
       setLoading(false);
       setData({
@@ -63,6 +64,7 @@ const GenerateImages = () => {
           placeholder="Enter image to generate!"
           ref={imgRef}
           type="text"
+          required
         />
         <div>
           <input
@@ -73,6 +75,7 @@ const GenerateImages = () => {
             placeholder="Enter Quantity"
             value={data.quantity}
             min={1}
+            required
           />
         </div>
         <input
@@ -82,6 +85,7 @@ const GenerateImages = () => {
           type="text"
           ref={resRef}
           value={data.resolution}
+          required
         />
         <button type="submit" disabled={loading}>
           {loading ? <RingLoader /> : "Generate Image!"}

@@ -1,15 +1,12 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable react/prop-types */
-import { useState, useRef, useContext, useMemo } from "react";
+import { useState, useRef, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import Axios from "axios";
 import { Link } from "react-router-dom";
 import { googleProvider, auth, gitHubAuth } from "./Fire/FireConfig";
 import { signInWithPopup, signOut } from "firebase/auth";
 import { UserData } from "../App";
-// import calculateMetrics from "lib/metrics";
-
-// const getMetrics = cache();
 
 const Login = (props) => {
   const {
@@ -68,8 +65,11 @@ const Login = (props) => {
         }
       } catch (err) {
         console.error(err.message);
-        if(err.data.status===403)
-        setStatus("Username/Password Wrong!");
+        if (err.response && err.response.status === 403) {
+          setStatus("Username/Password Wrong!");
+        } else {
+          setStatus("An error occurred while logging in. Please try again later.");
+        }
       } finally {
         setLoading(false);
         if (loginChecker === 1) {
@@ -106,27 +106,7 @@ const Login = (props) => {
     }
   };
 
-  const signInGitHub = async () => {
-    try {
-      const response = await signInWithPopup(auth, gitHubAuth);
-
-      if (response) {
-        setLogged(true);
-        setStatus("GitHub sign-in successful");
-        setTimeout(() => {
-          setStatus("");
-        }, 2000);
-
-        setUser(auth?.currentUser);
-        navigate("/");
-      } else {
-        setStatus("Error while signing in!");
-      }
-    } catch (err) {
-      console.error(err);
-      setStatus("Failed to sign in with GitHub");
-    }
-  };
+ 
 
   const handleLogout = async () => {
     const response = await Axios.post(`${endPoint}/logout`); //normal login!
@@ -149,9 +129,9 @@ const Login = (props) => {
       }
     } catch (error) {
       console.error("Logout error:", error);
-      if (error.data.status === 401) {
+      if (error.response.status === 401) {
         setStatus("Unauthorized");
-      } else if (error.data.status === 400) {
+      } else if (error.response.status === 400) {
         setStatus("Username already taken!");
       } else {
         setStatus("Server issue!");
@@ -168,7 +148,6 @@ const Login = (props) => {
     <div style={{ justifyContent: "space-evenly" }}>
       <h1>Login Page</h1>
       <p>Use Credentials veloxal for username and velo123 as password!</p>
-      {/**Use veloxal for the username and velo123 for the password */}
       <form onSubmit={LogUser}>
         <input
           type="text"
@@ -191,7 +170,6 @@ const Login = (props) => {
           {loading ? <RingLoader /> : "Login"}
         </button>
         <button onClick={signUpGoogle}>Sign Up With Google!</button>
-        {/* <button onClick={signInGitHub}>Sign Up with GitHub!</button> */}{" "}
         {/**I haven't enabled to login with github in firebase */}
         <br />
         <button onClick={handleLogout}>Log Out!</button>
