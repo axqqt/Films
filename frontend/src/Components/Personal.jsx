@@ -31,9 +31,8 @@ const Personal = () => {
   async function increaseFollowers(){
     try{
       setLoading(true);
-     await Axios.put(BASE,{id:user.id}).then(result=>alert("Increased followers!"));
+     await Axios.put(BASE,{id:user.id}).then(()=>setStatus("Increased followers!"));
       window.location.reload();
-      
     }catch(err){
       console.error(err);
     }finally{
@@ -53,8 +52,6 @@ const Personal = () => {
         setStatus("Logged out!");
         loginChecker++;
       } else {
-       //normal login!
-
         if (response.status === 200) {
           setLogged(false);
           setStatus("Logged out!");
@@ -66,7 +63,7 @@ const Personal = () => {
       }
     } catch (error) {
       console.error("Logout error:", error);
-      if (response.status === 401) {
+      if (response.data.status === 401) {
         setStatus(response?.data?.response?.data || "Unauthorized");
       } else {
         setStatus("Server issue!");

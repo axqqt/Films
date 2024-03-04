@@ -84,8 +84,8 @@ function Movies() {
   async function editTitle(id, modifiedTitle) {
     try {
       setLoading(true);
-      const {data} = await EditTitle(id, modifiedTitle);
-      if(data.status===200){
+      const response = await EditTitle(id, modifiedTitle);
+      if(response.data.status===200){
         window.location.reload();
       }
 
@@ -96,6 +96,9 @@ function Movies() {
       ); 
     } catch (error) {
       console.error("Error editing title:", error);
+      if(error.response.status===400){
+        setStatus("Error editing title")
+      }
     } finally {
       setLoading(false);
       setModifiedTitle("");
@@ -109,18 +112,18 @@ function Movies() {
       console.error("Search term is empty");
       return; 
     }
-    const response = await Axios.post(`${API_URL}/home/search`, { searchTerm: search });
+   
     try {
       setLoading(true);
-     
+      const response = await Axios.post(`${API_URL}/home/search`, { searchTerm: search });
       if (response.status === 200) {
         setData(response.data);
       }
     } catch (error) {
       console.error("Error searching:", error);
-     if(response.status===400){
+     if(error.data.status===400){
         setStatus("You haven't searched for anything!")
-      }else if(response.status===404){
+      }else if(error.data.status===404){
         setStatus("No results found!")
       }else{
         setStatus("Error!")

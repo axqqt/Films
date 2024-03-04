@@ -6,7 +6,7 @@ import { DeleteUsers } from "./Services/Api";
 
 const DisplayUsers = () => {
   const [users, setUsers] = useState([]);
-  const { loading, setLoading, RingLoader } = useContext(UserData);
+  const { loading, setLoading } = useContext(UserData);
 
   async function UserDatax() {
     try {
@@ -40,7 +40,7 @@ const DisplayUsers = () => {
 
   return (
     <div>
-      <Suspense fallback={<RingLoader/>}>
+      <Suspense fallback={loading}>
         {users && users.length ? (
         users.map((x) => (
           <div key={x._id}>

@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useContext, useEffect } from "react";
 import { UserData } from "../App";
@@ -25,7 +26,7 @@ const Favs = () => {
     myFavorites();
   }, []);
 
-  return logged && user && !loading ? (
+  return logged && user ? (
     <div>
       <h1>My Favorites!</h1>
       {favs && favs.length ? (

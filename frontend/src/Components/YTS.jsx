@@ -8,7 +8,7 @@ import DefaultLogin from '../Components/DefaultLogin'
 import { Link } from "react-router-dom";
 
 const YTSPage = () => {
-  const { movies, setMovies, loading, setLoading, RingLoader,logged,user,favs,setFavs } = useContext(UserData);
+  const { movies, setMovies, loading, setLoading, RingLoader,logged,user,favs,setFavs,setStatus,status } = useContext(UserData);
   const [movie, setMovie] = useState("");
   const [qual, setQual] = useState("All");
 
@@ -47,15 +47,14 @@ const YTSPage = () => {
     const history= localStorage.getItem("favs")
     if(history){
      const parsedData = await JSON.parse(history);
-     alert('loaded back your favorites!')
+     setStatus('loaded back your favorites!')
      setFavs(parsedData);
     }
     if (user) {
         setFavs([...favs, filmData]);
         localStorage.setItem("favs",favs);
-        alert(`Your favorites now -> ${JSON.stringify([...favs, filmData])}`);
     } else {
-        alert("You are not logged in!");
+        setStatus("You are not logged in!");
     }
 }
 
@@ -115,6 +114,7 @@ const YTSPage = () => {
           }}>{`Add ${x.title} to your favorites!`}</button>
         </div>
       ))}
+      <p>{status}</p>
     </div>
   ) : (
     <h1>No films found!</h1>

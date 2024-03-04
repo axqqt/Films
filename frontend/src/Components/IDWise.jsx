@@ -21,7 +21,7 @@ const IDWisePage = () => {
       setStatus(data.Alert);
     } catch (error) {
       console.error("Error searching:", error);
-      setStatus(error.response?.data?.Alert || "An error occurred");
+      setStatus("An error occurred");
     } finally {
       setLoading(false);
     }

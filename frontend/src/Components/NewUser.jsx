@@ -34,10 +34,10 @@ const NewUser = () => {
       } 
     } catch (err) {
       console.error(err);
-      if (response.status === 409) {
+      if (response.data.status === 409) {
         setStatus(`${username} or ${mail} already exist`);
-      } else if (response.status === 400) {
-        setStatus("User already exists");
+      } else if (response.data.status === 400) {
+        setStatus("Required fields not filled");
       }
     } finally {
       setLoading(false);

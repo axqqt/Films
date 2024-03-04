@@ -27,16 +27,17 @@ const Login = (props) => {
   const usernameField = useRef();
   const passwordField = useRef();
 
-  const endPoint = "http://localhost:8000/login" || "https://films-backend.vercel.app/login";
+  const endPoint =
+    "http://localhost:8000/login" || "https://films-backend.vercel.app/login";
   const navigate = useNavigate();
 
   let loginChecker = 0;
 
   const LogUser = async (e) => {
     const userPrior = localStorage.getItem("users");
-  
+
     console.log(userPrior);
-  
+
     e.preventDefault();
     if (!logged) {
       if (status !== "") {
@@ -50,12 +51,12 @@ const Login = (props) => {
         } else {
           response = await Axios.post(`${endPoint}`, JSON.parse(userPrior));
         }
-  
-        if (response.status === 200) {
+
+        if (response.data.status === 200) {
           const responseData = response.data;
           console.log(responseData);
           const { AccessToken, RefreshToken } = responseData;
-  
+
           localStorage.setItem("accessToken", AccessToken);
           localStorage.setItem("refreshToken", RefreshToken);
           loginChecker++;
@@ -67,6 +68,7 @@ const Login = (props) => {
         }
       } catch (err) {
         console.error(err.message);
+        if(err.data.status===403)
         setStatus("Username/Password Wrong!");
       } finally {
         setLoading(false);
@@ -81,18 +83,18 @@ const Login = (props) => {
       }, 1500);
     }
   };
-  
 
   const signUpGoogle = async () => {
     try {
       const response = await signInWithPopup(auth, googleProvider);
 
       if (response) {
-        setLogged(true);  setStatus("Google sign-in successful");
-        setTimeout(()=>{
-          setStatus("")
-        },2000)
-      
+        setLogged(true);
+        setStatus("Google sign-in successful");
+        setTimeout(() => {
+          setStatus("");
+        }, 2000);
+
         setUser(auth?.currentUser);
         navigate("/");
       } else {
@@ -109,11 +111,12 @@ const Login = (props) => {
       const response = await signInWithPopup(auth, gitHubAuth);
 
       if (response) {
-        setLogged(true);  setStatus("GitHub sign-in successful");
-        setTimeout(()=>{
-          setStatus("")
-        },2000)
-    
+        setLogged(true);
+        setStatus("GitHub sign-in successful");
+        setTimeout(() => {
+          setStatus("");
+        }, 2000);
+
         setUser(auth?.currentUser);
         navigate("/");
       } else {
@@ -135,8 +138,6 @@ const Login = (props) => {
         setStatus("Logged out!");
         loginChecker++;
       } else {
-    
-
         if (response.status === 200) {
           setLogged(false);
           setStatus("Logged out!");
@@ -144,12 +145,14 @@ const Login = (props) => {
           setTimeout(() => {
             navigate("/");
           }, 1000);
-        } 
+        }
       }
     } catch (error) {
       console.error("Logout error:", error);
-      if (response.status === 401) {
-        setStatus(response?.data?.response?.data || "Unauthorized");
+      if (error.data.status === 401) {
+        setStatus("Unauthorized");
+      } else if (error.data.status === 400) {
+        setStatus("Username already taken!");
       } else {
         setStatus("Server issue!");
       }
@@ -161,8 +164,8 @@ const Login = (props) => {
     setData({ ...data, [e.target.name]: e.target.value });
   };
 
-  return !logged?(
-    <div style={{  justifyContent: "space-evenly" }}>
+  return !logged ? (
+    <div style={{ justifyContent: "space-evenly" }}>
       <h1>Login Page</h1>
       <p>Use Credentials veloxal for username and velo123 as password!</p>
       {/**Use veloxal for the username and velo123 for the password */}
@@ -185,20 +188,29 @@ const Login = (props) => {
           minLength={5}
         />
         <button type="submit" disabled={loading}>
-          {loading ? <RingLoader/>: "Login"}
+          {loading ? <RingLoader /> : "Login"}
         </button>
         <button onClick={signUpGoogle}>Sign Up With Google!</button>
-        {/* <button onClick={signInGitHub}>Sign Up with GitHub!</button> */} {/**I haven't enabled to login with github in firebase */}
-        <br/>
+        {/* <button onClick={signInGitHub}>Sign Up with GitHub!</button> */}{" "}
+        {/**I haven't enabled to login with github in firebase */}
+        <br />
         <button onClick={handleLogout}>Log Out!</button>
         <h1>{status}</h1>
       </form>
-      <br/>
+      <br />
       <Link to="/newuser">Not a user yet? Click Here 😊</Link>
-      <br/>
+      <br />
       <Link to="/forgotpass">Forgot your password? Click Here</Link>
     </div>
-  ):<div><h1>You are already logged in!</h1><p>Click <Link to="/">Here</Link> to go back to the homepage! OR <button onClick={handleLogout}>Logout!</button></p></div>
+  ) : (
+    <div>
+      <h1>You are already logged in!</h1>
+      <p>
+        Click <Link to="/">Here</Link> to go back to the homepage! OR{" "}
+        <button onClick={handleLogout}>Logout!</button>
+      </p>
+    </div>
+  );
 };
 
 export default Login;

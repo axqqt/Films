@@ -9,7 +9,7 @@ const Login = async (req, res, next) => {
   console.log(req.session);
   try {
     if (!req.session.user) {
-      const { username, password } = req.body;
+      const { username, password } = req?.body;
 
       if (!username || !password)
         return res.status(StatusCodes.BAD_REQUEST).json({ alert: `Username or password not provided` });
