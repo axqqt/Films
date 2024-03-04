@@ -126,6 +126,7 @@ const Login = (props) => {
   };
 
   const handleLogout = async () => {
+    const response = await Axios.post(`${endPoint}/logout`); //normal login!
     try {
       if (auth && auth?.currentUser) {
         //for firebase
@@ -134,7 +135,7 @@ const Login = (props) => {
         setStatus("Logged out!");
         loginChecker++;
       } else {
-        const response = await Axios.post(`${endPoint}/logout`); //normal login!
+    
 
         if (response.status === 200) {
           setLogged(false);
@@ -143,14 +144,15 @@ const Login = (props) => {
           setTimeout(() => {
             navigate("/");
           }, 1000);
-        } else if (response.status === 401) {
-          setStatus(response?.data?.response?.data || "Unauthorized");
-        } else {
-          setStatus("Server issue!");
-        }
+        } 
       }
     } catch (error) {
       console.error("Logout error:", error);
+      if (response.status === 401) {
+        setStatus(response?.data?.response?.data || "Unauthorized");
+      } else {
+        setStatus("Server issue!");
+      }
       setStatus("Error during logout");
     }
   };

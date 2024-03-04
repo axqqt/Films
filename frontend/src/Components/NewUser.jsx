@@ -20,25 +20,25 @@ const NewUser = () => {
     formData.append("password",password);
     formData.append("mail",mail);
     formData.append("image",image);
-
-    try {
-      setLoading(true);
-      const response = await Axios.post("http://localhost:8000/register" || "https://films-backend.vercel.app/register", {
+    const response = await Axios.post("http://localhost:8000/register" || "https://films-backend.vercel.app/register", {
       formData
       },{headers:{"Content-Type":"multipart/form-data"}});
+    try {
+      setLoading(true);
+
 
       if (response.status === 201) {
         setStatus(`${username} Created`);
         setLogged(true);
         navigator("/login");
-      } else if (response.status === 409) {
+      } 
+    } catch (err) {
+      console.error(err);
+      if (response.status === 409) {
         setStatus(`${username} or ${mail} already exist`);
       } else if (response.status === 400) {
         setStatus("User already exists");
       }
-    } catch (err) {
-      console.error(err);
-      setStatus(err.response.data.Alert);
     } finally {
       setLoading(false);
     }
@@ -90,6 +90,7 @@ const NewUser = () => {
           {loading ? <RingLoader/> : "Create User"}
         </button>
       </form>
+      <p>{status}</p>
       <p>
         Already a user? <Link to="/login">Click Here to Login!</Link>
       </p>

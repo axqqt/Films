@@ -44,6 +44,7 @@ const Personal = () => {
   let loginChecker = 0;
 
   const handleLogout = async () => {
+    const response = await Axios.post(`localhost:8000/login/logout` || "https://films-backend.vercel.app/login/logout");
     try {
       if (auth && auth?.currentUser) {
         //for firebase
@@ -52,7 +53,7 @@ const Personal = () => {
         setStatus("Logged out!");
         loginChecker++;
       } else {
-        const response = await Axios.post(`localhost:8000/login/logout` || "https://films-backend.vercel.app/login/logout"); //normal login!
+       //normal login!
 
         if (response.status === 200) {
           setLogged(false);
@@ -61,15 +62,15 @@ const Personal = () => {
           setTimeout(() => {
             navigate("/");
           }, 1000);
-        } else if (response.status === 401) {
-          setStatus(response?.data?.response?.data || "Unauthorized");
-        } else {
-          setStatus("Server issue!");
-        }
+        } 
       }
     } catch (error) {
       console.error("Logout error:", error);
-      setStatus("Error during logout");
+      if (response.status === 401) {
+        setStatus(response?.data?.response?.data || "Unauthorized");
+      } else {
+        setStatus("Server issue!");
+      }
     }
   };
 

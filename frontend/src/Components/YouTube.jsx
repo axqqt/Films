@@ -47,7 +47,7 @@ const YouTube = () => {
       {data && data.length ? (
         data.map((video,index) => (
           <div key={video.id || index} style={{ marginBottom: '20px', padding: '20px', border: '10px solid purple', borderRadius: '5px' }}>
-            <h1>{video.title}</h1>
+            <h2>{video.title}</h2>
             <p>{video.description}</p>
             <p>{video.views? `${Math.round(video.views)} Views` :""}</p>
             <p>{video.uploaded}</p>

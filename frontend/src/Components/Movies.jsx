@@ -44,18 +44,7 @@ function Movies() {
     fetchFromBack();
   }, []);
 
-  const del = async (id) => {
-    try {
-      setLoading(true);
-      await DeleteFilm(id);
-      dispatch({ type: 'DELETE', payload: { id } });
-    } catch (error) {
-      console.error("Error deleting film:", error);
-    } finally {
-      setLoading(false);
-    }
-  }
-
+  
   async function deleteFilm(id) {
     try {
       setLoading(true);
@@ -65,7 +54,6 @@ function Movies() {
     } finally {
       setLoading(false);
     }
-    del();
   }
 
   function reducer(state,action){ //testing reducer
@@ -121,12 +109,16 @@ function Movies() {
       console.error("Search term is empty");
       return; 
     }
+    const response = await Axios.post(`${API_URL}/home/search`, { searchTerm: search });
     try {
       setLoading(true);
-      const response = await Axios.post(`${API_URL}/home/search`, { searchTerm: search });
+     
       if (response.status === 200) {
         setData(response.data);
-      }else if(response.status===400){
+      }
+    } catch (error) {
+      console.error("Error searching:", error);
+     if(response.status===400){
         setStatus("You haven't searched for anything!")
       }else if(response.status===404){
         setStatus("No results found!")
@@ -134,8 +126,6 @@ function Movies() {
         setStatus("Error!")
       }
 
-    } catch (error) {
-      console.error("Error searching:", error);
     } finally {
       setLoading(false);
       if(search===""){
