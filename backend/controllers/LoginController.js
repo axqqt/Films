@@ -41,7 +41,7 @@ const Login = async (req, res, next) => {
           { expiresIn: "7d" }
         );
 
-        req.session.user = { username , _id: userValidity._id, maxAge: 60000 };
+        req.session.user = { username , _id: userValidity._id, maxAge: 60000 }; //it's not creating this
 
         return res.status(StatusCodes.OK).json({
           Alert: `${username} logged in!`,
@@ -49,6 +49,7 @@ const Login = async (req, res, next) => {
           RefreshToken,
           username,
           id:userValidity._id,
+
         });
       }
     } else {

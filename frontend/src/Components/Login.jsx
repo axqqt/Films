@@ -24,7 +24,7 @@ const Login = (props) => {
   const usernameField = useRef();
   const passwordField = useRef();
 
-  const endPoint = "http://localhost:8000/login"; // Adjust this based on your backend URL
+  const endPoint = "http://localhost:8000/login" || "https://films-backend.vercel.app/login"; // Adjust this based on your backend URL
   const navigate = useNavigate();
 
   const LogUser = async (e) => {
@@ -38,6 +38,7 @@ const Login = (props) => {
           const { AccessToken, RefreshToken } = responseData;
           localStorage.setItem("accessToken", AccessToken);
           localStorage.setItem("refreshToken", RefreshToken);
+          sessionStorage.setItem("user",data)
           setLogged(true);
           setUser(responseData);
           navigate("/");
@@ -47,8 +48,10 @@ const Login = (props) => {
       } catch (err) {
         console.error(err.message);
         if (err.response && err.response.status === 403) {
-          setStatus("Username/Password Wrong!");
-        } else {
+          setStatus("Username is wrong!");
+        } else if(err.response && err.response.status===401) {
+          setStatus("Password is wrong!");
+        }else{
           setStatus("An error occurred while logging in. Please try again later.");
         }
       } finally {

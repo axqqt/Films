@@ -18,7 +18,7 @@ const YouTube = () => {
     e.preventDefault();
     try {
       setLoading(true);
-      const response = await Axios.post(Base, { prompt: prompt });
+      const response = await Axios.post(Base, prompt);
       console.log(data);
       if (response.data.status === 200) {
         setData(data.videos);

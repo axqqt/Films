@@ -90,7 +90,6 @@ export default function App() {
           <Route path="/generate" element={<GenerateImages />}/>
           <Route path="/diffusion" element={<StableDiffusion />}/>
           <Route path="/addfilm" element={<AddFilm />} />
-          <Route path="/favs" element={<Favs />} />
           <Route path="/manage" element={<DisplayUsers />} />
           <Route path="/film/:id" element={<IDWisePage />} />
           <Route path="/forgotpass" element={<ForgotPass />} />
