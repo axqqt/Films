@@ -22,12 +22,13 @@ const userSchema = new mongoose.Schema(
       min: 5,
     },
     comment: {
-      type: String,
-      default: "",
+      type: Array,
+      default: [],
       trim: true,
     },
     photo: {
       type: String,
+      default:"https://i.pinimg.com/736x/83/bc/8b/83bc8b88cf6bc4b4e04d153a418cde62.jpg" //default pfp
     },
     followers:{
       type:Number,

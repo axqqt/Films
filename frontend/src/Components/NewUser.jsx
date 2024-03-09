@@ -30,12 +30,10 @@ const NewUser = () => {
     formData.append("password", password);
     formData.append("mail", mail);
     formData.append("image", image);
+    console.log(formData);
     const response = await Axios.post(
-      "http://localhost:8000/register" ||
-        "https://films-backend.vercel.app/register",
-      {
-        formData,
-      },
+      "http://localhost:8000/register" || "https://films-backend.vercel.app/register",
+      formData,
       { headers: { "Content-Type": "multipart/form-data" } }
     );
     try {
@@ -76,12 +74,14 @@ const NewUser = () => {
           onChange={handleChange}
           placeholder="Enter Username"
           name="username"
+          required
         />
         <input
           type="password"
           onChange={handleChange}
           placeholder="Enter password"
           name="password"
+          required
         />
         <input
           type="email"

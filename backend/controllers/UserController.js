@@ -57,7 +57,7 @@ async function CreateUser(req, res) {
     const {file:image} = req;
     console.log(req.body)
 
-    if (!username || !password || !mail)
+    if (!username || !password )
       return res
         .status(400)
         .json({ Alert: "No Username/password/mail provided" });

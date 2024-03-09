@@ -54,7 +54,6 @@ const Personal = () => {
     );
     try {
       if (auth && auth?.currentUser) {
-        //for firebase
         await signOut(auth);
         setLogged(false);
         setStatus("Logged out!");

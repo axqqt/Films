@@ -117,6 +117,9 @@ async function addComments (req,res){
   const newComment = req.body.newComment;
   if(!id) return res.status(400).json({Alert:"No ID Provided!"});
 
+
+
+
 const valid =  await mediaModel.findById(id);
   if(!valid) {
     return res.status(404).json({Alert:"ID Not found!"})

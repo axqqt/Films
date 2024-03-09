@@ -8,30 +8,34 @@ import { Link } from "react-router-dom";
 const YouTube = () => {
   const Base =
     "http://localhost:8000/tube" || "https://films-backend.vercel.app/tube";
-  const { user, logged, loading, setLoading } = useContext(UserData);
+  const { user, logged, loading, setLoading, status, setStatus } =
+    useContext(UserData);
   const [data, setData] = useState([]);
   const [prompt, setPrompt] = useState("");
 
   let searched = 0;
 
-  async function searchByTitle(e) {
+  const searchByTitle = async (e) => {
     e.preventDefault();
     try {
       setLoading(true);
-      const response = await Axios.post(Base, prompt);
-      console.log(data);
+      const response = await Axios.post(Base, { thePrompt: prompt });
       if (response.data.status === 200) {
-        setData(data.videos);
+        setData(response.data);
         searched++;
       }
     } catch (err) {
       console.error(err);
+      if (err.response && err.response.status === 404) {
+        setStatus("No results found!");
+      }
     } finally {
       setLoading(false);
     }
-  }
+  };
 
-  return user && logged && !loading ? (
+
+  return user && logged ? (
     <Suspense fallback={loading}>
       <div>
         <h1>Access YouTube</h1>
@@ -40,6 +44,7 @@ const YouTube = () => {
             type="text"
             placeholder="What's on your mind..."
             onChange={(e) => setPrompt(e.target.value)}
+            required
           />
           <button type="submit" disabled={loading}>
             Search...
@@ -89,6 +94,7 @@ const YouTube = () => {
             ? "Browse YouTube... 🍿"
             : "No results found!"}
         </div>
+        <p>{status}</p>
         <p>{searched === 0 ? "" : "Anything else?"}</p>
       </div>
     </Suspense>

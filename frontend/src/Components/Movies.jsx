@@ -23,9 +23,6 @@ function Movies() {
   const [time, setTime] = useState("");
   const [showBot, setShowBot] = useState(false);
 
-
-
-
   async function fetchFromBack() {
     try {
       setLoading(true);
@@ -44,11 +41,11 @@ function Movies() {
     fetchFromBack();
   }, []);
 
-  
   async function deleteFilm(id) {
     try {
       setLoading(true);
       await DeleteFilm(id);
+      setData(prevData => prevData.filter(film => film._id !== id));
     } catch (error) {
       console.error("Error deleting film:", error);
     } finally {
@@ -56,47 +53,45 @@ function Movies() {
     }
   }
 
-  function reducer(state,action){ //testing reducer
-    switch(action.type){
-      case "DELETE":
-        return state.filter((film) => film._id !== action.payload.id);
-    }
-  }
-
-  const [state,dispatch]  =useReducer(reducer,data)
-
   async function addComment(id, msg) {
     try {
       setLoading(true);
       await AddComments(id, msg);
-      setData((prevData) => ({
-        ...prevData,
-        comments: [...prevData.comments, { id: id, message: msg }],
-      }));
+      setData(prevData => {
+        const newData = prevData.map(film => {
+          if (film._id === id) {
+            return { ...film, comments: [...film.comments, { id: id, message: msg }] };
+          }
+          return film;
+        });
+        return newData;
+      });
     } catch (err) {
       console.error(err);
     } finally {
       setLoading(false);
     }
   }
-  
 
   async function editTitle(id, modifiedTitle) {
     try {
       setLoading(true);
       const response = await EditTitle(id, modifiedTitle);
-      if(response.data.status===200){
+      if (response.data.status === 200) {
         window.location.reload();
       }
 
-      setData((prevData) =>
-        prevData.map((film) =>
-          film._id === id ? { ...film, title: modifiedTitle } : film
-        )
-      ); 
+      setData(prevData => {
+        return prevData.map(film => {
+          if (film._id === id) {
+            return { ...film, title: modifiedTitle };
+          }
+          return film;
+        });
+      });
     } catch (error) {
       console.error("Error editing title:", error);
-      if(error.response.status===400){
+      if (error.response.status === 400) {
         setStatus("Error editing title")
       }
     } finally {
@@ -121,21 +116,19 @@ function Movies() {
       }
     } catch (error) {
       console.error("Error searching:", error);
-     if(error.response.status===400){
+      if (error.response.status === 400) {
         setStatus("You haven't searched for anything!")
-      }else if(error.response.status===404){
+      } else if (error.response.status === 404) {
         setStatus("No results found!")
-      }else{
+      } else {
         setStatus("Error!")
       }
-
     } finally {
       setLoading(false);
-      if(search===""){
+      if (search === "") {
         fetchFromBack();
-       }
+      }
     }
-
   };
   
   const today = new Date();
@@ -158,13 +151,12 @@ function Movies() {
     setShowBot(!showBot);
   };  
 
-
-  const myFavorites = async (filmData) => { //this takes the title of the film
-    const history= localStorage.getItem("favs")
-    if(history){
-     const parsedData = await JSON.parse(history);
-     alert('loaded back your favorites!')
-     setFavs([...favs,parsedData]);
+  const myFavorites = async (filmData) => {
+    const history = localStorage.getItem("favs")
+    if (history) {
+      const parsedData = await JSON.parse(history);
+      alert('loaded back your favorites!')
+      setFavs([...favs, parsedData]);
     }
     if (user) {
         setFavs([...favs, filmData]);
@@ -173,16 +165,15 @@ function Movies() {
     } else {
         alert("You are not logged in!");
     }
-}
+  }
 
-const userProfileStyle ={
+  const userProfileStyle ={
     width: "100px",
     height: "100px",
     borderRadius: "20%", 
     objectFit: "cover", 
     border: "2px solid #fff",  
-}
-
+  }
 
   return (
     <>

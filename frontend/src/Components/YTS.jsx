@@ -65,7 +65,7 @@ const YTSPage = () => {
   },[])
 
 
-  return logged && user && !loading?   
+  return logged && user?   
   <div style={{ padding: "5%" }}> {/**Only logged users can access! */}
   <h1>YTS Page!</h1>
   <form onSubmit={fetchFilmsSearch}>
@@ -88,7 +88,7 @@ const YTSPage = () => {
       Search for film!
     </button>
   </form>
-  <Suspense fallback={loading}>
+  <Suspense fallback={<RingLoader/>}>
   {movies && movies.length && !loading ? (
     <div style={{ color: "black" }}>
       {movies.map((x) => (

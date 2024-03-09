@@ -3,12 +3,10 @@ import { useContext } from "react";
 import { Link } from "react-router-dom";
 import { UserData } from "../App";
 
-
-
 const Navbar = () => {
-  const { logged,loading , user} = useContext(UserData);
-  return logged && user && !loading? (
-    <ul >
+  const { logged, loading, user } = useContext(UserData);
+  return logged && user && !loading ? (
+    <ul>
       <li>
         <Link to="/" className="text-white hover:text-gray-300">
           Home
@@ -37,11 +35,6 @@ const Navbar = () => {
       <li>
         <Link to="/profile" className="text-white hover:text-gray-300">
           Your account
-        </Link>
-      </li>
-      <li>
-        <Link to="/favs" className="text-white hover:text-gray-300">
-          My Favorites
         </Link>
       </li>
       <li>

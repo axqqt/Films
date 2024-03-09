@@ -4,7 +4,7 @@ import Movies from "./Components/Movies";
 import AddFilm from "./Components/AddFilm";
 import NewUser from "./Components/NewUser";
 import DisplayUsers from "./Components/DisplayUsers";
-import { createContext,  useState } from "react";
+import { createContext, useState } from "react";
 import Login from "./Components/Login";
 import ForgotPass from "./Components/ForgotPass";
 // import ChatPage from "./Components/Socket";
@@ -21,8 +21,6 @@ import StableDiffusion from "./Components/StableDiffusion";
 import Favs from "./Components/Favs";
 import YouTube from "./Components/YouTube";
 
-
-
 export const UserData = createContext();
 
 export default function App() {
@@ -30,7 +28,7 @@ export default function App() {
     username: "",
     password: "",
     mail: "",
-    image:null,
+    image: null,
     photo: "",
   });
   const [user, setUser] = useState({});
@@ -39,8 +37,7 @@ export default function App() {
   const [status, setStatus] = useState("");
   const [id, setID] = useState("");
   const [movies, setMovies] = useState([]);
-  const[favs,setFavs] = useState([]);
- 
+  const [favs, setFavs] = useState([]);
 
   //I didn't find the need to useCallback since i'm not passing any functions down as props through the contextAPI
 
@@ -52,51 +49,49 @@ export default function App() {
     speedMultiplier={1}
   />;
 
-
   const theData = {
-    
-      logged,
-      setLogged,
-      status,
-      user,
-      setUser,
-      setStatus,
-      loading,
-      setLoading,
-      setID,
-      id,
-      data,
-      setData,
-      RingLoader,
-      movies,
-      setMovies,
-      favs,setFavs
-  }
-
+    logged,
+    setLogged,
+    status,
+    user,
+    setUser,
+    setStatus,
+    loading,
+    setLoading,
+    setID,
+    id,
+    data,
+    setData,
+    RingLoader,
+    movies,
+    setMovies,
+    favs,
+    setFavs,
+  };
 
   return (
     <BrowserRouter>
-      <UserData.Provider
-        value={theData}
-      >
-           <Link to={"https://github.com/DulranSam/Films"}>Click here to view the repository!</Link>
-        <Navbar/>
+      <UserData.Provider value={theData}>
+        <Link to={"https://github.com/DulranSam/Films"}>
+          Click here to view the repository!
+        </Link>
+        <Navbar />
         <Routes>
           <Route path="/" element={<Movies />}></Route>
           <Route path="/newuser" element={<NewUser />} />
           <Route path="/login" element={<Login />} />
           <Route path="/yts" element={<YTSPage />}></Route>
           <Route path="/youtube" element={<YouTube />}></Route>
-          <Route path="/generate" element={<GenerateImages />}/>
-          <Route path="/diffusion" element={<StableDiffusion />}/>
+          <Route path="/generate" element={<GenerateImages />} />
+          <Route path="/diffusion" element={<StableDiffusion />} />
           <Route path="/addfilm" element={<AddFilm />} />
           <Route path="/manage" element={<DisplayUsers />} />
           <Route path="/film/:id" element={<IDWisePage />} />
           <Route path="/forgotpass" element={<ForgotPass />} />
-          <Route path="/profile" element={<Personal/>}></Route>
+          <Route path="/profile" element={<Personal />}></Route>
           <Route path="*" element={<PageNotFound />} />
         </Routes>
-        <Footer/>
+        <Footer />
       </UserData.Provider>
     </BrowserRouter>
   );
