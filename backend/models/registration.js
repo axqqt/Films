@@ -21,7 +21,7 @@ const userSchema = new mongoose.Schema(
       trim: true,
       min: 5,
     },
-    comment: {
+    comments: {
       type: Array,
       default: [],
       trim: true,

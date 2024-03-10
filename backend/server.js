@@ -75,7 +75,7 @@ app.use(limiter,(next)=>{
 app.use(morgan("dev"))
 app.use("/register", register);
 app.use("/login", login);
-// app.use(authenticated)
+app.use(authenticated)
 app.use("/home", homepage);
 app.use("/comments", commentsModel);
 app.use("/links", linked);

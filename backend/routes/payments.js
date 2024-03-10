@@ -2,7 +2,7 @@ const express = require("express");
 const router = express.Router();
 const Axios = require("axios");
 
-
+//idk why i included this here tbh
 router.route("/").post(async (req,res)=>{
     const  credentials =req?.body?.credentials; 
     if(!credentials) return res.status(400).json({Alert:"No credentials provided!"})
