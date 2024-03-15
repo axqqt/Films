@@ -9,7 +9,7 @@ export async function GetMain() {
 
 export async function Gemini(data) {
   const result = await Axios.post(`${API_URL}/gemini`, {
-   data,
+    data,
   });
   return result.data;
 }
@@ -75,7 +75,7 @@ export async function GetComments() {
   }
 }
 
-export async function AddComments(id,msg) {
+export async function AddComments(id, msg) {
   try {
     const comments = await Axios.put(`${API_URL}/home/comment/${id}`, {
       newComment: msg,
@@ -94,7 +94,6 @@ export async function DelComments(id) {
     console.error(err);
   }
 }
-
 
 export async function YTSDefault() {
   try {

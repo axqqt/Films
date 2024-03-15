@@ -4,11 +4,23 @@ import { useState, useEffect, useContext, Suspense } from "react";
 import { UserData } from "../App";
 import Axios from "axios";
 import { YTSDefault } from "./Services/Api";
-import DefaultLogin from '../Components/DefaultLogin'
+import DefaultLogin from "../Components/DefaultLogin";
 import { Link } from "react-router-dom";
 
 const YTSPage = () => {
-  const { movies, setMovies, loading, setLoading, RingLoader,logged,user,favs,setFavs,setStatus,status } = useContext(UserData);
+  const {
+    movies,
+    setMovies,
+    loading,
+    setLoading,
+    RingLoader,
+    logged,
+    user,
+    favs,
+    setFavs,
+    setStatus,
+    status,
+  } = useContext(UserData);
   const [movie, setMovie] = useState("");
   const [qual, setQual] = useState("All");
 
@@ -43,84 +55,108 @@ const YTSPage = () => {
     }
   }
 
-  const myFavorites = async (filmData, ) => {
-    const history= localStorage.getItem("favs")
-    if(history){
-     const parsedData = await JSON.parse(history);
-     setStatus('loaded back your favorites!')
-     setFavs(parsedData);
+  const myFavorites = async (filmData) => {
+    const history = localStorage.getItem("favs");
+    if (history) {
+      const parsedData = await JSON.parse(history);
+      setStatus("loaded back your favorites!");
+      setFavs(parsedData);
     }
     if (user) {
-        setFavs([...favs, filmData]);
-        localStorage.setItem("favs",favs);
+      setFavs([...favs, filmData]);
+      localStorage.setItem("favs", favs);
     } else {
-        setStatus("You are not logged in!");
+      setStatus("You are not logged in!");
     }
-}
+  };
 
-  
-
-  useEffect(()=>{
+  useEffect(() => {
     fetchFilms();
-  },[])
+  }, []);
 
-
-  return logged && user?   
-  <div style={{ padding: "5%" }}> {/**Only logged users can access! */}
-  <h1>YTS Page!</h1>
-  <form onSubmit={fetchFilmsSearch}>
-    <input
-      onChange={(e) => {
-        setMovie(e.target.value);
-      }}
-      placeholder="Search for a film"
-    />
-    <br/>
-    <label>Choose a quality!</label>
-    <select value={qual} onChange={handleChange}>
-      <option value="All">All</option>
-      <option value="480p">480p</option>
-      <option value="720p">720p</option>
-      <option value="1080p">1080p</option>
-      <option value="2160p">4K</option>
-    </select>
-    <button type="submit" disabled={loading}>
-      Search for film!
-    </button>
-  </form>
-  <Suspense fallback={<RingLoader/>}>
-  {movies && movies.length && !loading ? (
-    <div style={{ color: "black" }}>
-      {movies.map((x) => (
-        <div key={x.id} style={{ marginBottom: '20px', padding: '20px', border: '10px solid purple', borderRadius: '5px' }}>
-          <h1>{x.title}</h1>
-          {x.large_cover_image && <img src={x.large_cover_image} alt={`Image of ${x.title}`} />}
-          {x.background_image_original && <img src={x.background_image_original} alt={`Background image of ${x.title}`} />}
-          <p>{x.description_full || ""}</p>
-          {x.rating ?  <p>{`Rated ${x.rating}/10`}</p> : ""}
-          {x.year && <p>{`Released in ${x.year}`}</p>}
-          {x.runtime && <h2>{`Runtime is ${Math.round(x.runtime / 60)} hours`}</h2>}
-          {x.mpa_rating && <p>{`Rating ${x.mpa_rating}`}</p>}
-          <p>{x.language}</p>
-          {x.date_uploaded && <h2>{`Uploaded on ${x.date_uploaded}`}</h2>}
-          {x.url && (
-            <a href={x.url}>
-              <h1> Click here to view {x.title}</h1>
-            </a>
-          )}
-          {x.torrents && x.torrents.quality && <h2>{`Qual ${x.torrents.quality}`}</h2>}
-          <button onClick={() => {
-            myFavorites(x.title)
-          }}>{`Add ${x.title} to your favorites!`}</button>
-        </div>
-      ))}
-      <p>{status}</p>
+  return logged && user ? (
+    loading ? <RingLoader/> :
+    <div style={{ padding: "5%" }}>
+    
+      {/**Only logged users can access! */}
+      <h1>YTS Page!</h1>
+      <form onSubmit={fetchFilmsSearch}>
+        <input
+          onChange={(e) => {
+            setMovie(e.target.value);
+          }}
+          placeholder="Search for a film"
+        />
+        <br />
+        <label>Choose a quality!</label>
+        <select value={qual} onChange={handleChange}>
+          <option value="All">All</option>
+          <option value="480p">480p</option>
+          <option value="720p">720p</option>
+          <option value="1080p">1080p</option>
+          <option value="2160p">4K</option>
+        </select>
+        <button type="submit" disabled={loading}>
+          Search for film!
+        </button>
+      </form>
+      <Suspense fallback={<RingLoader />}>
+        {movies && movies.length && !loading ? (
+          <div style={{ color: "black" }}>
+            {movies.map((x) => (
+              <div
+                key={x.id}
+                style={{
+                  marginBottom: "20px",
+                  padding: "20px",
+                  border: "10px solid purple",
+                  borderRadius: "5px",
+                }}
+              >
+                <h1>{x.title}</h1>
+                {x.large_cover_image && (
+                  <img src={x.large_cover_image} alt={`Image of ${x.title}`} />
+                )}
+                {x.background_image_original && (
+                  <img
+                    src={x.background_image_original}
+                    alt={`Background image of ${x.title}`}
+                  />
+                )}
+                <p>{x.description_full || ""}</p>
+                {x.rating ? <p>{`Rated ${x.rating}/10`}</p> : ""}
+                {x.year && <p>{`Released in ${x.year}`}</p>}
+                {x.runtime && (
+                  <h2>{`Runtime is ${Math.round(x.runtime / 60)} hours`}</h2>
+                )}
+                {x.mpa_rating && <p>{`Rating ${x.mpa_rating}`}</p>}
+                <p>{x.language}</p>
+                {x.date_uploaded && <h2>{`Uploaded on ${x.date_uploaded}`}</h2>}
+                {x.url && (
+                  <a href={x.url}>
+                    <h1> Click here to view {x.title}</h1>
+                  </a>
+                )}
+                {x.torrents && x.torrents.quality && (
+                  <h2>{`Qual ${x.torrents.quality}`}</h2>
+                )}
+                <button
+                  onClick={() => {
+                    myFavorites(x.title);
+                  }}
+                >{`Add ${x.title} to your favorites!`}</button>
+              </div>
+            ))}
+            <p>{status}</p>
+          </div>
+        ) : (
+          <h1>No films found!</h1>
+        )}
+      </Suspense>
     </div>
   ) : (
-    <h1>No films found!</h1>
-  )}
-</Suspense>
-</div> : <DefaultLogin/>
+    <DefaultLogin />
+  );
 };
 
 export default YTSPage;

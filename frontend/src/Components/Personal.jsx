@@ -12,7 +12,7 @@ const Personal = () => {
   const BASE =
     "http://localhost:8000/users/specific" ||
     "https://films-backend.vercel.app/users/specific";
-  const { user, logged, loading, setLoading, setStatus, setLogged } =
+  const { user, logged, loading, setLoading, setStatus, setLogged,RingLoader } =
     useContext(UserData);
   const [userData, setUserData] = useState({});
   const [error, setError] = useState(null);
@@ -135,7 +135,7 @@ const Personal = () => {
         </div>
       )}
     </div>
-  ) : (
+  ) : loading ? <RingLoader/>: (
     <DefaultLogin />
   );
 };

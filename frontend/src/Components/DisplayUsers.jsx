@@ -26,7 +26,7 @@ const DisplayUsers = () => {
   async function DeleteUser(id) {
     try {
       setLoading(true);
-      const response = await DeleteUsers(id).then(() => {
+      await DeleteUsers(id).then((response) => {
         if (response.status === 200) {
           UserData();
         }

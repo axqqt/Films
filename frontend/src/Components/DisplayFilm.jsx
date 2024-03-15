@@ -6,7 +6,7 @@ import { Suspense, useContext, useEffect, useState } from "react";
 import { UserData } from "../App";
 
 const DisplayFilm = ({ x }) => {
-  const { loading, setLoading } = useContext(UserData);
+  const { loading, setLoading, data, setData } = useContext(UserData);
 
   async function updateRating(id) {
     try {
@@ -16,8 +16,15 @@ const DisplayFilm = ({ x }) => {
           `https://films-backend.vercel.app/home/${id}`
       );
 
-      if (output.data.status === 200) {
-        window.location.reload();
+      if (output.status === 200) {
+        const updatedData = data.map((item) => {
+          if (item._id === id) {
+            return { ...item, rating: item.rating + 1 };
+          } else {
+            return item;
+          }
+        });
+        setData(updatedData);
       }
     } catch (err) {
       console.error(err);
@@ -34,8 +41,15 @@ const DisplayFilm = ({ x }) => {
           `https://films-backend.vercel.app/home/downvote/${id}`
       );
 
-      if (output.data.status === 200) {
-        window.location.reload();
+      if (output.status === 200) {
+        const updatedData = data.map((item) => {
+          if (item._id === id) {
+            return { ...item, rating: item.rating - 1 };
+          } else {
+            return item;
+          }
+        });
+        setData(updatedData);
       }
     } catch (err) {
       console.error(err);

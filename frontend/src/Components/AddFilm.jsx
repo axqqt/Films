@@ -63,7 +63,7 @@ const AddFilm = () => {
         }
       );
 
-      if (response.status === 201) {
+      if (response.data.status === 201) {
         setStatus(`${data.title} Added`);
       }
     } catch (err) {
