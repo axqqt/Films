@@ -19,7 +19,7 @@ import { Container, Typography, Button, TextField } from "@mui/material";
 import { AddComments, DeleteFilm, EditTitle, GetMain } from "./Services/Api";
 import { Slide } from "react-slideshow-image";
 
-const API_URL = "http://localhost:8000" || "https://films-backend.vercel.app";
+const API_URL = "https://films-backend.vercel.app";
 
 function Movies() {
   const {

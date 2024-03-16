@@ -5,7 +5,7 @@ import { useParams } from "react-router-dom";
 import { UserData } from "../App";
 import DefaultLogin from "./DefaultLogin";
 
-const API_URL = "http://localhost:8000/home" || "https://films-backend.vercel.app/home";
+const API_URL = "https://films-backend.vercel.app/home";
 
 const IDWisePage = () => {
   const { status, setStatus, RingLoader,logged } = useContext(UserData);

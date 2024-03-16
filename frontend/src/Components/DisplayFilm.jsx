@@ -12,8 +12,7 @@ const DisplayFilm = ({ x }) => {
     try {
       setLoading(true);
       const output = await Axios.patch(
-        `http://localhost:8000/home/${id}` ||
-          `https://films-backend.vercel.app/home/${id}`
+        `https://films-backend.vercel.app/home/${id}`
       );
 
       if (output.status === 200) {
@@ -37,8 +36,7 @@ const DisplayFilm = ({ x }) => {
     try {
       setLoading(true);
       const output = await Axios.put(
-        `http://localhost:8000/home/downvote/${id}` ||
-          `https://films-backend.vercel.app/home/downvote/${id}`
+        `https://films-backend.vercel.app/home/downvote/${id}`
       );
 
       if (output.status === 200) {

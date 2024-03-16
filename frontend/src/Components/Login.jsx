@@ -24,7 +24,7 @@ const Login = (props) => {
   const usernameField = useRef();
   const passwordField = useRef();
 
-  const endPoint = "http://localhost:8000/login" || "https://films-backend.vercel.app/login"; 
+  const endPoint ="https://films-backend.vercel.app/login"; 
   const navigate = useNavigate();
 
   const LogUser = async (e) => {
