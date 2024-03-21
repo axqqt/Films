@@ -5,13 +5,13 @@ import { useParams } from "react-router-dom";
 import { UserData } from "../App";
 import DefaultLogin from "./DefaultLogin";
 
-const API_URL = "https://films-backend.vercel.app/home";
+
 
 const IDWisePage = () => {
-  const { status, setStatus, RingLoader,logged } = useContext(UserData);
+  const { status, setStatus, RingLoader,logged,BASE} = useContext(UserData);
   const [movie, setMovie] = useState({});
   const [loading, setLoading] = useState(true);
-
+  const API_URL = "https://films-backend.vercel.app/home" || `${BASE}/home`;
   const { id: urlId } = useParams();
 
   const handleSearchID = async () => {

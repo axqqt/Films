@@ -6,9 +6,9 @@ import DefaultLogin from "./DefaultLogin";
 import { Link } from "react-router-dom";
 
 const YouTube = () => {
-  const Base = "https://films-backend.vercel.app/tube";
-  const { user, logged, loading, setLoading, status, setStatus } =
+  const { user, logged, loading, setLoading, status, setStatus, BASE } =
     useContext(UserData);
+  const URL = "https://films-backend.vercel.app/tube" || `${BASE}/tube`;
   const [data, setData] = useState([]);
   const [prompt, setPrompt] = useState("");
 
@@ -18,7 +18,7 @@ const YouTube = () => {
     e.preventDefault();
     try {
       setLoading(true);
-      const response = await Axios.post(Base, { thePrompt: prompt });
+      const response = await Axios.post(URL, { thePrompt: prompt });
       if (response.data.status === 200) {
         setData(response.data);
         searched++;

@@ -19,7 +19,7 @@ import { Container, Typography, Button, TextField } from "@mui/material";
 import { AddComments, DeleteFilm, EditTitle, GetMain } from "./Services/Api";
 import { Slide } from "react-slideshow-image";
 
-const API_URL = "https://films-backend.vercel.app";
+
 
 function Movies() {
   const {
@@ -31,6 +31,7 @@ function Movies() {
     status,
     favs,
     setFavs,
+    BASE
   } = useContext(UserData);
   const [data, setData] = useState([]);
   const [comment, setComment] = useState("");
@@ -38,6 +39,8 @@ function Movies() {
   const [modifiedTitle, setModifiedTitle] = useState("");
   const [time, setTime] = useState("");
   const [showBot, setShowBot] = useState(false);
+
+  const API_URL = "https://films-backend.vercel.app" || `${BASE}`;
 
   async function fetchFromBack() {
     try {

@@ -6,13 +6,13 @@ import { Suspense, useContext, useEffect, useState } from "react";
 import { UserData } from "../App";
 
 const DisplayFilm = ({ x }) => {
-  const { loading, setLoading, data, setData } = useContext(UserData);
+  const { loading, setLoading, data, setData,BASE } = useContext(UserData);
 
   async function updateRating(id) {
     try {
       setLoading(true);
       const output = await Axios.patch(
-        `https://films-backend.vercel.app/home/${id}`
+        `https://films-backend.vercel.app/home/${id}` || `${BASE}/home/${id}`
       );
 
       if (output.status === 200) {
@@ -36,7 +36,7 @@ const DisplayFilm = ({ x }) => {
     try {
       setLoading(true);
       const output = await Axios.put(
-        `https://films-backend.vercel.app/home/downvote/${id}`
+        `https://films-backend.vercel.app/home/downvote/${id}` || `${BASE}/home/downvote/${id}`
       );
 
       if (output.status === 200) {

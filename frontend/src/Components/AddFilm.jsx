@@ -5,7 +5,7 @@ import Axios from "axios";
 import { Link } from "react-router-dom";
 
 const AddFilm = () => {
-  const { status, setStatus, loading, setLoading, RingLoader, logged } =
+  const { status, setStatus, loading, setLoading, RingLoader, logged,BASE } =
     useContext(UserData);
 
   const [data, setData] = useState({
@@ -56,7 +56,7 @@ const AddFilm = () => {
       }
 
       const response = await Axios.post(
-        "https://films-backend.vercel.app/home",
+        "https://films-backend.vercel.app/home" || `${BASE}/home`,
         formData,
         {
           headers: { "Content-Type": "multipart/form-data" },

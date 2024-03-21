@@ -9,7 +9,7 @@ import { auth } from "./Fire/FireConfig";
 import { signOut } from "firebase/auth";
 
 const Personal = () => {
-  const BASE = "https://films-backend.vercel.app/users/specific";
+
   const {
     user,
     logged,
@@ -18,15 +18,17 @@ const Personal = () => {
     setStatus,
     setLogged,
     RingLoader,
+    BASE
   } = useContext(UserData);
   const [userData, setUserData] = useState({});
   const [error, setError] = useState(null);
   const navigate = useNavigate();
 
+  const URL = "https://films-backend.vercel.app/users/specific" || `${BASE}/users/specific`;
   async function fetchUserData() {
     setLoading(true);
     try {
-      const { data } = await Axios.post(BASE, { id: user.id });
+      const { data } = await Axios.post(URL, { id: user.id });
       setUserData(data);
     } catch (err) {
       console.error(err);
@@ -39,7 +41,7 @@ const Personal = () => {
   async function increaseFollowers() {
     try {
       setLoading(true);
-      await Axios.put(BASE, { id: user.id }).then(() =>
+      await Axios.put(URL, { id: user.id }).then(() =>
         setStatus("Increased followers!")
       );
       window.location.reload();
@@ -54,8 +56,7 @@ const Personal = () => {
 
   const handleLogout = async () => {
     const response = await Axios.post(
-      `localhost:8000/login/logout` ||
-        "https://films-backend.vercel.app/login/logout"
+        "https://films-backend.vercel.app/login/logout" || `${BASE}/login/logout`
     );
     try {
       if (auth && auth?.currentUser) {

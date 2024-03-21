@@ -4,7 +4,7 @@ import Axios from "axios";
 import { UserData } from "../App";
 
 const StableDiffusion = () => {
-  const { loading, setLoading, status, setStatus } = useContext(UserData);
+  const { loading, setLoading, status, setStatus,BASE } = useContext(UserData);
   const [prompts, setPrompts] = useState({
     Default: "",
     Negative: "",
@@ -14,7 +14,7 @@ const StableDiffusion = () => {
     e.preventDefault();
     try {
       setLoading(true);
-      await Axios.post("https://films-backend.vercel.app/images/stable", {
+      await Axios.post("https://films-backend.vercel.app/images/stable" || `${BASE}/images/stable`, {
         prompts,
       }).then((response) => setStatus(response.data));
     } catch (err) {

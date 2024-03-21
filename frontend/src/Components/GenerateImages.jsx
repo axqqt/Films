@@ -8,7 +8,7 @@ import DefaultLogin from "./DefaultLogin";
 const GenerateImages = () => { 
 
   //api key is not valid which is why this is not working properly!
-  const { loading, setLoading, status, setStatus,logged , user} = useContext(UserData);
+  const { loading, setLoading, status, setStatus,logged , user,BASE} = useContext(UserData);
 
 
   const [generated, setGenerated] = useState([]);
@@ -27,7 +27,7 @@ const GenerateImages = () => {
     e.preventDefault();
     try {
       setLoading(true);
-      const response  = await Axios.post("https://films-backend.vercel.app/images", {image:data});
+      const response  = await Axios.post("https://films-backend.vercel.app/images" || `${BASE}/images`, {image:data});
       setStatus(response.data.Alert);
       setGenerated(response.data);
       if(response.data.status===200){

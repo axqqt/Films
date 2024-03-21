@@ -1,6 +1,6 @@
 /* eslint-disable no-unused-vars */
 import Axios from "axios";
-const API_URL = "https://films-backend.vercel.app";
+const API_URL = "https://films-backend.vercel.app" || "http://localhost:8000";
 
 export async function GetMain() {
   const response = await Axios.get(`${API_URL}/home`);
