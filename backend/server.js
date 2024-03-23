@@ -29,8 +29,7 @@ app.use(cookieParser());
 // // const sessionStore = new MongoStore({client:cluster,collectionName:"sessions"})
 app.use(
   cors({
-    origin: "*",
-    credentials: true, //react project
+    origin: "*"
   })
 );
 
