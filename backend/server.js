@@ -29,7 +29,7 @@ app.use(cookieParser());
 // // const sessionStore = new MongoStore({client:cluster,collectionName:"sessions"})
 app.use(
   cors({
-    origin: ["https://films-frontend.vercel.app"],
+    origin: "*",
     credentials: true, //react project
   })
 );
