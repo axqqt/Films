@@ -33,7 +33,7 @@ const NewUser = () => {
     formData.append("image", image);
     console.log(formData);
     const response = await Axios.post(
-      "https://films-backend.vercel.app/register" || `${BASE}/register`,
+      `${BASE}/register`,
       formData,
       { headers: { "Content-Type": "multipart/form-data" } }
     );

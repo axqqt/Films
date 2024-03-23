@@ -56,7 +56,7 @@ const AddFilm = () => {
       }
 
       const response = await Axios.post(
-        "https://films-backend.vercel.app/home" || `${BASE}/home`,
+        `${BASE}/home`,
         formData,
         {
           headers: { "Content-Type": "multipart/form-data" },

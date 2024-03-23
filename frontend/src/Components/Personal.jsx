@@ -24,7 +24,7 @@ const Personal = () => {
   const [error, setError] = useState(null);
   const navigate = useNavigate();
 
-  const URL = "https://films-backend.vercel.app/users/specific" || `${BASE}/users/specific`;
+  const URL = `${BASE}/users/specific`;
   async function fetchUserData() {
     setLoading(true);
     try {
@@ -56,7 +56,7 @@ const Personal = () => {
 
   const handleLogout = async () => {
     const response = await Axios.post(
-        "https://films-backend.vercel.app/login/logout" || `${BASE}/login/logout`
+        `${BASE}/login/logout`
     );
     try {
       if (auth && auth?.currentUser) {

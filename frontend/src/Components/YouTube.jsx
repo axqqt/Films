@@ -8,7 +8,7 @@ import { Link } from "react-router-dom";
 const YouTube = () => {
   const { user, logged, loading, setLoading, status, setStatus, BASE } =
     useContext(UserData);
-  const URL = "https://films-backend.vercel.app/tube" || `${BASE}/tube`;
+  const URL = `${BASE}/tube`;
   const [data, setData] = useState([]);
   const [prompt, setPrompt] = useState("");
 

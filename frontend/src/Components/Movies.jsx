@@ -40,7 +40,7 @@ function Movies() {
   const [time, setTime] = useState("");
   const [showBot, setShowBot] = useState(false);
 
-  const API_URL = "https://films-backend.vercel.app" || `${BASE}`;
+  const API_URL = `${BASE}`;
 
   async function fetchFromBack() {
     try {

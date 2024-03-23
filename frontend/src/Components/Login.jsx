@@ -25,7 +25,7 @@ const Login = (props) => {
   const usernameField = useRef();
   const passwordField = useRef();
 
-  const endPoint ="https://films-backend.vercel.app/login" || `${BASE}/login`; 
+  const endPoint =`${BASE}/login`; 
   const navigate = useNavigate();
 
   const LogUser = async (e) => {

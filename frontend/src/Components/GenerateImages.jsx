@@ -27,7 +27,7 @@ const GenerateImages = () => {
     e.preventDefault();
     try {
       setLoading(true);
-      const response  = await Axios.post("https://films-backend.vercel.app/images" || `${BASE}/images`, {image:data});
+      const response  = await Axios.post(`${BASE}/images`, {image:data});
       setStatus(response.data.Alert);
       setGenerated(response.data);
       if(response.data.status===200){

@@ -14,7 +14,7 @@ const StableDiffusion = () => {
     e.preventDefault();
     try {
       setLoading(true);
-      await Axios.post("https://films-backend.vercel.app/images/stable" || `${BASE}/images/stable`, {
+      await Axios.post(`${BASE}/images/stable`, {
         prompts,
       }).then((response) => setStatus(response.data));
     } catch (err) {
